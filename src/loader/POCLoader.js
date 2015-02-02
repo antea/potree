@@ -101,6 +101,8 @@ Potree.POCLoader.load = function load(url, callback) {
 						var numPoints = fMno.hierarchy[i][1];
 						var index = parseInt(name.charAt(name.length-1));
 						var parentName = name.substring(0, name.length-1);
+						if (parentName.slice(-1) === "/")
+							parentName = name.substring(0, name.length-2);
 						var parentNode = nodes[parentName];
 						var level = name.length-1;
 						var boundingBox = Potree.POCLoader.createChildAABB(parentNode.boundingBox, index);
