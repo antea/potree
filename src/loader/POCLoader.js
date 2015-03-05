@@ -36,6 +36,7 @@ POCLoader.load = function load(url, callback) {
 				}
 				
 				pco.spacing = fMno.spacing;
+				pco.hierarchyStepSize = fMno.hierarchyStepSize;
 
 				pco.pointAttributes = fMno.pointAttributes;
 				
@@ -78,6 +79,7 @@ POCLoader.load = function load(url, callback) {
 					
 					var root = new Potree.PointCloudOctreeGeometryNode(name, pco, boundingBox);
 					root.level = 0;
+					root.hasChildren = true;
 					root.numPoints = fMno.hierarchy[0][1];
 					pco.root = root;
 					pco.root.load();
@@ -85,6 +87,7 @@ POCLoader.load = function load(url, callback) {
 				}
 				
 				// load remaining hierarchy
+				if(pco.loader.version.upTo("1.4")){
 				for( var i = 1; i < fMno.hierarchy.length; i++){
 					var name = fMno.hierarchy[i][0];
 					var numPoints = fMno.hierarchy[i][1];
@@ -101,6 +104,7 @@ POCLoader.load = function load(url, callback) {
 					node.numPoints = numPoints;
 					parentNode.addChild(node);
 					nodes[name] = node;
+					}
 				}
 				
 				pco.nodes = nodes;
