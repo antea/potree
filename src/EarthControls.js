@@ -68,11 +68,15 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 				var ray = new THREE.Ray(camStart.position, dir);
 				var distanceToPlane = ray.distanceToPlane(plane);
 				
-				var newCamPos = new THREE.Vector3().subVectors(pivot, dir.clone().multiplyScalar(distanceToPlane));
-				this.camera.position.copy(newCamPos);
+				if(distanceToPlane > 0){
+					var newCamPos = new THREE.Vector3().subVectors(pivot, dir.clone().multiplyScalar(distanceToPlane));
+					this.camera.position.copy(newCamPos);
+					
+					this.dragStartIndicator.style.left = dragEnd.x - scope.dragStartIndicator.clientWidth / 2;
+					this.dragStartIndicator.style.top = dragEnd.y - scope.dragStartIndicator.clientHeight / 2;
+				}
 				
-				this.dragStartIndicator.style.left = dragEnd.x - scope.dragStartIndicator.clientWidth / 2;
-				this.dragStartIndicator.style.top = dragEnd.y - scope.dragStartIndicator.clientHeight / 2;
+				
 			}else if(state === STATE.ROTATE){
 				// rotate around pivot point
 			
@@ -140,12 +144,11 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		if ( scope.enabled === false ) return;
 		event.preventDefault();
 		
-		var accuracy = 1;
 		var mouse =  {
 			x: ( event.clientX / scope.domElement.clientWidth ) * 2 - 1,
 			y: - ( event.clientY / scope.domElement.clientHeight ) * 2 + 1
 		};
-		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds, accuracy)
+		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds)
 		if(!I){
 			return;
 		}
@@ -214,12 +217,11 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		event.preventDefault();
 
 		var amount = (event.detail<0 || event.wheelDelta>0) ? 1 : -1;
-		var accuracy = 1;
 		var mouse =  {
 			x: ( event.clientX / scope.domElement.clientWidth ) * 2 - 1,
 			y: - ( event.clientY / scope.domElement.clientHeight ) * 2 + 1
 		};
-		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds, accuracy)
+		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds)
 		
 		//scope.dragStartIndicator.style.left = event.clientX - scope.dragStartIndicator.clientWidth / 2;
 		//scope.dragStartIndicator.style.top = event.clientY - scope.dragStartIndicator.clientHeight / 2;

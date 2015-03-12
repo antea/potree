@@ -60,6 +60,7 @@ Potree.WorkerManager.fromUrls = function(urls){
 	
 	return new Potree.WorkerManager(code);
 }
+Potree.workers.binaryDecoder = new Potree.WorkerManager(atob("DQovLyBodHRwOi8vanNwZXJmLmNvbS91aW50OGFycmF5LXZzLWRhdGF2aWV3My8zDQpmdW5jdGlvbiBDdXN0b21WaWV3KGJ1ZmZlcikgew0KCXRoaXMuYnVmZmVyID0gYnVmZmVyOw0KCXRoaXMudTggPSBuZXcgVWludDhBcnJheShidWZmZXIpOw0KCQ0KCXZhciB0bXAgPSBuZXcgQXJyYXlCdWZmZXIoNCk7DQoJdmFyIHRtcGYgPSBuZXcgRmxvYXQzMkFycmF5KHRtcCk7DQoJdmFyIHRtcHU4ID0gbmV3IFVpbnQ4QXJyYXkodG1wKTsNCgkNCgl0aGlzLmdldFVpbnQzMiA9IGZ1bmN0aW9uIChpKSB7DQoJCXJldHVybiAodGhpcy51OFtpKzNdIDw8IDI0KSB8ICh0aGlzLnU4W2krMl0gPDwgMTYpIHwgKHRoaXMudThbaSsxXSA8PCA4KSB8IHRoaXMudThbaV07DQoJfQ0KCQ0KCXRoaXMuZ2V0VWludDE2ID0gZnVuY3Rpb24gKGkpIHsNCgkJcmV0dXJuICh0aGlzLnU4W2krMV0gPDwgOCkgfCB0aGlzLnU4W2ldOw0KCX0NCgkNCgl0aGlzLmdldEZsb2F0ID0gZnVuY3Rpb24oaSl7DQoJCXRtcHU4WzBdID0gdGhpcy51OFtpKzBdOw0KCQl0bXB1OFsxXSA9IHRoaXMudThbaSsxXTsNCgkJdG1wdThbMl0gPSB0aGlzLnU4W2krMl07DQoJCXRtcHU4WzNdID0gdGhpcy51OFtpKzNdOw0KCQkNCgkJcmV0dXJuIHRtcGZbMF07DQoJfQ0KCQ0KCXRoaXMuZ2V0VWludDggPSBmdW5jdGlvbihpKXsNCgkJcmV0dXJuIHRoaXMudThbaV07DQoJfQ0KfQ0KDQpQb3RyZWUgPSB7fTsNCg0KDQpvbm1lc3NhZ2UgPSBmdW5jdGlvbihldmVudCl7DQoJdmFyIGJ1ZmZlciA9IGV2ZW50LmRhdGEuYnVmZmVyOw0KCXZhciBwb2ludEF0dHJpYnV0ZXMgPSBldmVudC5kYXRhLnBvaW50QXR0cmlidXRlczsNCgl2YXIgbnVtUG9pbnRzID0gYnVmZmVyLmJ5dGVMZW5ndGggLyBwb2ludEF0dHJpYnV0ZXMuYnl0ZVNpemU7DQoJdmFyIGN2ID0gbmV3IEN1c3RvbVZpZXcoYnVmZmVyKTsNCgl2YXIgdmVyc2lvbiA9IG5ldyBQb3RyZWUuVmVyc2lvbihldmVudC5kYXRhLnZlcnNpb24pOw0KCXZhciBtaW4gPSBldmVudC5kYXRhLm1pbjsNCgl2YXIgbm9kZU9mZnNldCA9IGV2ZW50LmRhdGEub2Zmc2V0Ow0KCXZhciBzY2FsZSA9IGV2ZW50LmRhdGEuc2NhbGU7DQoJDQoJdmFyIGF0dHJpYnV0ZUJ1ZmZlcnMgPSB7fTsNCgkNCgl2YXIgb2Zmc2V0ID0gMDsNCglmb3IodmFyIGkgPSAwOyBpIDwgcG9pbnRBdHRyaWJ1dGVzLmF0dHJpYnV0ZXMubGVuZ3RoOyBpKyspew0KCQl2YXIgcG9pbnRBdHRyaWJ1dGUgPSBwb2ludEF0dHJpYnV0ZXMuYXR0cmlidXRlc1tpXTsNCgkNCgkJaWYocG9pbnRBdHRyaWJ1dGUubmFtZSA9PT0gUG9pbnRBdHRyaWJ1dGUuUE9TSVRJT05fQ0FSVEVTSUFOLm5hbWUpew0KCQkJDQoJCQl2YXIgYnVmZiA9IG5ldyBBcnJheUJ1ZmZlcihudW1Qb2ludHMqNCozKTsNCgkJCXZhciBwb3NpdGlvbnMgPSBuZXcgRmxvYXQzMkFycmF5KGJ1ZmYpOw0KCQkJDQoJCQlmb3IodmFyIGogPSAwOyBqIDwgbnVtUG9pbnRzOyBqKyspew0KCQkJCWlmKHZlcnNpb24ubmV3ZXJUaGFuKCIxLjMiKSl7DQoJCQkJCXBvc2l0aW9uc1szKmorMF0gPSAoY3YuZ2V0VWludDMyKG9mZnNldCArIGoqcG9pbnRBdHRyaWJ1dGVzLmJ5dGVTaXplKzApICogc2NhbGUpICsgbWluWzBdOw0KCQkJCQlwb3NpdGlvbnNbMypqKzFdID0gKGN2LmdldFVpbnQzMihvZmZzZXQgKyBqKnBvaW50QXR0cmlidXRlcy5ieXRlU2l6ZSs0KSAqIHNjYWxlKSArIG1pblsxXTsNCgkJCQkJcG9zaXRpb25zWzMqaisyXSA9IChjdi5nZXRVaW50MzIob2Zmc2V0ICsgaipwb2ludEF0dHJpYnV0ZXMuYnl0ZVNpemUrOCkgKiBzY2FsZSkgKyBtaW5bMl07DQoJCQkJfWVsc2V7DQoJCQkJCXBvc2l0aW9uc1szKmorMF0gPSBjdi5nZXRGbG9hdChqKnBvaW50QXR0cmlidXRlcy5ieXRlU2l6ZSswKSArIG5vZGVPZmZzZXRbMF07DQoJCQkJCXBvc2l0aW9uc1szKmorMV0gPSBjdi5nZXRGbG9hdChqKnBvaW50QXR0cmlidXRlcy5ieXRlU2l6ZSs0KSArIG5vZGVPZmZzZXRbMV07DQoJCQkJCXBvc2l0aW9uc1szKmorMl0gPSBjdi5nZXRGbG9hdChqKnBvaW50QXR0cmlidXRlcy5ieXRlU2l6ZSs4KSArIG5vZGVPZmZzZXRbMl07DQoJCQkJfQ0KCQkJfQ0KCQkJDQoJCQlhdHRyaWJ1dGVCdWZmZXJzW3BvaW50QXR0cmlidXRlLm5hbWVdID0geyBidWZmZXI6IGJ1ZmYsIGF0dHJpYnV0ZTogcG9pbnRBdHRyaWJ1dGV9Ow0KCQkJDQoJCX1lbHNlIGlmKHBvaW50QXR0cmlidXRlLm5hbWUgPT09IFBvaW50QXR0cmlidXRlLkNPTE9SX1BBQ0tFRC5uYW1lKXsNCgkJCQ0KCQkJdmFyIGJ1ZmYgPSBuZXcgQXJyYXlCdWZmZXIobnVtUG9pbnRzKjQqMyk7DQoJCQl2YXIgY29sb3JzID0gbmV3IEZsb2F0MzJBcnJheShidWZmKTsNCgkJCQ0KCQkJZm9yKHZhciBqID0gMDsgaiA8IG51bVBvaW50czsgaisrKXsNCgkJCQljb2xvcnNbMypqKzBdID0gY3YuZ2V0VWludDgob2Zmc2V0ICsgaipwb2ludEF0dHJpYnV0ZXMuYnl0ZVNpemUgKyAwKSAvIDI1NTsNCgkJCQljb2xvcnNbMypqKzFdID0gY3YuZ2V0VWludDgob2Zmc2V0ICsgaipwb2ludEF0dHJpYnV0ZXMuYnl0ZVNpemUgKyAxKSAvIDI1NTsNCgkJCQljb2xvcnNbMypqKzJdID0gY3YuZ2V0VWludDgob2Zmc2V0ICsgaipwb2ludEF0dHJpYnV0ZXMuYnl0ZVNpemUgKyAyKSAvIDI1NTsNCgkJCX0NCgkJCQ0KCQkJYXR0cmlidXRlQnVmZmVyc1twb2ludEF0dHJpYnV0ZS5uYW1lXSA9IHsgYnVmZmVyOiBidWZmLCBhdHRyaWJ1dGU6IHBvaW50QXR0cmlidXRlfTsNCgkJCQ0KCQl9ZWxzZSBpZihwb2ludEF0dHJpYnV0ZS5uYW1lID09PSBQb2ludEF0dHJpYnV0ZS5JTlRFTlNJVFkubmFtZSl7DQoNCgkJCXZhciBidWZmID0gbmV3IEFycmF5QnVmZmVyKG51bVBvaW50cyo0KTsNCgkJCXZhciBpbnRlbnNpdGllcyA9IG5ldyBGbG9hdDMyQXJyYXkoYnVmZik7DQoJCQkNCgkJCWZvcih2YXIgaiA9IDA7IGogPCBudW1Qb2ludHM7IGorKyl7DQoJCQkJdmFyIGludGVuc2l0eSA9IGN2LmdldFVpbnQxNihvZmZzZXQgKyBqKnBvaW50QXR0cmlidXRlcy5ieXRlU2l6ZSk7DQoJCQkJaW50ZW5zaXRpZXNbal0gPSBpbnRlbnNpdHk7DQoJCQl9DQoJCQkNCgkJCWF0dHJpYnV0ZUJ1ZmZlcnNbcG9pbnRBdHRyaWJ1dGUubmFtZV0gPSB7IGJ1ZmZlcjogYnVmZiwgYXR0cmlidXRlOiBwb2ludEF0dHJpYnV0ZX07DQoJCQ0KCQl9ZWxzZSBpZihwb2ludEF0dHJpYnV0ZS5uYW1lID09PSBQb2ludEF0dHJpYnV0ZS5DTEFTU0lGSUNBVElPTi5uYW1lKXsNCg0KCQkJdmFyIGJ1ZmYgPSBuZXcgQXJyYXlCdWZmZXIobnVtUG9pbnRzKjQpOw0KCQkJdmFyIGNsYXNzaWZpY2F0aW9ucyA9IG5ldyBGbG9hdDMyQXJyYXkoYnVmZik7DQoJCQkNCgkJCWZvcih2YXIgaiA9IDA7IGogPCBudW1Qb2ludHM7IGorKyl7DQoJCQkJdmFyIGNsYXNzaWZpY2F0aW9uID0gY3YuZ2V0VWludDgob2Zmc2V0ICsgaipwb2ludEF0dHJpYnV0ZXMuYnl0ZVNpemUpOw0KCQkJCWNsYXNzaWZpY2F0aW9uc1tqXSA9IGNsYXNzaWZpY2F0aW9uOw0KCQkJfQ0KCQkJDQoJCQlhdHRyaWJ1dGVCdWZmZXJzW3BvaW50QXR0cmlidXRlLm5hbWVdID0geyBidWZmZXI6IGJ1ZmYsIGF0dHJpYnV0ZTogcG9pbnRBdHRyaWJ1dGV9Ow0KCQkNCgkJfQ0KCQkNCgkJb2Zmc2V0ICs9IHBvaW50QXR0cmlidXRlLmJ5dGVTaXplOw0KCX0NCgkNCgl2YXIgaW5kaWNlcyA9IG5ldyBBcnJheUJ1ZmZlcihudW1Qb2ludHMqNCk7DQoJdmFyIGlJbmRpY2VzID0gbmV3IFVpbnQzMkFycmF5KGluZGljZXMpOw0KCWZvcih2YXIgaSA9IDA7IGkgPCBudW1Qb2ludHM7IGkrKyl7DQoJCWlJbmRpY2VzW2ldID0gaTsNCgl9DQoJDQoJdmFyIG1lc3NhZ2UgPSB7DQoJCWF0dHJpYnV0ZUJ1ZmZlcnM6IGF0dHJpYnV0ZUJ1ZmZlcnMsDQoJCWluZGljZXM6IGluZGljZXMNCgl9Ow0KCQkNCgl2YXIgdHJhbnNmZXJhYmxlcyA9IFtdOw0KCQ0KCWZvcih2YXIgcHJvcGVydHkgaW4gbWVzc2FnZS5hdHRyaWJ1dGVCdWZmZXJzKXsNCgkJaWYobWVzc2FnZS5hdHRyaWJ1dGVCdWZmZXJzLmhhc093blByb3BlcnR5KHByb3BlcnR5KSl7DQoJCQl0cmFuc2ZlcmFibGVzLnB1c2gobWVzc2FnZS5hdHRyaWJ1dGVCdWZmZXJzW3Byb3BlcnR5XS5idWZmZXIpOw0KCQl9DQoJfQ0KCQ0KCXRyYW5zZmVyYWJsZXMucHVzaChtZXNzYWdlLmluZGljZXMpOw0KCQkNCglwb3N0TWVzc2FnZShtZXNzYWdlLCB0cmFuc2ZlcmFibGVzKTsNCgkNCn07ClBvdHJlZS5WZXJzaW9uID0gZnVuY3Rpb24odmVyc2lvbil7Cgl0aGlzLnZlcnNpb24gPSB2ZXJzaW9uOwoJdmFyIHZtTGVuZ3RoID0gKHZlcnNpb24uaW5kZXhPZigiLiIpID09PSAtMSkgPyB2ZXJzaW9uLmxlbmd0aCA6IHZlcnNpb24uaW5kZXhPZigiLiIpOwoJdGhpcy52ZXJzaW9uTWFqb3IgPSBwYXJzZUludCh2ZXJzaW9uLnN1YnN0cigwLCB2bUxlbmd0aCkpOwoJdGhpcy52ZXJzaW9uTWlub3IgPSBwYXJzZUludCh2ZXJzaW9uLnN1YnN0cih2bUxlbmd0aCArIDEpKTsKCWlmKHRoaXMudmVyc2lvbk1pbm9yLmxlbmd0aCA9PT0gMCl7CgkJdGhpcy52ZXJzaW9uTWlub3IgPSAwOwoJfQoJCn07CgpQb3RyZWUuVmVyc2lvbi5wcm90b3R5cGUubmV3ZXJUaGFuID0gZnVuY3Rpb24odmVyc2lvbil7Cgl2YXIgdiA9IG5ldyBQb3RyZWUuVmVyc2lvbih2ZXJzaW9uKTsKCQoJaWYoIHRoaXMudmVyc2lvbk1ham9yID4gdi52ZXJzaW9uTWFqb3IpewoJCXJldHVybiB0cnVlOwoJfWVsc2UgaWYoIHRoaXMudmVyc2lvbk1ham9yID09PSB2LnZlcnNpb25NYWpvciAmJiB0aGlzLnZlcnNpb25NaW5vciA+IHYudmVyc2lvbk1pbm9yKXsKCQlyZXR1cm4gdHJ1ZTsKCX1lbHNlewoJCXJldHVybiBmYWxzZTsKCX0KfTsKClBvdHJlZS5WZXJzaW9uLnByb3RvdHlwZS5lcXVhbE9ySGlnaGVyID0gZnVuY3Rpb24odmVyc2lvbil7Cgl2YXIgdiA9IG5ldyBQb3RyZWUuVmVyc2lvbih2ZXJzaW9uKTsKCQoJaWYoIHRoaXMudmVyc2lvbk1ham9yID4gdi52ZXJzaW9uTWFqb3IpewoJCXJldHVybiB0cnVlOwoJfWVsc2UgaWYoIHRoaXMudmVyc2lvbk1ham9yID09PSB2LnZlcnNpb25NYWpvciAmJiB0aGlzLnZlcnNpb25NaW5vciA+PSB2LnZlcnNpb25NaW5vcil7CgkJcmV0dXJuIHRydWU7Cgl9ZWxzZXsKCQlyZXR1cm4gZmFsc2U7Cgl9Cn07CgpQb3RyZWUuVmVyc2lvbi5wcm90b3R5cGUudXBUbyA9IGZ1bmN0aW9uKHZlcnNpb24pewoJcmV0dXJuICF0aGlzLm5ld2VyVGhhbih2ZXJzaW9uKTsKfQoKCi8vZnVuY3Rpb24gUG9pbnRBdHRyaWJ1dGVOYW1lcygpewovLwkKLy99Cgp2YXIgUG9pbnRBdHRyaWJ1dGVOYW1lcyA9IHt9OwoKUG9pbnRBdHRyaWJ1dGVOYW1lcy5QT1NJVElPTl9DQVJURVNJQU4gCT0gMDsJLy8gZmxvYXQgeCwgeSwgejsKUG9pbnRBdHRyaWJ1dGVOYW1lcy5DT0xPUl9QQUNLRUQJCT0gMTsJLy8gYnl0ZSByLCBnLCBiLCBhOyAJSSA9IFswLDFdClBvaW50QXR0cmlidXRlTmFtZXMuQ09MT1JfRkxPQVRTXzEJCT0gMjsJLy8gZmxvYXQgciwgZywgYjsgCQlJID0gWzAsMV0KUG9pbnRBdHRyaWJ1dGVOYW1lcy5DT0xPUl9GTE9BVFNfMjU1CT0gMzsJLy8gZmxvYXQgciwgZywgYjsgCQlJID0gWzAsMjU1XQpQb2ludEF0dHJpYnV0ZU5hbWVzLk5PUk1BTF9GTE9BVFMJCT0gNDsgIAkvLyBmbG9hdCB4LCB5LCB6OwpQb2ludEF0dHJpYnV0ZU5hbWVzLkZJTExFUgkJCQk9IDU7ClBvaW50QXR0cmlidXRlTmFtZXMuSU5URU5TSVRZCQkJPSA2OwpQb2ludEF0dHJpYnV0ZU5hbWVzLkNMQVNTSUZJQ0FUSU9OCQk9IDc7CgovKioKICogU29tZSB0eXBlcyBvZiBwb3NzaWJsZSBwb2ludCBhdHRyaWJ1dGUgZGF0YSBmb3JtYXRzCiAqIAogKiBAY2xhc3MKICovCnZhciBQb2ludEF0dHJpYnV0ZVR5cGVzID0gewoJREFUQV9UWVBFX0RPVUJMRQk6IHtvcmRpbmFsIDogMCwgc2l6ZTogOH0sCglEQVRBX1RZUEVfRkxPQVQJCToge29yZGluYWwgOiAxLCBzaXplOiA0fSwKCURBVEFfVFlQRV9JTlQ4CQk6IHtvcmRpbmFsIDogMiwgc2l6ZTogMX0sCglEQVRBX1RZUEVfVUlOVDgJCToge29yZGluYWwgOiAzLCBzaXplOiAxfSwKCURBVEFfVFlQRV9JTlQxNgkJOiB7b3JkaW5hbCA6IDQsIHNpemU6IDJ9LAoJREFUQV9UWVBFX1VJTlQxNgk6IHtvcmRpbmFsIDogNSwgc2l6ZTogMn0sCglEQVRBX1RZUEVfSU5UMzIJCToge29yZGluYWwgOiA2LCBzaXplOiA0fSwKCURBVEFfVFlQRV9VSU5UMzIJOiB7b3JkaW5hbCA6IDcsIHNpemU6IDR9LAoJREFUQV9UWVBFX0lOVDY0CQk6IHtvcmRpbmFsIDogOCwgc2l6ZTogOH0sCglEQVRBX1RZUEVfVUlOVDY0CToge29yZGluYWwgOiA5LCBzaXplOiA4fQp9OwoKdmFyIGkgPSAwOwpmb3IodmFyIG9iaiBpbiBQb2ludEF0dHJpYnV0ZVR5cGVzKXsKCVBvaW50QXR0cmlidXRlVHlwZXNbaV0gPSBQb2ludEF0dHJpYnV0ZVR5cGVzW29ial07CglpKys7Cn0KCi8qKgogKiBBIHNpbmdsZSBwb2ludCBhdHRyaWJ1dGUgc3VjaCBhcyBjb2xvci9ub3JtYWwvLi4gYW5kIGl0cyBkYXRhIGZvcm1hdC9udW1iZXIgb2YgZWxlbWVudHMvLi4uIAogKiAKICogQGNsYXNzCiAqIEBwYXJhbSBuYW1lIAogKiBAcGFyYW0gdHlwZQogKiBAcGFyYW0gc2l6ZQogKiBAcmV0dXJucwogKi8KZnVuY3Rpb24gUG9pbnRBdHRyaWJ1dGUobmFtZSwgdHlwZSwgbnVtRWxlbWVudHMpewoJdGhpcy5uYW1lID0gbmFtZTsKCXRoaXMudHlwZSA9IHR5cGU7IAoJdGhpcy5udW1FbGVtZW50cyA9IG51bUVsZW1lbnRzOwoJdGhpcy5ieXRlU2l6ZSA9IHRoaXMubnVtRWxlbWVudHMgKiB0aGlzLnR5cGUuc2l6ZTsKfQoKUG9pbnRBdHRyaWJ1dGUuUE9TSVRJT05fQ0FSVEVTSUFOID0gbmV3IFBvaW50QXR0cmlidXRlKAoJCVBvaW50QXR0cmlidXRlTmFtZXMuUE9TSVRJT05fQ0FSVEVTSUFOLAoJCVBvaW50QXR0cmlidXRlVHlwZXMuREFUQV9UWVBFX0ZMT0FULCAzKTsKClBvaW50QXR0cmlidXRlLlJHQkFfUEFDS0VEID0gbmV3IFBvaW50QXR0cmlidXRlKAoJCVBvaW50QXR0cmlidXRlTmFtZXMuQ09MT1JfUEFDS0VELAoJCVBvaW50QXR0cmlidXRlVHlwZXMuREFUQV9UWVBFX0lOVDgsIDQpOwoKUG9pbnRBdHRyaWJ1dGUuQ09MT1JfUEFDS0VEID0gUG9pbnRBdHRyaWJ1dGUuUkdCQV9QQUNLRUQ7CgpQb2ludEF0dHJpYnV0ZS5SR0JfUEFDS0VEID0gbmV3IFBvaW50QXR0cmlidXRlKAoJCVBvaW50QXR0cmlidXRlTmFtZXMuQ09MT1JfUEFDS0VELAoJCVBvaW50QXR0cmlidXRlVHlwZXMuREFUQV9UWVBFX0lOVDgsIDMpOwoKUG9pbnRBdHRyaWJ1dGUuTk9STUFMX0ZMT0FUUyA9IG5ldyBQb2ludEF0dHJpYnV0ZSgKCQlQb2ludEF0dHJpYnV0ZU5hbWVzLk5PUk1BTF9GTE9BVFMsCgkJUG9pbnRBdHRyaWJ1dGVUeXBlcy5EQVRBX1RZUEVfRkxPQVQsIDMpOwoKUG9pbnRBdHRyaWJ1dGUuRklMTEVSXzFCID0gbmV3IFBvaW50QXR0cmlidXRlKAoJCVBvaW50QXR0cmlidXRlTmFtZXMuRklMTEVSLAoJCVBvaW50QXR0cmlidXRlVHlwZXMuREFUQV9UWVBFX1VJTlQ4LCAxKTsKCQkKUG9pbnRBdHRyaWJ1dGUuSU5URU5TSVRZID0gbmV3IFBvaW50QXR0cmlidXRlKAoJCVBvaW50QXR0cmlidXRlTmFtZXMuSU5URU5TSVRZLAoJCVBvaW50QXR0cmlidXRlVHlwZXMuREFUQV9UWVBFX1VJTlQxNiwgMSk7CQkKCQkKUG9pbnRBdHRyaWJ1dGUuQ0xBU1NJRklDQVRJT04gPSBuZXcgUG9pbnRBdHRyaWJ1dGUoCgkJUG9pbnRBdHRyaWJ1dGVOYW1lcy5DTEFTU0lGSUNBVElPTiwKCQlQb2ludEF0dHJpYnV0ZVR5cGVzLkRBVEFfVFlQRV9VSU5UOCwgMSk7CQoKLyoqCiAqIE9yZGVyZWQgbGlzdCBvZiBQb2ludEF0dHJpYnV0ZXMgdXNlZCB0byBpZGVudGlmeSBob3cgcG9pbnRzIGFyZSBhbGlnbmVkIGluIGEgYnVmZmVyLgogKiAKICogQGNsYXNzCiAqIAogKi8KZnVuY3Rpb24gUG9pbnRBdHRyaWJ1dGVzKHBvaW50QXR0cmlidXRlcyl7Cgl0aGlzLmF0dHJpYnV0ZXMgPSBuZXcgQXJyYXkoKTsKCXRoaXMuYnl0ZVNpemUgPSAwOwoJdGhpcy5zaXplID0gMDsKCQoJaWYocG9pbnRBdHRyaWJ1dGVzICE9IG51bGwpewoJCS8vIGRvZXMgbm90IHdvcmsgaW4gY2hyb21lIHYyNAovLwkJZm9yKHZhciBwb2ludEF0dHJpYnV0ZSBvZiBwb2ludEF0dHJpYnV0ZXMpewovLwkJCXRoaXMuYXR0cmlidXRlcy5wdXNoKHBvaW50QXR0cmlidXRlKTsKLy8JCQl0aGlzLmJ5dGVTaXplICs9IHBvaW50QXR0cmlidXRlLmJ5dGVTaXplOwovLwkJCXRoaXMuc2l6ZSsrOwovLwkJfQoJCQoJCWZvcih2YXIgaSA9IDA7IGkgPCBwb2ludEF0dHJpYnV0ZXMubGVuZ3RoOyBpKyspewoJCQl2YXIgcG9pbnRBdHRyaWJ1dGVOYW1lID0gcG9pbnRBdHRyaWJ1dGVzW2ldOwoJCQl2YXIgcG9pbnRBdHRyaWJ1dGUgPSBQb2ludEF0dHJpYnV0ZVtwb2ludEF0dHJpYnV0ZU5hbWVdOwoJCQl0aGlzLmF0dHJpYnV0ZXMucHVzaChwb2ludEF0dHJpYnV0ZSk7CgkJCXRoaXMuYnl0ZVNpemUgKz0gcG9pbnRBdHRyaWJ1dGUuYnl0ZVNpemU7CgkJCXRoaXMuc2l6ZSsrOwoJCX0KCX0KfQoKUG9pbnRBdHRyaWJ1dGVzLnByb3RvdHlwZS5hZGQgPSBmdW5jdGlvbihwb2ludEF0dHJpYnV0ZSl7Cgl0aGlzLmF0dHJpYnV0ZXMucHVzaChwb2ludEF0dHJpYnV0ZSk7Cgl0aGlzLmJ5dGVTaXplICs9IHBvaW50QXR0cmlidXRlLmJ5dGVTaXplOwoJdGhpcy5zaXplKys7Cn07CgpQb2ludEF0dHJpYnV0ZXMucHJvdG90eXBlLmhhc0NvbG9ycyA9IGZ1bmN0aW9uKCl7Cglmb3IodmFyIG5hbWUgaW4gdGhpcy5hdHRyaWJ1dGVzKXsKCQl2YXIgcG9pbnRBdHRyaWJ1dGUgPSB0aGlzLmF0dHJpYnV0ZXNbbmFtZV07CgkJaWYocG9pbnRBdHRyaWJ1dGUubmFtZSA9PT0gUG9pbnRBdHRyaWJ1dGVOYW1lcy5DT0xPUl9QQUNLRUQpewoJCQlyZXR1cm4gdHJ1ZTsKCQl9Cgl9CgkKCXJldHVybiBmYWxzZTsKfTsKClBvaW50QXR0cmlidXRlcy5wcm90b3R5cGUuaGFzTm9ybWFscyA9IGZ1bmN0aW9uKCl7Cglmb3IodmFyIG5hbWUgaW4gdGhpcy5hdHRyaWJ1dGVzKXsKCQl2YXIgcG9pbnRBdHRyaWJ1dGUgPSB0aGlzLmF0dHJpYnV0ZXNbbmFtZV07CgkJaWYocG9pbnRBdHRyaWJ1dGUgPT09IFBvaW50QXR0cmlidXRlLk5PUk1BTF9GTE9BVFMpewoJCQlyZXR1cm4gdHJ1ZTsKCQl9Cgl9CgkKCXJldHVybiBmYWxzZTsKfTsKCgo="));
 
 
 THREE.PerspectiveCamera.prototype.zoomTo = function( node, factor ){
@@ -236,6 +237,7 @@ POCLoader.load = function load(url, callback) {
 					pco.loader = new Potree.LasLazLoader(fMno.version);
 				}else{
 					pco.loader = new Potree.BinaryLoader(fMno.version, boundingBox, fMno.scale);
+					pco.pointAttributes = new PointAttributes(pco.pointAttributes);
 				}
 				
 				var nodes = {};
@@ -346,29 +348,12 @@ POCLoader.createChildAABB = function(aabb, childIndex){
 
 
 
-///**
-// * Some types of possible point attributes
-// * 
-// * @class
-// */
-//var PointAttributeNames = {
-//	POSITION_CARTESIAN 	: 0,	// float x, y, z;
-//	COLOR_PACKED		: 1,	// byte r, g, b, a; 	I = [0,1]
-//	COLOR_FLOATS_1		: 2,	// float r, g, b; 		I = [0,1]
-//	COLOR_FLOATS_255	: 3,	// float r, g, b; 		I = [0,255]
-//	NORMAL_FLOATS		: 4,  	// float x, y, z;
-//	FILLER				: 5
-//};
-//
-//var i = 0;
-//for(var obj in PointAttributeNames){
-//	PointAttributeNames[i] = PointAttributeNames[obj];
-//	i++;
+
+//function PointAttributeNames(){
+//	
 //}
 
-function PointAttributeNames(){
-	
-}
+var PointAttributeNames = {};
 
 PointAttributeNames.POSITION_CARTESIAN 	= 0;	// float x, y, z;
 PointAttributeNames.COLOR_PACKED		= 1;	// byte r, g, b, a; 	I = [0,1]
@@ -376,6 +361,9 @@ PointAttributeNames.COLOR_FLOATS_1		= 2;	// float r, g, b; 		I = [0,1]
 PointAttributeNames.COLOR_FLOATS_255	= 3;	// float r, g, b; 		I = [0,255]
 PointAttributeNames.NORMAL_FLOATS		= 4;  	// float x, y, z;
 PointAttributeNames.FILLER				= 5;
+PointAttributeNames.INTENSITY			= 6;
+PointAttributeNames.CLASSIFICATION		= 7;
+
 /**
  * Some types of possible point attribute data formats
  * 
@@ -437,6 +425,14 @@ PointAttribute.NORMAL_FLOATS = new PointAttribute(
 PointAttribute.FILLER_1B = new PointAttribute(
 		PointAttributeNames.FILLER,
 		PointAttributeTypes.DATA_TYPE_UINT8, 1);
+		
+PointAttribute.INTENSITY = new PointAttribute(
+		PointAttributeNames.INTENSITY,
+		PointAttributeTypes.DATA_TYPE_UINT16, 1);		
+		
+PointAttribute.CLASSIFICATION = new PointAttribute(
+		PointAttributeNames.CLASSIFICATION,
+		PointAttributeTypes.DATA_TYPE_UINT8, 1);	
 
 /**
  * Ordered list of PointAttributes used to identify how points are aligned in a buffer.
@@ -457,8 +453,9 @@ function PointAttributes(pointAttributes){
 //			this.size++;
 //		}
 		
-		for(var name in pointAttributes){
-			var pointAttribute = pointAttributes[name];
+		for(var i = 0; i < pointAttributes.length; i++){
+			var pointAttributeName = pointAttributes[i];
+			var pointAttribute = PointAttribute[pointAttributeName];
 			this.attributes.push(pointAttribute);
 			this.byteSize += pointAttribute.byteSize;
 			this.size++;
@@ -515,11 +512,6 @@ Potree.BinaryLoader.prototype.load = function(node){
 	
 	var scope = this;
 
-	//var url = node.pcoGeometry.octreeDir + "/" + node.getHierarchyPath() + "/" + node.name;
-	//if(this.version.newerThan("1.3")){
-	//	url += ".bin";
-	//}
-	
 	var url = node.getURL();
 	
 	if(this.version.equalOrHigher("1.4")){
@@ -548,47 +540,56 @@ Potree.BinaryLoader.prototype.load = function(node){
 };
 
 Potree.BinaryLoader.prototype.parse = function(node, buffer){
-	var geometry = new THREE.BufferGeometry();
-	var numPoints = buffer.byteLength / 16;
+
+	var numPoints = buffer.byteLength / node.pcoGeometry.pointAttributes.byteSize;
+	var pointAttributes = node.pcoGeometry.pointAttributes;
 	
-	var positions = new Float32Array(numPoints*3);
-	var colors = new Float32Array(numPoints*3);
-	var indices = new ArrayBuffer(numPoints*4);
-	var color = new THREE.Color();
 	
-	var fView = new Float32Array(buffer);
-	var iView = new Int32Array(buffer);
-	var uiView = new Uint8Array(buffer);
-	
-	var iIndices = new Uint32Array(indices);
-	
-	for(var i = 0; i < numPoints; i++){
-		if(this.version.newerThan("1.3")){
-			positions[3*i+0] = (iView[4*i+0] * this.scale) + node.boundingBox.min.x;
-			positions[3*i+1] = (iView[4*i+1] * this.scale) + node.boundingBox.min.y;
-			positions[3*i+2] = (iView[4*i+2] * this.scale) + node.boundingBox.min.z;
-		}else{
-			positions[3*i+0] = fView[4*i+0] + node.pcoGeometry.offset.x;
-			positions[3*i+1] = fView[4*i+1] + node.pcoGeometry.offset.y;
-			positions[3*i+2] = fView[4*i+2] + node.pcoGeometry.offset.z;
+	var ww = Potree.workers.binaryDecoder.getWorker();
+	ww.onmessage = function(e){
+		var data = e.data;
+		var buffers = data.attributeBuffers;
+		
+		Potree.workers.binaryDecoder.returnWorker(ww);
+		
+		var geometry = new THREE.BufferGeometry();
+		
+		for(var property in buffers){
+			if(buffers.hasOwnProperty(property)){
+				var buffer = buffers[property].buffer;
+				var attribute = buffers[property].attribute;
+				var numElements = attribute.numElements;
+				
+				if(parseInt(property) === PointAttributeNames.POSITION_CARTESIAN){
+					geometry.addAttribute("position", new THREE.BufferAttribute(new Float32Array(buffer), 3));
+				}else if(parseInt(property) === PointAttributeNames.COLOR_PACKED){
+					geometry.addAttribute("color", new THREE.BufferAttribute(new Float32Array(buffer), 3));
+				}else if(parseInt(property) === PointAttributeNames.INTENSITY){
+					geometry.addAttribute("intensity", new THREE.BufferAttribute(new Float32Array(buffer), 1));
+				}else if(parseInt(property) === PointAttributeNames.CLASSIFICATION){
+					geometry.addAttribute("classification", new THREE.BufferAttribute(new Float32Array(buffer), 1));
+				}
+			}
 		}
+		geometry.addAttribute("indices", new THREE.BufferAttribute(new Float32Array(data.indices), 1));
 		
-		color.setRGB(uiView[16*i+12], uiView[16*i+13], uiView[16*i+14]);
-		colors[3*i+0] = color.r / 255;
-		colors[3*i+1] = color.g / 255;
-		colors[3*i+2] = color.b / 255;
-		
-		iIndices[i] = i;
+		geometry.boundingBox = node.boundingBox;
+		node.geometry = geometry;
+		node.loaded = true;
+		node.loading = false;
+		node.pcoGeometry.numNodesLoading--;
 	}
 	
-	geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-	geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
-	geometry.addAttribute('indices', new THREE.BufferAttribute(indices, 1));
-	geometry.boundingBox = node.boundingBox;
-	node.geometry = geometry;
-	node.loaded = true;
-	node.loading = false;
-	node.pcoGeometry.numNodesLoading--;
+	var message = {
+		buffer: buffer,
+		pointAttributes: pointAttributes,
+		version: this.version.version,
+		min: [ node.boundingBox.min.x, node.boundingBox.min.y, node.boundingBox.min.z ],
+		offset: [node.pcoGeometry.offset.x, node.pcoGeometry.offset.y, node.pcoGeometry.offset.z],
+		scale: this.scale
+	};
+	ww.postMessage(message, [message.buffer]);
+
 };
 
 
@@ -2099,11 +2100,15 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 				var ray = new THREE.Ray(camStart.position, dir);
 				var distanceToPlane = ray.distanceToPlane(plane);
 				
-				var newCamPos = new THREE.Vector3().subVectors(pivot, dir.clone().multiplyScalar(distanceToPlane));
-				this.camera.position.copy(newCamPos);
+				if(distanceToPlane > 0){
+					var newCamPos = new THREE.Vector3().subVectors(pivot, dir.clone().multiplyScalar(distanceToPlane));
+					this.camera.position.copy(newCamPos);
+					
+					this.dragStartIndicator.style.left = dragEnd.x - scope.dragStartIndicator.clientWidth / 2;
+					this.dragStartIndicator.style.top = dragEnd.y - scope.dragStartIndicator.clientHeight / 2;
+				}
 				
-				this.dragStartIndicator.style.left = dragEnd.x - scope.dragStartIndicator.clientWidth / 2;
-				this.dragStartIndicator.style.top = dragEnd.y - scope.dragStartIndicator.clientHeight / 2;
+				
 			}else if(state === STATE.ROTATE){
 				// rotate around pivot point
 			
@@ -2171,12 +2176,11 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		if ( scope.enabled === false ) return;
 		event.preventDefault();
 		
-		var accuracy = 1;
 		var mouse =  {
 			x: ( event.clientX / scope.domElement.clientWidth ) * 2 - 1,
 			y: - ( event.clientY / scope.domElement.clientHeight ) * 2 + 1
 		};
-		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds, accuracy)
+		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds)
 		if(!I){
 			return;
 		}
@@ -2245,12 +2249,11 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		event.preventDefault();
 
 		var amount = (event.detail<0 || event.wheelDelta>0) ? 1 : -1;
-		var accuracy = 1;
 		var mouse =  {
 			x: ( event.clientX / scope.domElement.clientWidth ) * 2 - 1,
 			y: - ( event.clientY / scope.domElement.clientHeight ) * 2 + 1
 		};
-		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds, accuracy)
+		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds)
 		
 		//scope.dragStartIndicator.style.left = event.clientX - scope.dragStartIndicator.clientWidth / 2;
 		//scope.dragStartIndicator.style.top = event.clientY - scope.dragStartIndicator.clientHeight / 2;
@@ -2517,96 +2520,39 @@ Potree.PointCloudOctree = function(geometry, material){
 
 Potree.PointCloudOctree.prototype = Object.create(THREE.Object3D.prototype);
 
-Potree.PointCloudOctree.prototype.update = function(camera, renderer){
-	this.updateMatrixWorld(true);
+Potree.PointCloudOctree.prototype.updateVisibleBounds = function(){
 
-	this.visibleGeometry = this.getVisibleGeometry(camera);
-	var visibleGeometryNames = [];
-	
-	for(var i = 0; i < this.visibleGeometry.length; i++){
-		visibleGeometryNames.push(this.visibleGeometry[i].node.name);
-	}
-	
-	for(var i = 0; i < this.profileRequests.length; i++){
-		var profileRequest = this.profileRequests[i];
-		profileRequest.loadQueue = [];
-	}
-	
-	for(var i = 0; i < this.boundingBoxNodes.length; i++){
-		this.boundingBoxNodes[i].visible = false;
-	}
-	
-	this.loadQueue = [];
-	this.visibleNodes = [];
-	this.numVisibleNodes = 0;
-	this.numVisiblePoints = 0;
-	
-	this.material.fov = camera.fov * (Math.PI / 180);
-	this.material.screenWidth = renderer.domElement.clientWidth;
-	this.material.screenHeight = renderer.domElement.clientHeight;
-	this.material.spacing = this.pcoGeometry.spacing;
-	this.material.near = camera.near;
-	this.material.far = camera.far;
-	
-	this.hideDescendants(this.children[0]);
-	
-	var stack = [];
-	stack.push({node: this.children[0], weight: 1});	//TODO don't do it like that
-	while(stack.length > 0){
-		var element = stack.shift();
+	var leafNodes = [];
+	for(var i = 0; i < this.visibleNodes.length; i++){
+		var element = this.visibleNodes[i];
 		var node = element.node;
-		var weight = element.weight;
+		var isLeaf = true;
 		
-		node.visible = true;
+		for(var j = 0; j < node.children.length; j++){
+			var child = node.children[j];
+			if(child instanceof THREE.PointCloud){
+				isLeaf = isLeaf && !child.visible;
+			}
+		}
 		
-		node.matrixWorld.multiplyMatrices( node.parent.matrixWorld, node.matrix );
-		
-		if (node instanceof Potree.PointCloudOctreeProxyNode) {
-			var geometryNode = node.geometryNode;
-			if(geometryNode.loaded === true){
-				this.replaceProxy(node);
-			}else{
-				this.loadQueue.push(element);
-			}
-		}else if(node instanceof THREE.PointCloud){
-			this.numVisibleNodes++;
-			this.numVisiblePoints += node.numPoints;
-			node.material = this.material;
-			this.visibleNodes.push(element);
-			
-			if(node.level){
-				this.maxLevel = Math.max(node.level, this.maxLevel);
-			}
-			
-			if(this.showBoundingBox && !node.boundingBoxNode){
-				var boxHelper = new THREE.BoxHelper(node);
-				scene.add(boxHelper);
-				this.boundingBoxNodes.push(boxHelper);
-				node.boundingBoxNode = boxHelper;
-			}else if(this.showBoundingBox){
-				node.boundingBoxNode.visible = true;
-				node.boundingBoxNode.matrixWorld.multiplyMatrices( node.parent.matrixWorld, node.boundingBoxNode.matrix );
-			}else if(!this.showBoundingBox && node.boundingBoxNode){
-				node.boundingBoxNode.visible = false;
-			}
-			
-			for(var i = 0; i < node.children.length; i++){
-				var child = node.children[i];
-				var visible = visibleGeometryNames.indexOf(child.name) >= 0;
-				if(visible){
-					for(var j = 0; j < this.visibleGeometry.length; j++){
-						if(this.visibleGeometry[j].node.name === child.name){
-							stack.push({node: child, weight: this.visibleGeometry[j].weight});
-							break;
-						}
-					};
-				}
-			}
+		if(isLeaf){
+			leafNodes.push(node);
 		}
 	}
 	
-	this.material.octreeLevels = this.maxLevel;
+	this.visibleBounds.min = new THREE.Vector3( Infinity, Infinity, Infinity );
+	this.visibleBounds.max = new THREE.Vector3( - Infinity, - Infinity, - Infinity );
+	for(var i = 0; i < leafNodes.length; i++){
+		var node = leafNodes[i];
+		
+		this.visibleBounds.expandByPoint(node.boundingBox.min);
+		this.visibleBounds.expandByPoint(node.boundingBox.max);
+	}
 	
+}
+
+
+Potree.PointCloudOctree.prototype.updateProfileRequests = function(){
 	// check profile cut plane intersections
 	for(var i = 0; i < this.profileRequests.length; i++){
 		var profileRequest = this.profileRequests[i];
@@ -2643,34 +2589,6 @@ Potree.PointCloudOctree.prototype.update = function(camera, renderer){
 			
 	}
 	
-	var leafNodes = [];
-	for(var i = 0; i < this.visibleNodes.length; i++){
-		var element = this.visibleNodes[i];
-		var node = element.node;
-		var isLeaf = true;
-		
-		for(var j = 0; j < node.children.length; j++){
-			var child = node.children[j];
-			if(child instanceof THREE.PointCloud){
-				isLeaf = isLeaf && !child.visible;
-			}
-		}
-		
-		if(isLeaf){
-			leafNodes.push(node);
-		}
-	}
-	
-	this.visibleBounds.min = new THREE.Vector3( Infinity, Infinity, Infinity );
-	this.visibleBounds.max = new THREE.Vector3( - Infinity, - Infinity, - Infinity );
-	for(var i = 0; i < leafNodes.length; i++){
-		var node = leafNodes[i];
-		
-		this.visibleBounds.expandByPoint(node.boundingBox.min);
-		this.visibleBounds.expandByPoint(node.boundingBox.max);
-		//this.visibleBounds.intersect(node.boundingBox);
-	}
-	
 	// schedule nodes needed for a profile request
 	var finishedRequests = [];
 	for(var i = 0; i < this.profileRequests.length; i++){
@@ -2703,9 +2621,66 @@ Potree.PointCloudOctree.prototype.update = function(camera, renderer){
 			this.profileRequests.splice(index, 1);
 		}
 	}
+};
+
+Potree.PointCloudOctree.prototype.updatePointCloud = function(node, element, stack, visibleGeometryNames){
+	this.numVisibleNodes++;
+	this.numVisiblePoints += node.numPoints;
+	node.material = this.material;
+	this.visibleNodes.push(element);
+	
+	if(node.level){
+		this.maxLevel = Math.max(node.level, this.maxLevel);
+	}
+	
+	if(this.showBoundingBox && !node.boundingBoxNode){
+		var boxHelper = new THREE.BoxHelper(node);
+		this.add(boxHelper);
+		this.boundingBoxNodes.push(boxHelper);
+		node.boundingBoxNode = boxHelper;
+		node.boundingBoxNode.matrixWorld.copy(node.matrixWorld);
+	}else if(this.showBoundingBox){
+		node.boundingBoxNode.visible = true;
+		node.boundingBoxNode.matrixWorld.copy(node.matrixWorld);
+	}else if(!this.showBoundingBox && node.boundingBoxNode){
+		node.boundingBoxNode.visible = false;
+	}
+	
+	for(var i = 0; i < node.children.length; i++){
+		var child = node.children[i];
+		var visible = visibleGeometryNames.indexOf(child.name) >= 0;
+		if(visible){
+			for(var j = 0; j < this.visibleGeometry.length; j++){
+				if(this.visibleGeometry[j].node.name === child.name){
+					stack.push({node: child, weight: this.visibleGeometry[j].weight});
+					break;
+				}
+			};
+		}
+	}
+}
+
+Potree.PointCloudOctree.prototype.updateMaterial = function(vn, camera, renderer){
+	this.material.fov = camera.fov * (Math.PI / 180);
+	this.material.screenWidth = renderer.domElement.clientWidth;
+	this.material.screenHeight = renderer.domElement.clientHeight;
+	this.material.spacing = this.pcoGeometry.spacing;
+	this.material.near = camera.near;
+	this.material.far = camera.far;
+	this.material.octreeLevels = this.maxLevel;
+	
+	if(this.material.pointSizeType){
+		if(this.material.pointSizeType === Potree.PointSizeType.ADAPTIVE 
+			|| this.material.pointColorType === Potree.PointColorType.OCTREE_DEPTH){
+			
+			this.updateVisibilityTexture(this.material, vn);
+		}
+	}
 	
 	
-	
+};
+
+Potree.PointCloudOctree.prototype.updateLoadQueue = function(vn){
 	if(this.loadQueue.length > 0){
 		if(this.loadQueue.length >= 2){
 			this.loadQueue.sort(function(a,b){return b.weight - a.weight});
@@ -2715,22 +2690,78 @@ Potree.PointCloudOctree.prototype.update = function(camera, renderer){
 			this.loadQueue[i].node.geometryNode.load();
 		}
 	}
+}
+
+Potree.PointCloudOctree.prototype.update = function(camera, renderer){
+	this.visibleGeometry = [];
+	this.loadQueue = [];
+	this.visibleNodes = [];
+	this.numVisibleNodes = 0;
+	this.numVisiblePoints = 0;
+
+	if(!this.visible){
+		return;
+	}
+
+	this.updateMatrixWorld(true);
+
+	this.visibleGeometry = this.getVisibleGeometry(camera);
+	var visibleGeometryNames = [];
 	
-	var vn = [];
+	for(var i = 0; i < this.visibleGeometry.length; i++){
+		visibleGeometryNames.push(this.visibleGeometry[i].node.name);
+	}
+	
+	for(var i = 0; i < this.profileRequests.length; i++){
+		var profileRequest = this.profileRequests[i];
+		profileRequest.loadQueue = [];
+	}
+	
+	for(var i = 0; i < this.boundingBoxNodes.length; i++){
+		this.boundingBoxNodes[i].visible = false;
+	}
+	
+	
+	
+	
+	
 	this.hideDescendants(this.children[0]);
+	
+	var stack = [];
+	stack.push({node: this.children[0], weight: 1});	//TODO don't do it like that
+	while(stack.length > 0){
+		var element = stack.shift();
+		var node = element.node;
+		var weight = element.weight;
+		
+		node.visible = true;
+		
+		node.matrixWorld.multiplyMatrices( node.parent.matrixWorld, node.matrix );
+		
+		if (node instanceof Potree.PointCloudOctreeProxyNode) {
+			var geometryNode = node.geometryNode;
+			if(geometryNode.loaded === true){
+				this.replaceProxy(node);
+			}else{
+				this.loadQueue.push(element);
+			}
+		}else if(node instanceof THREE.PointCloud){
+			this.updatePointCloud(node, element, stack, visibleGeometryNames);
+		}
+	}
+	
+	this.updateProfileRequests();
+	this.updateVisibleBounds();
+	this.updateLoadQueue();
+	
+	this.hideDescendants(this.children[0]);
+	var vn = [];
 	for(var i = 0; i < this.visibleNodes.length; i++){
 		this.visibleNodes[i].node.visible = true;
 		vn.push(this.visibleNodes[i].node);
 	}
 	
-	if(this.material.pointSizeType){
-		if(this.material.pointSizeType === Potree.PointSizeType.ADAPTIVE 
-			|| this.material.pointColorType === Potree.PointColorType.OCTREE_DEPTH){
-			
-			
-			this.updateVisibilityTexture(this.material, vn);
-		}
-	}
+	this.updateMaterial(vn, camera, renderer);
 };
 
 Potree.PointCloudOctree.prototype.getVisibleGeometry = function(camera){
@@ -2792,7 +2823,11 @@ Potree.PointCloudOctree.prototype.getVisibleGeometry = function(camera){
 		pointCount += node.numPoints;
 		visibleGeometry.push(element);
 		
-		for(var i in node.children){
+		for(var i = 0; i < 8; i++){
+			if(!node.children[i]){
+				continue;
+			}
+		
 			var child = node.children[i];
 			
 			var sphere = child.boundingSphere;
@@ -2832,21 +2867,12 @@ Potree.PointCloudOctree.prototype.getVisibleGeometry = function(camera){
 					
 				}
 				
-				//if(stack.length < 200){
-					stack.splice(ipos, 0, {node: child, weight: weight});
-				//}
-				
-				//console.log(ipos);
+				stack.splice(ipos, 0, {node: child, weight: weight});
 			}
-			
-				//stack.push({node: child, weight: weight});
-			//}
 		}
-		
-		//stack.sort(sortWeightFunction);
+
 		var a = 1;
 	}
-	//console.log(nodesTested);
 	
 	return visibleGeometry;
 };
@@ -3037,20 +3063,92 @@ Potree.PointCloudOctree.prototype.getBoundingBoxWorld = function(){
 	return tBox;
 }
 
+/**
+ * returns points inside the profile points
+ *
+ * maxDepth:		search points up to the given octree depth
+ *
+ *
+ * The return value is an array with all segments of the profile path
+ *  var segment = {
+ * 		start: 	THREE.Vector3,
+ * 		end: 	THREE.Vector3,
+ * 		points: {}
+ * 		project: function()
+ *  };
+ *
+ * The project() function inside each segment can be used to transform
+ * that segments point coordinates to line up along the x-axis.
+ *
+ *
+ */
 Potree.PointCloudOctree.prototype.getPointsInProfile = function(profile, maxDepth){
 	var points = [];
+	
+	var mileage = 0;
 	for(var i = 0; i < profile.points.length - 1; i++){
 		var start = profile.points[i];
 		var end = profile.points[i+1];
 		var ps = this.getProfile(start, end, profile.width, maxDepth);
-		for(var j = 0; j < ps.length; j++){
-			points.push(ps[j]);
-		}
+		
+		var project = function(_start, _end, _mileage){
+			var start = _start;
+			var end = _end;
+			var mileage = _mileage;
+			
+			var xAxis = new THREE.Vector3(1,0,0);
+			var dir = new THREE.Vector3().subVectors(end, start);
+			dir.y = 0;
+			dir.normalize();
+			var alpha = Math.acos(xAxis.dot(dir));
+			if(dir.z > 0){
+				alpha = -alpha;
+			}
+			
+			
+			return function(position){
+						
+				var toOrigin = new THREE.Matrix4().makeTranslation(-start.x, -start.y, -start.z);
+				var alignWithX = new THREE.Matrix4().makeRotationY(-alpha);
+				var applyMileage = new THREE.Matrix4().makeTranslation(mileage, 0, 0);
+
+
+				var pos = position.clone();
+				pos.applyMatrix4(toOrigin);
+				pos.applyMatrix4(alignWithX);
+				pos.applyMatrix4(applyMileage);
+				
+				return pos;
+			};
+			
+		}(start, end, mileage)
+		
+		var segment = {
+			start: start,
+			end: end,
+			points: ps,
+			project: project
+		};
+		
+		points.push(segment);
+
+		mileage += start.distanceTo(end);
 	}
 	
 	return points;
 };
 
+/**
+ * returns points inside the given profile bounds.
+ *
+ * start: 	
+ * end: 	
+ * width:	
+ * depth:		search points up to the given octree depth
+ * callback:	if specified, points are loaded before searching
+ *				
+ *
+ */
 Potree.PointCloudOctree.prototype.getProfile = function(start, end, width, depth, callback){
 	if(callback !== undefined){
 		this.profileRequests.push(new Potree.ProfileRequest(start, end, width, depth, callback));
@@ -3067,7 +3165,7 @@ Potree.PointCloudOctree.prototype.getProfile = function(start, end, width, depth
 		var cutPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(N, start);
 		var halfPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(side, center);
 		
-		var inside = [];
+		var inside = null;
 		
 		
 		while(stack.length > 0){
@@ -3080,16 +3178,55 @@ Potree.PointCloudOctree.prototype.getProfile = function(start, end, width, depth
 				var geometry = object.geometry;
 				var positions = geometry.attributes.position;
 				var p = positions.array;
-				var pointCount = positions.length / positions.itemSize;
+				var numPoints = object.numPoints;
 				
-				for(var i = 0; i < pointCount; i++){
+				if(!inside){
+					inside = {};
+					
+					for (var property in geometry.attributes) {
+						if (geometry.attributes.hasOwnProperty(property)) {
+							if(property === "indices"){
+							
+							}else{
+								inside[property] = [];
+							}
+						}
+					}
+				}
+				
+				for(var i = 0; i < numPoints; i++){
 					var pos = new THREE.Vector3(p[3*i], p[3*i+1], p[3*i+2]);
 					pos.applyMatrix4(this.matrixWorld);
 					var distance = Math.abs(cutPlane.distanceToPoint(pos));
 					var centerDistance = Math.abs(halfPlane.distanceToPoint(pos));
 					
 					if(distance < width / 2 && centerDistance < length / 2){
-						inside.push(pos);
+						//inside.push(pos);
+						
+						for (var property in geometry.attributes) {
+							if (geometry.attributes.hasOwnProperty(property)) {
+							
+								if(property === "position"){
+									inside[property].push(pos);
+								}else if(property === "indices"){
+									// skip indices
+								}else{
+									var values = geometry.attributes[property];
+									if(values.itemSize === 1){
+										inside[property].push(values.array[i + j]);
+									}else{
+										var value = [];
+										for(var j = 0; j < values.itemSize; j++){
+											value.push(values.array[i*values.itemSize + j]);
+										}
+										inside[property].push(value);
+									}
+								}
+								
+							}
+						}
+						
+						
 						pointsFound++;
 					}
 				}
@@ -3109,6 +3246,38 @@ Potree.PointCloudOctree.prototype.getProfile = function(start, end, width, depth
 				}
 			}
 		}
+		
+		inside.numPoints = inside.position.length;
+		
+		var project = function(_start, _end){
+			var start = _start;
+			var end = _end;
+			
+			var xAxis = new THREE.Vector3(1,0,0);
+			var dir = new THREE.Vector3().subVectors(end, start);
+			dir.y = 0;
+			dir.normalize();
+			var alpha = Math.acos(xAxis.dot(dir));
+			if(dir.z > 0){
+				alpha = -alpha;
+			}
+			
+			
+			return function(position){
+						
+				var toOrigin = new THREE.Matrix4().makeTranslation(-start.x, -start.y, -start.z);
+				var alignWithX = new THREE.Matrix4().makeRotationY(-alpha);
+
+				var pos = position.clone();
+				pos.applyMatrix4(toOrigin);
+				pos.applyMatrix4(alignWithX);
+				
+				return pos;
+			};
+			
+		}(start, end)
+		
+		inside.project = project;
 		
 		return inside;
 	}
@@ -3192,7 +3361,6 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 	// this limits picking capabilities to 256 nodes and 2^24 points per node. 
 
 	var params = params || {};
-	var accuracy = params.accuracy || 1;
 	var pickWindowSize = params.pickWindowSize || 17;
 	
 	var nodes = this.nodesOnRay(this.visibleNodes, ray);
@@ -3201,8 +3369,13 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 		return null;
 	}
 	
-	var width = Math.ceil(renderer.domElement.clientWidth * accuracy);
-	var height = Math.ceil(renderer.domElement.clientHeight * accuracy);
+	var width = Math.ceil(renderer.domElement.clientWidth);
+	var height = Math.ceil(renderer.domElement.clientHeight);
+	
+	var pixelPos = new THREE.Vector3().addVectors(camera.position, ray.direction).project(camera);
+	pixelPos.addScalar(1).multiplyScalar(0.5);
+	pixelPos.x *= width;
+	pixelPos.y *= height
 	
 	if(!this.pickTarget){
 		this.pickTarget = new THREE.WebGLRenderTarget( 
@@ -3219,7 +3392,6 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 		this.pickMaterial = new Potree.PointCloudMaterial();
 		this.pickMaterial.pointColorType = Potree.PointColorType.POINT_INDEX;
 		this.pickMaterial.pointSizeType = Potree.PointSizeType.FIXED;
-		this.pickMaterial.size = accuracy;
 	}
 	
 	this.pickMaterial.pointSizeType = this.material.pointSizeType;
@@ -3236,14 +3408,17 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 	this.pickMaterial.near 			= this.material.near;
 	this.pickMaterial.far 			= this.material.far;
 	this.pickMaterial.octreeLevels 	= this.material.octreeLevels;
+	this.pickMaterial.pointShape 	= this.material.pointShape;
 	
 	this.pickTarget.setSize(width, height);
 
 	var _gl = renderer.context;
 	
-	var material = this.pickMaterial;
+	_gl.enable(_gl.SCISSOR_TEST);
+	_gl.scissor(pixelPos.x - (pickWindowSize - 1) / 2, pixelPos.y - (pickWindowSize - 1) / 2,pickWindowSize,pickWindowSize);
+	_gl.disable(_gl.SCISSOR_TEST);
 	
-	//renderer.uploadTexture(material.visibleNodesTexture);
+	var material = this.pickMaterial;
 	
 	renderer.setRenderTarget( this.pickTarget );
 	
@@ -3289,8 +3464,7 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 		renderer.renderBufferDirect(camera, [], null, material, geometry, object);
 	}
 	
-	var ps = new THREE.Vector3().addVectors(camera.position, ray.direction).project(camera);
-	ps.addScalar(1).multiplyScalar(0.5);
+	
 	
 	var pickWindowSize = 17;
 	var pixelCount = pickWindowSize * pickWindowSize;
@@ -3298,20 +3472,9 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 	var pixels = new Uint8Array(buffer);
 	var ibuffer = new Uint32Array(buffer);
 	renderer.context.readPixels(
-		ps.x * width - (pickWindowSize-1) / 2, ps.y * height - (pickWindowSize-1) / 2, 
+		pixelPos.x - (pickWindowSize-1) / 2, pixelPos.y - (pickWindowSize-1) / 2, 
 		pickWindowSize, pickWindowSize, 
 		renderer.context.RGBA, renderer.context.UNSIGNED_BYTE, pixels);
-		
-		
-	//var img = pixelsArrayToImage(pixels, pickWindowSize, pickWindowSize);
-	//document.body.appendChild(img);
-	//img.style.position = "absolute";
-	//img.style.top = height - ps.y * height - pickWindowSize / 2;
-	//img.style.left = ps.x * width - pickWindowSize / 2;
-	//img.style.pointerEvents = "none";
-	//
-	//return null;
-	
 		
 	// find closest hit inside pixelWindow boundaries
 	var min = Number.MAX_VALUE;
@@ -3332,23 +3495,48 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 					pIndex: pIndex,
 					pcIndex: pcIndex
 				};
-				//console.log(hit);
 				min = distance;
 			}
 		}
 	}	
 	
 	if(hit){
-		//console.log(hit);
-		var pc = nodes[hit.pcIndex];
-	    var positionArray = pc.geometry.attributes.position.array;
-	    var x = positionArray[3*hit.pIndex+0];
-	    var y = positionArray[3*hit.pIndex+1];
-	    var z = positionArray[3*hit.pIndex+2];
-	    var position = new THREE.Vector3(x, y, z);
-	    position.applyMatrix4(this.matrixWorld);
+		var point = {};
 		
-		return {position: position};
+		var pc = nodes[hit.pcIndex];
+		var attributes = pc.geometry.attributes;
+		
+		for (var property in attributes) {
+			if (attributes.hasOwnProperty(property)) {
+				var values = geometry.attributes[property];
+			
+				if(property === "position"){
+					var positionArray = pc.geometry.attributes.position.array;
+					var x = positionArray[3*hit.pIndex+0];
+					var y = positionArray[3*hit.pIndex+1];
+					var z = positionArray[3*hit.pIndex+2];
+					var position = new THREE.Vector3(x, y, z);
+					position.applyMatrix4(this.matrixWorld);
+				
+					point[property] = position;
+				}else if(property === "indices"){
+				
+				}else{
+					if(values.itemSize === 1){
+						point[property] = values.array[i + j];
+					}else{
+						var value = [];
+						for(var j = 0; j < values.itemSize; j++){
+							value.push(values.array[i*values.itemSize + j]);
+						}
+						point[property] = value;
+					}
+				}
+			}
+		}
+		
+		
+		return point;
 	}else{
 		return null;
 	}
@@ -3428,7 +3616,7 @@ Potree.PointCloudOctreeGeometryNode.prototype.addChild = function(child){
 }
 
 Potree.PointCloudOctreeGeometryNode.prototype.load = function(){
-	if(this.loading === true || this.pcoGeometry.numNodesLoading > 1){
+	if(this.loading === true || this.pcoGeometry.numNodesLoading > 3){
 		return;
 	}
 	
@@ -3732,7 +3920,7 @@ Potree.utils.createBackgroundTexture = function(width, height){
 
 
 
-function getMousePointCloudIntersection(mouse, camera, renderer, pointclouds, accuracy){
+function getMousePointCloudIntersection(mouse, camera, renderer, pointclouds){
 	var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
 	vector.unproject(camera);
 
@@ -3744,7 +3932,7 @@ function getMousePointCloudIntersection(mouse, camera, renderer, pointclouds, ac
 	
 	for(var i = 0; i < pointclouds.length; i++){
 		var pointcloud = pointclouds[i];
-		var point = pointcloud.pick(renderer, camera, ray, {accuracy: accuracy});
+		var point = pointcloud.pick(renderer, camera, ray);
 		
 		if(!point){
 			continue;
@@ -3834,25 +4022,40 @@ Potree.Features = function(){
  */
 
 Potree.TextSprite = function(text){
+
+	THREE.Object3D.call(this);
+
 	var texture = new THREE.Texture();
 	var spriteMaterial = new THREE.SpriteMaterial( 
 		{ map: texture, useScreenCoordinates: false} );
-	THREE.Sprite.call(this, spriteMaterial);
+	
+	this.material = spriteMaterial;
+	this.sprite = new THREE.Sprite(spriteMaterial);
+	this.add(this.sprite);
+	
+	//THREE.Sprite.call(this, spriteMaterial);
 	
 	this.borderThickness = 4;
 	this.fontface = "Arial";
 	this.fontsize = 28;
 	this.borderColor = { r:0, g:0, b:0, a:1.0 };
 	this.backgroundColor = { r:255, g:255, b:255, a:1.0 };
+	this.textColor = {r: 255, g: 255, b: 255, a: 1.0};
 	this.text = "";
 	
 	this.setText(text);
 };
 
-Potree.TextSprite.prototype = new THREE.Sprite();
+Potree.TextSprite.prototype = new THREE.Object3D();
 
 Potree.TextSprite.prototype.setText = function(text){
 	this.text = text;
+	
+	this.update();
+}
+
+Potree.TextSprite.prototype.setTextColor = function(color){
+	this.textColor = color;
 	
 	this.update();
 }
@@ -3899,12 +4102,11 @@ Potree.TextSprite.prototype.update = function(){
 		textWidth + this.borderThickness, this.fontsize * 1.4 + this.borderThickness, 6);						  
 		
 	// text color
-	
-	
 	context.strokeStyle = "rgba(0, 0, 0, 1.0)";
 	context.strokeText( this.text, this.borderThickness, this.fontsize + this.borderThickness);
 	
-	context.fillStyle = "rgba(255, 255, 255, 1.0)";
+	context.fillStyle = "rgba(" + this.textColor.r + "," + this.textColor.g + ","
+								  + this.textColor.b + "," + this.textColor.a + ")";
 	context.fillText( this.text, this.borderThickness, this.fontsize + this.borderThickness);
 	
 								  
@@ -3913,9 +4115,9 @@ Potree.TextSprite.prototype.update = function(){
 	
 	//var spriteMaterial = new THREE.SpriteMaterial( 
 	//	{ map: texture, useScreenCoordinates: false } );
-	this.material.map = texture;
+	this.sprite.material.map = texture;
 		
-	this.scale.set(spriteWidth*0.01,spriteHeight*0.01,1.0);
+	this.sprite.scale.set(spriteWidth*0.01,spriteHeight*0.01,1.0);
 		
 	//this.material = spriteMaterial;						  
 }
@@ -3977,6 +4179,507 @@ Potree.Version.prototype.equalOrHigher = function(version){
 Potree.Version.prototype.upTo = function(version){
 	return !this.newerThan(version);
 }
+/* global THREE, Potree */
+
+// Tool to calculate angles between lines. 
+// Limited (on purpose) to 3 points.
+// @author m-schuetz, maartenvm
+
+Potree.AngleTool = function(scene, camera, renderer){
+    'use strict';
+	
+	var scope = this;
+	this.enabled = false;
+	
+	this.scene = scene;
+	this.camera = camera;
+	this.renderer = renderer;
+	this.domElement = renderer.domElement;
+	this.mouse = {x: 0, y: 0};
+	this.accuracy = 0.5;
+	
+	var STATE = {
+		DEFAULT: 0,
+		PICKING: 1
+	};
+	
+	var state = STATE.DEFAULT;
+	
+	this.activeMeasurement = null;
+	this.measurements = [];
+	this.sceneMeasurement = new THREE.Scene();
+	this.sceneRoot = new THREE.Object3D();
+	this.sceneMeasurement.add(this.sceneRoot);
+	
+	this.light = new THREE.DirectionalLight( 0xffffff, 1 );
+	this.light.position.set( 0, 0, 10 );
+	this.light.lookAt(new THREE.Vector3(0,0,0));
+	this.sceneMeasurement.add( this.light );
+	
+	this.hoveredElement = null;
+	
+	var moveEvent = function(event){
+		event.target.material.emissive.setHex(0x888888);
+	};
+	
+	var leaveEvent = function(event){
+		event.target.material.emissive.setHex(0x000000);
+	};
+	
+	var dragEvent = function(event){
+		var I = getMousePointCloudIntersection();
+			
+		if(I){
+			for(var i = 0; i < scope.measurements.length; i++){
+				var m = scope.measurements[i];
+				var index = m.spheres.indexOf(scope.dragstart.object);
+				
+				if(index >= 0){
+					scope.measurements[i].setPosition(index, I);
+					
+					
+					break;
+				}
+			}
+		
+			//scope.dragstart.object.position.copy(I);
+		}
+		
+		event.event.stopImmediatePropagation();
+	};
+	
+	var dropEvent = function(event){
+		if(event === undefined) {
+			return;
+		}	
+	};
+	
+	
+	function Measure(root){
+		this.points = [];
+		this.spheres = [];
+		this.edges = [];
+		this.sphereLabels = [];
+        this.angleLabels = []; 
+		this.root = root;
+		this.closed = true;
+		
+		var sphereGeometry = new THREE.SphereGeometry(0.4, 10, 10);
+		var lineColor = new THREE.Color( 0xff0000 );
+		
+		var createSphereMaterial = function(){
+			var sphereMaterial = new THREE.MeshLambertMaterial({
+				shading: THREE.SmoothShading, 
+				color: 0xff0000, 
+				ambient: 0xaaaaaa,
+				depthTest: false, 
+				depthWrite: false}
+			);
+			
+			return sphereMaterial;
+		};
+		
+		this.add = function(point){				
+			this.points.push(point);
+
+			// sphere
+			var sphere = new THREE.Mesh(sphereGeometry, createSphereMaterial());
+			sphere.addEventListener('mousemove', moveEvent);
+			sphere.addEventListener('mouseleave', leaveEvent);
+			sphere.addEventListener('mousedrag', dragEvent);
+			sphere.addEventListener('drop', dropEvent);
+			
+			// edge
+			var lineGeometry = new THREE.Geometry();
+			lineGeometry.vertices.push(new THREE.Vector3(), new THREE.Vector3());
+			lineGeometry.colors.push(lineColor, lineColor, lineColor);
+			var lineMaterial = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColors, linewidth: 2 } );
+			lineMaterial.depthTest = false;
+			var edge = new THREE.Line(lineGeometry, lineMaterial);
+			
+			// angleLabel 
+            var angleLabel = new Potree.TextSprite();
+            angleLabel.setBorderColor({r:0, g:255, b:0, a:0.0});
+            angleLabel.setBackgroundColor({r:0, g:255, b:0, a:0.0});
+            angleLabel.material.depthTest = false;
+            angleLabel.material.opacity = 1;
+                        
+			this.root.add(sphere);
+			this.root.add(edge);
+            this.root.add(angleLabel);
+			
+			this.spheres.push(sphere);
+			this.edges.push(edge);
+            this.angleLabels.push(angleLabel);
+
+			this.setPosition(this.points.length-1, point);
+		};
+		
+		this.remove = function(index){
+			this.points.splice(index, 1);
+			
+			this.root.remove(this.spheres[index]);
+			this.root.remove(this.edges[index]);
+            this.root.remove(this.angleLabels[index]);
+			
+			this.spheres.splice(index, 1);
+			this.edges.splice(index, 1);
+            this.angleLabels.splice(index, 1);
+			
+			this.update();
+		};
+		
+		this.removeAll = function(){
+            while (this.points.length > 1) {
+                this.remove(0);      
+            }	
+
+            this.sceneRoot.visible = false;            
+			
+			this.update();
+		};
+        
+        this.getAngleBetweenLines = function(cornerPoint, point1, point2) {
+            var v1 = new THREE.Vector3().subVectors(point1, cornerPoint);
+            var v2 = new THREE.Vector3().subVectors(point2, cornerPoint);
+            return v1.angleTo(v2);
+        };
+	
+		this.getAngle = function(index){
+			var angle = 0;
+            
+            var p0 = this.points[0];
+            var p1 = this.points[1];
+            var p2 = this.points[2];
+            
+			if (index === 0) {
+                angle = this.getAngleBetweenLines(p0, p1, p2);
+            } else if (index === 1) {
+                angle = this.getAngleBetweenLines(p1, p0, p2);
+            } else if (index === 2) {
+                angle = this.getAngleBetweenLines(p2, p0, p1);
+            }
+			
+			return angle;
+		};
+		
+		this.setPosition = function(index, position){
+			var point = this.points[index];			
+			point.copy(position);
+			
+			this.update();
+		};
+		
+		this.setClosed = function(closed){
+			this.closed = closed;
+			
+			this.update();
+		};
+		
+		this.update = function(){
+			//this.areaLabel.visible = this.points.length >= 3;
+            		
+            var point, i;
+            
+			if(this.points.length === 1){
+				point = this.points[0];
+				this.spheres[0].position.copy(point);
+				this.edges[0].visible = false;
+                this.angleLabels[0].visible = false;
+				
+				return;
+			}	
+
+            var lastIndex = this.points.length - 1;
+			
+			var centroid = new THREE.Vector3();
+			
+			for(i = 0; i <= lastIndex; i++){
+				point = this.points[i];
+				var sphere = this.spheres[i];
+				var leftIndex = (i === 0) ? lastIndex : i - 1;
+				var leftEdge = this.edges[leftIndex];
+				var rightEdge = this.edges[i];
+								
+				sphere.position.copy(point);
+				leftEdge.geometry.vertices[1].copy(point);
+				leftEdge.geometry.verticesNeedUpdate = true;
+				leftEdge.geometry.computeBoundingSphere();
+				rightEdge.geometry.vertices[0].copy(point);
+				rightEdge.geometry.verticesNeedUpdate = true;
+				rightEdge.geometry.computeBoundingSphere();
+				
+				if(i === lastIndex && !this.closed){
+					rightEdge.visible = false;
+				}else{
+					rightEdge.visible = true;
+				}
+				
+				centroid.add(point);
+			}
+			centroid.multiplyScalar(1 / this.points.length);
+			                        
+            if (this.points.length >= 3) {
+                for(i = 0; i <= lastIndex; i++){
+                    this.angleLabels[i].visible = true;
+                    
+                    this.angleLabels[i].setText(Potree.utils.addCommas((this.getAngle(i)*(180.0/Math.PI)).toFixed(1)) + '\u00B0');
+                    var anglePos = new THREE.Vector3().addVectors(this.points[i], centroid).multiplyScalar(0.5);
+                    this.angleLabels[i].position.copy(anglePos);
+                }
+            } else {
+                 for(i = 0; i <= lastIndex; i++){
+                    this.angleLabels[i].visible = false;
+                 }
+            }			
+		};	
+	}
+	
+	function onClick(event) {	
+		if(!scope.enabled || event === undefined) {
+			return;
+		}
+	
+		var I = getMousePointCloudIntersection();
+		if(I) {
+			var pos = I.clone();
+
+			if(state === STATE.DEFAULT){
+				state = STATE.PICKING;
+				scope.activeMeasurement = new Measure();
+			}    
+
+            if (state === STATE.PICKING && scope.activeMeasurement && scope.activeMeasurement.points.length > 2) {
+                scope.measurements.push(scope.activeMeasurement);
+                scope.activeMeasurement = undefined;
+                state = STATE.DEFAULT;
+                scope.setEnabled(false);
+            } else {
+                scope.activeMeasurement.add(pos);
+                
+                var newEvent = {
+                    type: 'newpoint',
+                    position: pos.clone()
+                };
+                scope.dispatchEvent(newEvent);
+            }
+		}
+	}
+	
+	function onMouseMove(event){
+		if(event === undefined) {
+			return;
+		}
+		
+		var rect = scope.domElement.getBoundingClientRect();
+		scope.mouse.x = ((event.clientX - rect.left) / scope.domElement.clientWidth) * 2 - 1;
+        scope.mouse.y = -((event.clientY - rect.top) / scope.domElement.clientHeight) * 2 + 1;
+        
+        var I;
+		
+		if(scope.dragstart){
+			
+			scope.dragstart.object.dispatchEvent({type: 'mousedrag', event: event});
+			
+		}else if(state === STATE.PICKING && scope.activeMeasurement){
+			I = getMousePointCloudIntersection();
+			
+			if(I){
+			
+				var lastIndex = scope.activeMeasurement.points.length-1;
+				scope.activeMeasurement.setPosition(lastIndex, I);
+			}
+			
+		}else{
+			I = getHoveredElement();
+			
+			if(I){
+				
+				I.object.dispatchEvent({type: 'mousemove', target: I.object, event: event});
+				
+				if(scope.hoveredElement && scope.hoveredElement !== I.object){
+					scope.hoveredElement.dispatchEvent({type: 'mouseleave', target: scope.hoveredElement, event: event});
+				}
+				
+				scope.hoveredElement = I.object;
+				
+			}else{
+			
+				if(scope.hoveredElement){
+					scope.hoveredElement.dispatchEvent({type: 'mouseleave', target: scope.hoveredElement, event: event});
+				}
+				
+				scope.hoveredElement = null;
+			
+			}
+		}
+	}
+	
+	function onRightClick(event){
+		if(event === undefined) {
+			return;
+		}
+        
+		if(state === STATE.PICKING){		        
+			scope.activeMeasurement.removeAll();
+			scope.activeMeasurement = undefined;
+		
+			state = STATE.DEFAULT;
+			scope.setEnabled(false);
+		}
+	}
+	
+	function onMouseDown(event){
+		if(event.which === 1){
+			
+			var I = getHoveredElement();
+			
+			if(I){				
+				scope.dragstart = {
+					object: I.object, 
+					sceneClickPos: I.point,
+					sceneStartPos: scope.sceneRoot.position.clone(),
+					mousePos: {x: scope.mouse.x, y: scope.mouse.y}
+				};				
+			}
+			
+		}else if(event.which === 3){	
+			onRightClick(event);
+		}
+	}
+	
+	function onMouseUp(event){
+		
+		if(scope.dragstart){
+			scope.dragstart.object.dispatchEvent({type: 'drop', event: event});
+			scope.dragstart = null;
+		}
+		
+	}
+	
+	function getHoveredElement(){
+			
+		var vector = new THREE.Vector3( scope.mouse.x, scope.mouse.y, 0.5 );
+		vector.unproject(scope.camera);
+		
+		var raycaster = new THREE.Raycaster();
+		raycaster.ray.set( scope.camera.position, vector.sub( scope.camera.position ).normalize() );
+		
+		var spheres = [];
+		for(var i = 0; i < scope.measurements.length; i++){
+			var m = scope.measurements[i];
+			
+			for(var j = 0; j < m.spheres.length; j++){
+				spheres.push(m.spheres[j]);
+			}
+		}
+		
+		var intersections = raycaster.intersectObjects(spheres, true);
+		if(intersections.length > 0){
+			return intersections[0];
+		}else{
+			return false;
+		}
+	}
+	
+	function getMousePointCloudIntersection(){
+		var vector = new THREE.Vector3( scope.mouse.x, scope.mouse.y, 0.5 );
+		vector.unproject(scope.camera);
+
+		var direction = vector.sub(scope.camera.position).normalize();
+		var ray = new THREE.Ray(scope.camera.position, direction);
+		
+		var pointClouds = [];
+		scope.scene.traverse(function(object){
+			if(object instanceof Potree.PointCloudOctree){
+				pointClouds.push(object);
+			}
+		});
+		
+		var closestPoint = null;
+		var closestPointDistance = null;
+		
+		for(var i = 0; i < pointClouds.length; i++){
+			var pointcloud = pointClouds[i];
+			var point = pointcloud.pick(scope.renderer, scope.camera, ray);
+			
+			if(!point){
+				continue;
+			}
+			
+			var distance = scope.camera.position.distanceTo(point.position);
+			
+			if(!closestPoint || distance < closestPointDistance){
+				closestPoint = point;
+				closestPointDistance = distance;
+			}
+		}
+		
+		return closestPoint ? closestPoint.position : null;
+	}	
+	
+	this.setEnabled = function(enable){
+		if(this.enabled === enable){
+			return;
+		}
+		
+		this.enabled = enable;
+		
+		if(enable){
+			
+			state = STATE.PICKING; 
+			scope.activeMeasurement = new Measure(scope.sceneRoot);
+			
+			scope.activeMeasurement.add(new THREE.Vector3(0,0,0));
+		}
+	};
+	
+	this.update = function(){
+		var measurements = [];
+        var i, j, wp, w;
+        
+		for(i = 0; i < this.measurements.length; i++){
+			measurements.push(this.measurements[i]);
+		}
+		if(this.activeMeasurement){
+			measurements.push(this.activeMeasurement);
+		}
+				
+		for(i = 0; i < measurements.length; i++){
+			var measurement = measurements[i];
+			for(j = 0; j < measurement.spheres.length; j++){
+				var sphere = measurement.spheres[j];
+				wp = sphere.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
+				w = Math.abs((wp.z  / 60));
+				sphere.scale.set(w, w, w);
+			}
+			
+			for(j = 0; j < measurement.angleLabels.length; j++){
+				var label = measurement.angleLabels[j];
+				wp = label.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
+				w = Math.abs(wp.z  / 5);
+				var l = label.scale.length();
+				label.scale.multiplyScalar(w / l);
+			}
+            
+		}
+	
+		this.light.position.copy(this.camera.position);
+		this.light.lookAt(this.camera.getWorldDirection().add(this.camera.position));		
+	};
+	
+	this.render = function(){
+		this.update();
+		renderer.render(this.sceneMeasurement, this.camera);
+	};
+	
+	this.domElement.addEventListener( 'click', onClick, false);
+	this.domElement.addEventListener( 'mousemove', onMouseMove, false );
+	this.domElement.addEventListener( 'mousedown', onMouseDown, false );
+	this.domElement.addEventListener( 'mouseup', onMouseUp, true );	
+};
+
+Potree.AngleTool.prototype = Object.create( THREE.EventDispatcher.prototype );
 
 //
 // calculating area of a polygon:
@@ -3995,7 +4698,6 @@ Potree.AreaTool = function(scene, camera, renderer){
 	this.renderer = renderer;
 	this.domElement = renderer.domElement;
 	this.mouse = {x: 0, y: 0};
-	this.accuracy = 0.5;
 	
 	var STATE = {
 		DEFAULT: 0,
@@ -4066,6 +4768,7 @@ Potree.AreaTool = function(scene, camera, renderer){
 		this.areaLabel = new Potree.TextSprite();
 		this.areaLabel.setBorderColor({r:0, g:255, b:0, a:0.0});
 		this.areaLabel.setBackgroundColor({r:0, g:255, b:0, a:0.0});
+		this.areaLabel.setTextColor({r:180, g:220, b:180, a:1.0});
 		this.areaLabel.material.depthTest = false;
 		this.areaLabel.material.opacity = 1;
 		root.add(this.areaLabel);
@@ -4274,8 +4977,9 @@ Potree.AreaTool = function(scene, camera, renderer){
 	};
 	
 	function onMouseMove(event){
-		scope.mouse.x = ( event.clientX / scope.domElement.clientWidth ) * 2 - 1;
-		scope.mouse.y = - ( event.clientY / scope.domElement.clientHeight ) * 2 + 1;
+		var rect = scope.domElement.getBoundingClientRect();
+		scope.mouse.x = ((event.clientX - rect.left) / scope.domElement.clientWidth) * 2 - 1;
+        scope.mouse.y = -((event.clientY - rect.top) / scope.domElement.clientHeight) * 2 + 1;
 		
 		if(scope.dragstart){
 			
@@ -4401,7 +5105,7 @@ Potree.AreaTool = function(scene, camera, renderer){
 		
 		for(var i = 0; i < pointClouds.length; i++){
 			var pointcloud = pointClouds[i];
-			var point = pointcloud.pick(scope.renderer, scope.camera, ray, {accuracy: scope.accuracy});
+			var point = pointcloud.pick(scope.renderer, scope.camera, ray);
 			
 			if(!point){
 				continue;
@@ -4457,13 +5161,13 @@ Potree.AreaTool = function(scene, camera, renderer){
 			for(var j = 0; j < measurement.edgeLabels.length; j++){
 				var label = measurement.edgeLabels[j];
 				var wp = label.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
-				var w = Math.abs(wp.z  / 10);
+				var w = Math.abs(wp.z  / 5);
 				var l = label.scale.length();
 				label.scale.multiplyScalar(w / l);
 			}
 			
 			var wp = measurement.areaLabel.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
-			var w = Math.abs(wp.z  / 8);
+			var w = Math.abs(wp.z  / 4);
 			var l = measurement.areaLabel.scale.length();
 			measurement.areaLabel.scale.multiplyScalar(w / l);
 		}
@@ -4499,7 +5203,6 @@ Potree.MeasuringTool = function(scene, camera, renderer){
 	this.renderer = renderer;
 	this.domElement = renderer.domElement;
 	this.mouse = {x: 0, y: 0};
-	this.accuracy = 1;
 	
 	var STATE = {
 		DEFAULT: 0,
@@ -4909,7 +5612,7 @@ Potree.MeasuringTool = function(scene, camera, renderer){
 		
 		for(var i = 0; i < pointClouds.length; i++){
 			var pointcloud = pointClouds[i];
-			var point = pointcloud.pick(scope.renderer, scope.camera, ray, {accuracy: scope.accuracy});
+			var point = pointcloud.pick(scope.renderer, scope.camera, ray);
 			
 			if(!point){
 				continue;
@@ -4976,7 +5679,7 @@ Potree.MeasuringTool = function(scene, camera, renderer){
 			for(var j = 0; j < measurement.edgeLabels.length; j++){
 				var label = measurement.edgeLabels[j];
 				var wp = label.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
-				var w = Math.abs(wp.z  / 10);
+				var w = Math.abs(wp.z  / 5);
 				var l = label.scale.length();
 				label.scale.multiplyScalar(w / l);
 			}
@@ -5019,7 +5722,6 @@ Potree.ProfileTool = function(scene, camera, renderer){
 	this.renderer = renderer;
 	this.domElement = renderer.domElement;
 	this.mouse = {x: 0, y: 0};
-	this.accuracy = 0.5;
 	
 	var STATE = {
 		DEFAULT: 0,
@@ -5221,11 +5923,15 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		
 		this.setWidth = function(width){
 			this.width = width;
+			
+			this.update();
 		};
 		
 		this.update = function(){
 		
-			if(this.points.length === 1){
+			if(this.points.length === 0){
+				return;
+			}else if(this.points.length === 1){
 				var point = this.points[0];
 				this.spheres[0].position.copy(point);
 				
@@ -5358,8 +6064,9 @@ Potree.ProfileTool = function(scene, camera, renderer){
 	};
 	
 	function onMouseMove(event){
-		scope.mouse.x = ( event.clientX / scope.domElement.clientWidth ) * 2 - 1;
-		scope.mouse.y = - ( event.clientY / scope.domElement.clientHeight ) * 2 + 1;
+		var rect = scope.domElement.getBoundingClientRect();
+		scope.mouse.x = ((event.clientX - rect.left) / scope.domElement.clientWidth) * 2 - 1;
+        scope.mouse.y = -((event.clientY - rect.top) / scope.domElement.clientHeight) * 2 + 1;
 		
 		if(scope.dragstart){
 			
@@ -5484,7 +6191,7 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		
 		for(var i = 0; i < pointClouds.length; i++){
 			var pointcloud = pointClouds[i];
-			var point = pointcloud.pick(scope.renderer, scope.camera, ray, {accuracy: scope.accuracy});
+			var point = pointcloud.pick(scope.renderer, scope.camera, ray);
 			
 			if(!point){
 				continue;
@@ -6297,7 +7004,6 @@ Potree.VolumeTool = function(scene, camera, renderer){
 	this.renderer = renderer;
 	this.domElement = renderer.domElement;
 	this.mouse = {x: 0, y: 0};
-	this.accuracy = 0.5;
 	
 	this.volumes = [];
 	
@@ -6347,6 +7053,7 @@ Potree.VolumeTool = function(scene, camera, renderer){
 	
 		this._clip = false;
 	
+		this.dimension = new THREE.Vector3(1,1,1);
 		var material = new THREE.MeshBasicMaterial( {color: 0x00ff00, transparent: true, opacity: 0.3} );
 		this.box = new THREE.Mesh( boxGeometry, material);
 		this.box.geometry.computeBoundingBox();
@@ -6363,9 +7070,29 @@ Potree.VolumeTool = function(scene, camera, renderer){
 		this.label.material.depthTest = false;
 		this.label.position.y -= 0.5;
 		this.add(this.label);
+		
+		var v = this;
+		this.label.updateMatrixWorld = function(){
+			var volumeWorldPos = new THREE.Vector3();
+			volumeWorldPos.setFromMatrixPosition( v.matrixWorld );
+			v.label.position.copy(volumeWorldPos);
+			v.label.updateMatrix();
+			v.label.matrixWorld.copy(v.label.matrix);
+			v.label.matrixWorldNeedsUpdate = false;
+			
+			for ( var i = 0, l = v.label.children.length; i < l; i ++ ) {
+				v.label.children[ i ].updateMatrixWorld( true );
+			}
+		};
+		
+		this.setDimension = function(x,y,z){
+			this.dimension.set(x,y,z);
+			this.box.scale.set(x,y,z);
+			this.frame.scale.set(x,y,z);
+		};
 
 		this.volume = function(){
-			return Math.abs(this.scale.x * this.scale.y * this.scale.z);
+			return Math.abs(this.dimension.x * this.dimension.y * this.dimension.z);
 		};
 		
 		this.update = function(){
@@ -6411,8 +7138,9 @@ Potree.VolumeTool = function(scene, camera, renderer){
 	
 	
 	function onMouseMove(event){
-		scope.mouse.x = ( event.clientX / scope.domElement.clientWidth ) * 2 - 1;
-		scope.mouse.y = - ( event.clientY / scope.domElement.clientHeight ) * 2 + 1;
+		var rect = scope.domElement.getBoundingClientRect();
+		scope.mouse.x = ((event.clientX - rect.left) / scope.domElement.clientWidth) * 2 - 1;
+        scope.mouse.y = -((event.clientY - rect.top) / scope.domElement.clientHeight) * 2 + 1;
 	};
 	
 	function onMouseClick(event){
@@ -6511,7 +7239,7 @@ Potree.VolumeTool = function(scene, camera, renderer){
 		
 		for(var i = 0; i < pointClouds.length; i++){
 			var pointcloud = pointClouds[i];
-			var point = pointcloud.pick(scope.renderer, scope.camera, ray, {accuracy: scope.accuracy});
+			var point = pointcloud.pick(scope.renderer, scope.camera, ray);
 			
 			if(!point){
 				continue;
@@ -6539,7 +7267,7 @@ Potree.VolumeTool = function(scene, camera, renderer){
 				var wp = this.activeVolume.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
 				var pp = new THREE.Vector4(wp.x, wp.y, wp.z).applyMatrix4(this.camera.projectionMatrix);
 				var w = Math.abs((wp.z  / 10)); 
-				this.activeVolume.scale.set(w, w, w);
+				this.activeVolume.setDimension(w, w, w);
 			}
 		}
 		
