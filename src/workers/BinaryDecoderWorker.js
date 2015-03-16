@@ -88,7 +88,7 @@ onmessage = function(event){
 			
 			for(var j = 0; j < numPoints; j++){
 				var intensity = cv.getUint16(offset + j*pointAttributes.byteSize);
-				intensities[j] = intensity;
+				intensities[j] = intensity/65535.0;
 			}
 			
 			attributeBuffers[pointAttribute.name] = { buffer: buff, attribute: pointAttribute};
