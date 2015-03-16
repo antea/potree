@@ -195,6 +195,8 @@ POCLoader.load = function load(url, callback) {
 			if(xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 0)){
 				var fMno = JSON.parse(xhr.responseText);
 				
+				var version = new Potree.Version(fMno.version);
+				
 				// assume octreeDir is absolute if it starts with http
 				if(fMno.octreeDir.indexOf("http") === 0){
 					pco.octreeDir = fMno.octreeDir;
@@ -211,7 +213,7 @@ POCLoader.load = function load(url, callback) {
 				var max = new THREE.Vector3(fMno.boundingBox.ux, fMno.boundingBox.uy, fMno.boundingBox.uz);
 				var boundingBox = new THREE.Box3(min, max);
 				var tightBoundingBox = boundingBox.clone();
-					
+				
 				if(fMno.tightBoundingBox){
 					tightBoundingBox.min.copy(new THREE.Vector3(fMno.tightBoundingBox.lx, fMno.tightBoundingBox.ly, fMno.tightBoundingBox.lz));
 					tightBoundingBox.max.copy(new THREE.Vector3(fMno.tightBoundingBox.ux, fMno.tightBoundingBox.uy, fMno.tightBoundingBox.uz));
@@ -248,30 +250,31 @@ POCLoader.load = function load(url, callback) {
 					var root = new Potree.PointCloudOctreeGeometryNode(name, pco, boundingBox);
 					root.level = 0;
 					root.hasChildren = true;
-					root.numPoints = fMno.hierarchy[0][1];
+					if(version.upTo("1.5")){
+						root.numPoints = fMno.hierarchy[0][1];
+					}
+					root.numPoints = 0;
 					pco.root = root;
 					pco.root.load();
 					nodes[name] = root;
 				}
 				
 				// load remaining hierarchy
-				if(pco.loader.version.upTo("1.4")){
-				for( var i = 1; i < fMno.hierarchy.length; i++){
-					var name = fMno.hierarchy[i][0];
-					var numPoints = fMno.hierarchy[i][1];
-					var index = parseInt(name.charAt(name.length-1));
-					var parentName = name.substring(0, name.length-1);
-					if (parentName.slice(-1) === "/")
-						parentName = name.substring(0, name.length-2);
-					var parentNode = nodes[parentName];
-					var level = name.length-1;
-					var boundingBox = POCLoader.createChildAABB(parentNode.boundingBox, index);
-					
-					var node = new Potree.PointCloudOctreeGeometryNode(name, pco, boundingBox);
-					node.level = level;
-					node.numPoints = numPoints;
-					parentNode.addChild(node);
-					nodes[name] = node;
+				if(version.upTo("1.4")){
+					for( var i = 1; i < fMno.hierarchy.length; i++){
+						var name = fMno.hierarchy[i][0];
+						var numPoints = fMno.hierarchy[i][1];
+						var index = parseInt(name.charAt(name.length-1));
+						var parentName = name.substring(0, name.length-1);
+						var parentNode = nodes[parentName];
+						var level = name.length-1;
+						var boundingBox = POCLoader.createChildAABB(parentNode.boundingBox, index);
+						
+						var node = new Potree.PointCloudOctreeGeometryNode(name, pco, boundingBox);
+						node.level = level;
+						node.numPoints = numPoints;
+						parentNode.addChild(node);
+						nodes[name] = node;
 					}
 				}
 				
@@ -591,7 +594,6 @@ Potree.BinaryLoader.prototype.parse = function(node, buffer){
 	ww.postMessage(message, [message.buffer]);
 
 };
-
 
 
 
@@ -2045,11 +2047,12 @@ THREE.FirstPersonControls.prototype = Object.create( THREE.EventDispatcher.proto
  *
  */
 
-THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
+THREE.EarthControls = function ( camera, renderer, scene ) {
 	this.camera = camera;
 	this.renderer = renderer;
 	this.pointclouds = [];
-	this.domElement = ( domElement !== undefined ) ? domElement : document;
+	this.domElement = renderer.domElement;
+	this.scene = scene;
 	
 	// Set to false to disable this control
 	this.enabled = true;
@@ -2063,16 +2066,11 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 	
 	var dragStart = new THREE.Vector2();
 	var dragEnd = new THREE.Vector2();
-	this.dragStartIndicator = document.createElement("img");
-	this.dragStartIndicator.src = resourcePath + "/icons/sphere.png";
-	this.dragStartIndicator.style.width = "32px";
-	this.dragStartIndicator.style.height = "32px";
-	this.dragStartIndicator.style.position = "absolute";
-	this.dragStartIndicator.style.display = "none";
-	this.dragStartIndicator.style.opacity = "0.6";
-	this.dragStartIndicator.style.pointerEvents = "none";
-	document.body.appendChild(this.dragStartIndicator);
 	
+	var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+	var sphereMaterial = new THREE.MeshNormalMaterial({shading: THREE.SmoothShading, transparent: true, opacity: 0.5});
+	this.pivotNode = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
 	var mouseDelta = new THREE.Vector2();
 	
 	var camStart = null;
@@ -2103,9 +2101,6 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 				if(distanceToPlane > 0){
 					var newCamPos = new THREE.Vector3().subVectors(pivot, dir.clone().multiplyScalar(distanceToPlane));
 					this.camera.position.copy(newCamPos);
-					
-					this.dragStartIndicator.style.left = dragEnd.x - scope.dragStartIndicator.clientWidth / 2;
-					this.dragStartIndicator.style.top = dragEnd.y - scope.dragStartIndicator.clientHeight / 2;
 				}
 				
 				
@@ -2113,6 +2108,8 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 				// rotate around pivot point
 			
 				var diff = mouseDelta.clone().multiplyScalar(delta);
+				diff.x *= 0.3;
+				diff.y *= 0.2;
 			
 				this.camera.updateMatrixWorld();	
 
@@ -2160,6 +2157,12 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 				this.camera.quaternion.copy(c.getWorldQuaternion());
 
 			}
+			
+			
+			var wp = this.pivotNode.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
+			var w = Math.abs(wp.z  / 30);
+			var l = this.pivotNode.scale.length();
+			this.pivotNode.scale.multiplyScalar(w / l);
 		}
 			
 		mouseDelta.set(0,0);
@@ -2184,13 +2187,7 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		if(!I){
 			return;
 		}
-		
-		//var sg = new THREE.SphereGeometry();
-		//var sm = new THREE.Mesh(sg);
-		//sm.scale.set(20, 20, 20);
-		//sm.position.copy(I);
-		//scene.add(sm);
-		
+
 		var plane = new THREE.Plane().setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 1, 0), I);
 		
 		var vec = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
@@ -2205,10 +2202,10 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		camStart.rotation.copy(scope.camera.rotation);
 		dragStart.set( event.clientX, event.clientY );
 		dragEnd.set(event.clientX, event.clientY);
-		scope.dragStartIndicator.style.display = "initial";
-		scope.dragStartIndicator.style.left = event.clientX - scope.dragStartIndicator.clientWidth / 2;
-		scope.dragStartIndicator.style.top = event.clientY - scope.dragStartIndicator.clientHeight / 2;
 		
+		
+		scope.scene.add(scope.pivotNode);
+		scope.pivotNode.position.copy(pivot);
 
 		if ( event.button === 0 ) {
 			state = STATE.DRAG;
@@ -2239,7 +2236,8 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
 		state = STATE.NONE;
 		
-		scope.dragStartIndicator.style.display = "none";
+		//scope.dragStartIndicator.style.display = "none";
+		scope.scene.remove(scope.pivotNode);
 
 	}
 
@@ -2255,23 +2253,10 @@ THREE.EarthControls = function ( camera, domElement, renderer, resourcePath ) {
 		};
 		var I = getMousePointCloudIntersection(mouse, scope.camera, scope.renderer, scope.pointclouds)
 		
-		//scope.dragStartIndicator.style.left = event.clientX - scope.dragStartIndicator.clientWidth / 2;
-		//scope.dragStartIndicator.style.top = event.clientY - scope.dragStartIndicator.clientHeight / 2;
-		//scope.dragStartIndicator.style.display = "initial";
-		
 		if(I){
 			var distance = I.distanceTo(scope.camera.position);
 			var dir = new THREE.Vector3().subVectors(I, scope.camera.position).normalize();
-			scope.camera.position.add(dir.multiplyScalar(distance * 0.1 * amount));
-			
-			
-			//var sg = new THREE.SphereGeometry();
-			//var sm = new THREE.Mesh(sg);
-			//sm.scale.set(20, 20, 20);
-			//sm.position.copy(I);
-			//scene.add(sm);
-			
-			
+			scope.camera.position.add(dir.multiplyScalar(distance * 0.1 * amount));	
 		}
 
 	}
@@ -3384,7 +3369,16 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 			magFilter: THREE.NearestFilter, 
 			format: THREE.RGBAFormat } 
 		);
+	}else if(this.pickTarget.width != width || this.pickTarget.height != height){
+		this.pickTarget.dispose();
+		this.pickTarget = new THREE.WebGLRenderTarget( 
+			1, 1, 
+			{ minFilter: THREE.LinearFilter, 
+			magFilter: THREE.NearestFilter, 
+			format: THREE.RGBAFormat } 
+		);
 	}
+	this.pickTarget.setSize(width, height);
 	
 	// setup pick material.
 	// use the same point size functions as the main material to get the same point sizes.
@@ -3410,7 +3404,7 @@ var point = Potree.PointCloudOctree.prototype.pick = function(renderer, camera, 
 	this.pickMaterial.octreeLevels 	= this.material.octreeLevels;
 	this.pickMaterial.pointShape 	= this.material.pointShape;
 	
-	this.pickTarget.setSize(width, height);
+	
 
 	var _gl = renderer.context;
 	
@@ -3587,24 +3581,14 @@ Potree.PointCloudOctreeGeometryNode.prototype.getURL = function(){
 }
 
 Potree.PointCloudOctreeGeometryNode.prototype.getHierarchyPath = function(){
-	var path = "";
+	var path = "r/";
 
-	var hierachyStepSize = this.pcoGeometry.hierarchyStepSize;
+	var hierarchyStepSize = this.pcoGeometry.hierarchyStepSize;
 	var indices = this.name.substr(1);
-	var numParts;
-	if(indices.length == 0){
-		numParts = 0;
-	}else{
-		numParts = Math.ceil(indices.length / hierachyStepSize);
-	}
-
-	if(numParts == 0){
-		path = "";
-	}else{
-		path = "";
-		for(var i = 0; i < numParts; i++){
-			path += "r" + indices.substr(0, i*hierachyStepSize) + "/";
-		}
+	
+	var numParts = Math.floor(indices.length / hierarchyStepSize);
+	for(var i = 0; i < numParts; i++){
+		path += indices.substr(i * hierarchyStepSize, hierarchyStepSize) + "/";
 	}
 
 	return path;
@@ -3659,6 +3643,7 @@ Potree.PointCloudOctreeGeometryNode.prototype.loadHierachyThenPoints = function(
 		var stack = [];
 		var children = view.getUint8(0);
 		var numPoints = view.getUint32(1, true);
+		node.numPoints = numPoints;
 		stack.push({children: children, numPoints: numPoints, name: node.name});
 		
 		var decoded = [];
@@ -4530,7 +4515,12 @@ Potree.AngleTool = function(scene, camera, renderer){
 	}
 	
 	function onMouseDown(event){
+	
 		if(event.which === 1){
+		
+			if(state !== STATE.DEFAULT){
+				event.stopImmediatePropagation();
+			}
 			
 			var I = getHoveredElement();
 			
@@ -4540,7 +4530,8 @@ Potree.AngleTool = function(scene, camera, renderer){
 					sceneClickPos: I.point,
 					sceneStartPos: scope.sceneRoot.position.clone(),
 					mousePos: {x: scope.mouse.x, y: scope.mouse.y}
-				};				
+				};	
+				event.stopImmediatePropagation();
 			}
 			
 		}else if(event.which === 3){	
@@ -5033,6 +5024,10 @@ Potree.AreaTool = function(scene, camera, renderer){
 	
 	function onMouseDown(event){
 		if(event.which === 1){
+		
+			if(state !== STATE.DEFAULT){
+				event.stopImmediatePropagation();
+			}
 			
 			var I = getHoveredElement();
 			
@@ -5044,7 +5039,7 @@ Potree.AreaTool = function(scene, camera, renderer){
 					sceneStartPos: scope.sceneRoot.position.clone(),
 					mousePos: {x: scope.mouse.x, y: scope.mouse.y}
 				};
-				
+				event.stopImmediatePropagation();
 			}
 			
 		}else if(event.which === 3){	
@@ -5447,9 +5442,9 @@ Potree.MeasuringTool = function(scene, camera, renderer){
 		//event.stopImmediatePropagation();
 	};
 	
-	function onMouseMove(event){
-        var rect = scope.domElement.getBoundingClientRect();
-        scope.mouse.x = ((event.clientX - rect.left) / scope.domElement.clientWidth) * 2 - 1;
+	function onMouseMove(event){		
+		var rect = scope.domElement.getBoundingClientRect();
+		scope.mouse.x = ((event.clientX - rect.left) / scope.domElement.clientWidth) * 2 - 1;
         scope.mouse.y = -((event.clientY - rect.top) / scope.domElement.clientHeight) * 2 + 1;
 		
 		if(scope.dragstart){
@@ -5538,6 +5533,10 @@ Potree.MeasuringTool = function(scene, camera, renderer){
 	
 	function onMouseDown(event){
 		if(event.which === 1){
+		
+			if(state !== STATE.DEFAULT){
+				event.stopImmediatePropagation();
+			}
 			
 			var I = getHoveredElement();
 			
@@ -6113,6 +6112,11 @@ Potree.ProfileTool = function(scene, camera, renderer){
 	}
 	
 	function onMouseDown(event){
+	
+		if(state !== STATE.DEFAULT){
+			event.stopImmediatePropagation();
+		}
+	
 		if(event.which === 1){
 			
 			var I = getHoveredElement();
@@ -6138,6 +6142,7 @@ Potree.ProfileTool = function(scene, camera, renderer){
 					mousePos: {x: scope.mouse.x, y: scope.mouse.y},
 					widthStart: widthStart
 				};
+				event.stopImmediatePropagation();
 				
 			}
 			
@@ -6826,6 +6831,7 @@ Potree.TransformationTool = function(scene, camera, renderer){
 	
 	function onMouseDown(event){
 	
+	
 		if(event.which === 1){
 			// left click
 			var I = getHoveredElement();
@@ -6846,6 +6852,7 @@ Potree.TransformationTool = function(scene, camera, renderer){
 					scales: scales,
 					rotations: rotations
 				};
+				event.stopImmediatePropagation();
 			}
 		}else if(event.which === 3){
 			// right click
@@ -7092,7 +7099,8 @@ Potree.VolumeTool = function(scene, camera, renderer){
 		};
 
 		this.volume = function(){
-			return Math.abs(this.dimension.x * this.dimension.y * this.dimension.z);
+			return Math.abs(this.scale.x * this.scale.y * this.scale.z);
+			//return Math.abs(this.dimension.x * this.dimension.y * this.dimension.z);
 		};
 		
 		this.update = function(){
@@ -7157,6 +7165,10 @@ Potree.VolumeTool = function(scene, camera, renderer){
 	};
 	
 	function onMouseDown(event){
+	
+		if(state !== STATE.DEFAULT){
+			event.stopImmediatePropagation();
+		}
 	
 		if(state === STATE.INSERT_VOLUME){
 			scope.finishInsertion();
@@ -7267,7 +7279,8 @@ Potree.VolumeTool = function(scene, camera, renderer){
 				var wp = this.activeVolume.getWorldPosition().applyMatrix4(this.camera.matrixWorldInverse);
 				var pp = new THREE.Vector4(wp.x, wp.y, wp.z).applyMatrix4(this.camera.projectionMatrix);
 				var w = Math.abs((wp.z  / 10)); 
-				this.activeVolume.setDimension(w, w, w);
+				//this.activeVolume.setDimension(w, w, w);
+				this.activeVolume.scale.set(w,w,w);
 			}
 		}
 		

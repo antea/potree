@@ -28,6 +28,8 @@ POCLoader.load = function load(url, callback) {
 			if(xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 0)){
 				var fMno = JSON.parse(xhr.responseText);
 				
+				var version = new Potree.Version(fMno.version);
+				
 				// assume octreeDir is absolute if it starts with http
 				if(fMno.octreeDir.indexOf("http") === 0){
 					pco.octreeDir = fMno.octreeDir;
@@ -81,14 +83,17 @@ POCLoader.load = function load(url, callback) {
 					var root = new Potree.PointCloudOctreeGeometryNode(name, pco, boundingBox);
 					root.level = 0;
 					root.hasChildren = true;
+					if(version.upTo("1.5")){
 					root.numPoints = fMno.hierarchy[0][1];
+					}
+					root.numPoints = 0;
 					pco.root = root;
 					pco.root.load();
 					nodes[name] = root;
 				}
 				
 				// load remaining hierarchy
-				if(pco.loader.version.upTo("1.4")){
+				if(version.upTo("1.4")){
 				for( var i = 1; i < fMno.hierarchy.length; i++){
 					var name = fMno.hierarchy[i][0];
 					var numPoints = fMno.hierarchy[i][1];
