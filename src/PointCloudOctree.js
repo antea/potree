@@ -84,6 +84,24 @@ Potree.PointCloudOctree.prototype.updateVisibility = function(camera, renderer){
 		var visible = insideFrustum;
 		visible = visible && !(this.numVisiblePoints + node.numPoints > this.visiblePointsTarget);
 		
+		if (this.material.numClipBoxes > 0 && visible && this.material.clipMode == Potree.ClipMode.CLIP_OUTSIDE) {
+			var box2 = box.clone(); // node's Box3 expressed in world coordinates
+			this.updateMatrixWorld(true);
+			box2.applyMatrix4(this.matrixWorld);
+			var intersectsClipBoxes = false;
+			for (var i = 0; i < this.material.numClipBoxes; i++) {
+				var clipMatrixWorld = new THREE.Matrix4().copy(this.material.clipBoxes[i]); // Matrix4, inverse of clip matrixWorld
+				clipMatrixWorld.getInverse(clipMatrixWorld); // clip matrixWorld
+				var clipBox = new THREE.Box3(new THREE.Vector3(-0.5, -0.5, -0.5), new THREE.Vector3(0.5, 0.5, 0.5)); // in world coords
+				clipBox.applyMatrix4(clipMatrixWorld);
+				if (box2.isIntersectionBox(clipBox)) {
+					intersectsClipBoxes = true;
+					break;
+				}
+			}
+			visible = intersectsClipBoxes;
+		}
+		
 		if(!visible){
 			continue;
 		}

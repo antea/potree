@@ -341,6 +341,7 @@ Potree.PointCloudMaterial.prototype.setClipBoxes = function(clipBoxes){
 	var doUpdate = (this.numClipBoxes != clipBoxes.length) && (clipBoxes.length === 0 || this.numClipBoxes === 0);
 
 	this.numClipBoxes = clipBoxes.length;
+	this.clipBoxes = clipBoxes; // an array THREE.Matrix4
 	this.uniforms.clipBoxCount.value = this.numClipBoxes;
 	
 	if(doUpdate){
