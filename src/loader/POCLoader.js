@@ -61,7 +61,10 @@ Potree.POCLoader.load = function load(url, callback, login, password) {
 				var offset = new THREE.Vector3(0,0,0);
 				
 				offset.set(-min.x, -min.y, -min.z);
-				
+				if (fMno.additionalOffset) {
+					pco.additionalOffset = fMno.additionalOffset;
+				}
+
 				boundingBox.min.add(offset);
 				boundingBox.max.add(offset);
 				
