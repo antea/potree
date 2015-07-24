@@ -6,7 +6,7 @@
  * 
  * @author Markus Schuetz
  */
-function POCLoader(){
+Potree.POCLoader = function(){
 	
 }
  
@@ -19,7 +19,7 @@ function POCLoader(){
  * @param login Optional login name to be used for HTTP Basic Authentication.
  * @param password Optional plain text password for the HTTP Authentication.
  */
-POCLoader.load = function load(url, callback, login, password) {
+Potree.POCLoader.load = function load(url, callback, login, password) {
 	try{
 		var pco = new Potree.PointCloudOctreeGeometry();
 		pco.url = url;
@@ -52,7 +52,7 @@ POCLoader.load = function load(url, callback, login, password) {
 				var max = new THREE.Vector3(fMno.boundingBox.ux, fMno.boundingBox.uy, fMno.boundingBox.uz);
 				var boundingBox = new THREE.Box3(min, max);
 				var tightBoundingBox = boundingBox.clone();
-					
+				
 				if(fMno.tightBoundingBox){
 					tightBoundingBox.min.copy(new THREE.Vector3(fMno.tightBoundingBox.lx, fMno.tightBoundingBox.ly, fMno.tightBoundingBox.lz));
 					tightBoundingBox.max.copy(new THREE.Vector3(fMno.tightBoundingBox.ux, fMno.tightBoundingBox.uy, fMno.tightBoundingBox.uz));
@@ -81,7 +81,7 @@ POCLoader.load = function load(url, callback, login, password) {
 					pco.loader = new Potree.LasLazLoader(fMno.version);
 				}else{
 					pco.loader = new Potree.BinaryLoader(fMno.version, boundingBox, fMno.scale);
-					pco.pointAttributes = new PointAttributes(pco.pointAttributes);
+					pco.pointAttributes = new Potree.PointAttributes(pco.pointAttributes);
 				}
 				
 				var nodes = {};
@@ -104,22 +104,22 @@ POCLoader.load = function load(url, callback, login, password) {
 				
 				// load remaining hierarchy
 				if(version.upTo("1.4")){
-				for( var i = 1; i < fMno.hierarchy.length; i++){
-					var name = fMno.hierarchy[i][0];
-					var numPoints = fMno.hierarchy[i][1];
-					var index = parseInt(name.charAt(name.length-1));
-					var parentName = name.substring(0, name.length-1);
-					if (parentName.slice(-1) === "/")
-						parentName = name.substring(0, name.length-2);
-					var parentNode = nodes[parentName];
-					var level = name.length-1;
-					var boundingBox = POCLoader.createChildAABB(parentNode.boundingBox, index);
-					
-					var node = new Potree.PointCloudOctreeGeometryNode(name, pco, boundingBox);
-					node.level = level;
-					node.numPoints = numPoints;
-					parentNode.addChild(node);
-					nodes[name] = node;
+					for( var i = 1; i < fMno.hierarchy.length; i++){
+						var name = fMno.hierarchy[i][0];
+						var numPoints = fMno.hierarchy[i][1];
+						var index = parseInt(name.charAt(name.length-1));
+						var parentName = name.substring(0, name.length-1);
+						if (parentName.slice(-1) === "/")
+							parentName = name.substring(0, name.length-2);
+						var parentNode = nodes[parentName];
+						var level = name.length-1;
+						var boundingBox = Potree.POCLoader.createChildAABB(parentNode.boundingBox, index);
+						
+						var node = new Potree.PointCloudOctreeGeometryNode(name, pco, boundingBox);
+						node.level = level;
+						node.numPoints = numPoints;
+						parentNode.addChild(node);
+						nodes[name] = node;
 					}
 				}
 				
@@ -136,13 +136,13 @@ POCLoader.load = function load(url, callback, login, password) {
 	}
 };
 
-POCLoader.loadPointAttributes = function(mno){
+Potree.POCLoader.loadPointAttributes = function(mno){
 	
 	var fpa = mno.pointAttributes;
-	var pa = new PointAttributes();
+	var pa = new Potree.PointAttributes();
 	
 	for(var i = 0; i < fpa.length; i++){   
-		var pointAttribute = PointAttribute[fpa[i]];
+		var pointAttribute = Potree.PointAttribute[fpa[i]];
 		pa.add(pointAttribute);
 	}                                                                     
 	
@@ -150,7 +150,7 @@ POCLoader.loadPointAttributes = function(mno){
 };
 
 
-POCLoader.createChildAABB = function(aabb, childIndex){
+Potree.POCLoader.createChildAABB = function(aabb, childIndex){
 	var V3 = THREE.Vector3;
 	var min = aabb.min;
 	var max = aabb.max;

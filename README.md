@@ -24,6 +24,7 @@ General infos, downloads, showcase, etc. at [potree.org](http://potree.org/)
 
 ## Downloads
 
+* [PotreeConverter 1.2, windows 64bit](https://github.com/potree/PotreeConverter/releases/tag/1.2)
 * [PotreeConverter 1.1.1, windows 64bit](http://potree.org/downloads/PotreeConverter/PotreeConverter_1.1.1.zip)
 * [PotreeConverter 1.0, windows 64bit](http://potree.org/downloads/PotreeConverter/PotreeConverter_2014.12.30.zip)
 
@@ -35,13 +36,16 @@ Take a look at the [potree showcase](http://potree.org/wp/demo/) for some live e
 
 | Browser              | OS      | Result        |
 | -------------------- |:-------:|:-------------:|
-| Chrome 39            | Win7    | works         |
+| Chrome 42            | Win7    | works         |
 | Firefox 34           | Win7    | works         |
 | Internet Explorer 11 | Win7    | partially works; performance issues |
 | Firefox              | Android | partially works, GUI and stability issues |
 | Opera                | Android | partially works, GUI and stability issues and slow |
 | Chrome               | Android | works |
 
+## Roadmap
+
+see [Roadmap](https://github.com/potree/potree/wiki/Roadmap)
 
 ## Credits
 
@@ -49,4 +53,5 @@ Take a look at the [potree showcase](http://potree.org/wp/demo/) for some live e
 * [Three.js](https://github.com/mrdoob/three.js), the WebGL 3D rendering library on which potree is built.
 * [plas.io](http://plas.io/) point cloud viewer. LAS and LAZ support have been taken from the laslaz.js implementation of plas.io. Thanks to [Uday Verma](https://twitter.com/udaykverma) and [Howard Butler](https://twitter.com/howardbutler) for this!
 * [Harvest4D](https://harvest4d.org/) Potree currently runs as Master Thesis under the Harvest4D Project
-* [Martin Isenburg](http://rapidlasso.com/), [Georepublic](http://georepublic.de/en/), [Sigeom Sa](http://www.sigeom.ch/), [SITN](http://www.ne.ch/sitn), [Pix4D](http://pix4d.com/) as well as all the contributers to potree and PotreeConverter and many more for their support.
+* [Martin Isenburg](http://rapidlasso.com/), [Georepublic](http://georepublic.de/en/),
+[Veesus](http://veesus.com/), [Sigeom Sa](http://www.sigeom.ch/), [SITN](http://www.ne.ch/sitn), [Pix4D](http://pix4d.com/) as well as all the contributers to potree and PotreeConverter and many more for their support.
