@@ -42,6 +42,7 @@ Potree.Classification = {
 };
 
 
+
 Potree.PointSizeType = {
 	FIXED: 		0,
 	ATTENUATED: 1,
@@ -86,17 +87,17 @@ Potree.PointCloudMaterial = function(parameters){
 
 	parameters = parameters || {};
 
-	var color = new THREE.Color( 0x000000 );
+	var color = new THREE.Color( 0xffffff );
 	var map = THREE.ImageUtils.generateDataTexture( 2048, 1, color );
 	map.magFilter = THREE.NearestFilter;
 	this.visibleNodesTexture = map;
-
+	
 	var pointSize = parameters.size || 1.0;
 	var minSize = parameters.minSize || 1.0;
 	var maxSize = parameters.maxSize || 50.0;
 	var treeType = parameters.treeType || Potree.TreeType.OCTREE;
 	var nodeSize = 1.0;
-
+	
 	this._pointSizeType = Potree.PointSizeType.ATTENUATED;
 	this._pointShape = Potree.PointShape.SQUARE;
 	this._interpolate = false;
@@ -112,10 +113,12 @@ Potree.PointCloudMaterial = function(parameters){
 	this.classificationTexture = Potree.PointCloudMaterial.generateClassificationTexture(this._classification);
 	this.lights = true;
 	this._treeType = treeType;
-
-
-
-
+	this._useLogarithmicDepthBuffer = false;
+	this._useEDL = false;
+	
+	
+	
+	
 	var attributes = {};
 	var uniforms = {
 		spacing:			{ type: "f", value: 1.0 },
@@ -124,7 +127,7 @@ Potree.PointCloudMaterial = function(parameters){
 		screenHeight:		{ type: "f", value: 1.0 },
 		near:				{ type: "f", value: 0.1 },
 		far:				{ type: "f", value: 1.0 },
-		uColor:   			{ type: "c", value: new THREE.Color( 0xff0000 ) },
+		uColor:   			{ type: "c", value: new THREE.Color( 0xffffff ) },
 		opacity:   			{ type: "f", value: 1.0 },
 		size:   			{ type: "f", value: 10 },
 		minSize:   			{ type: "f", value: 2 },
@@ -160,9 +163,9 @@ Potree.PointCloudMaterial = function(parameters){
 		hemisphereLightGroundColor: { type: "fv", value: null },
 		hemisphereLightDirection: 	{ type: "fv", value: null },
 	};
-
+	
 	this.defaultAttributeValues.normal = [0,0,0];
-
+	
 	this.setValues({
 		uniforms: uniforms,
 		attributes: attributes,
@@ -181,7 +184,7 @@ Potree.PointCloudMaterial = function(parameters){
 Potree.PointCloudMaterial.prototype = new THREE.ShaderMaterial();
 
 Potree.PointCloudMaterial.prototype.updateShaderSource = function(){
-
+	
 	var attributes = {};
 	if(this.pointColorType === Potree.PointColorType.INTENSITY
 		|| this.pointColorType === Potree.PointColorType.INTENSITY_GRADIENT){
@@ -195,23 +198,23 @@ Potree.PointCloudMaterial.prototype.updateShaderSource = function(){
 	}else if(this.pointColorType === Potree.PointColorType.NORMAL || this.pointColorType === Potree.PointColorType.PHONG){
 		attributes.normal = { type: "f", value: [] };
 	}
-
+	
 	var vs = this.getDefines() + Potree.Shaders["pointcloud.vs"];
 	var fs = this.getDefines() + Potree.Shaders["pointcloud.fs"];
-
+	
 	this.setValues({
 		attributes: attributes,
 		vertexShader: vs,
 		fragmentShader: fs
 	});
-
+	
 	if(this.depthMap){
 		this.uniforms.depthMap.value = this.depthMap;
 		this.setValues({
 			depthMap: this.depthMap,
 		});
 	}
-
+	
 	if(this.opacity === 1.0){
 		this.setValues({
 			blending: THREE.NoBlending,
@@ -227,26 +230,26 @@ Potree.PointCloudMaterial.prototype.updateShaderSource = function(){
 			depthWrite: true
 		});
 	}
-
-	if(this.weighted){
+		
+	if(this.weighted){	
 		this.setValues({
 			blending: THREE.AdditiveBlending,
 			transparent: true,
 			depthTest: true,
 			depthWrite: false
-		});
+		});	
 	}
-
-
-
-
+		
+		
+		
+		
 	this.needsUpdate = true;
 };
 
 Potree.PointCloudMaterial.prototype.getDefines = function(){
 
 	var defines = "";
-
+	
 	if(this.pointSizeType === Potree.PointSizeType.FIXED){
 		defines += "#define fixed_point_size\n";
 	}else if(this.pointSizeType === Potree.PointSizeType.ATTENUATED){
@@ -254,17 +257,25 @@ Potree.PointCloudMaterial.prototype.getDefines = function(){
 	}else if(this.pointSizeType === Potree.PointSizeType.ADAPTIVE){
 		defines += "#define adaptive_point_size\n";
 	}
-
+	
 	if(this.pointShape === Potree.PointShape.SQUARE){
 		defines += "#define square_point_shape\n";
 	}else if(this.pointShape === Potree.PointShape.CIRCLE){
 		defines += "#define circle_point_shape\n";
 	}
-
+	
 	if(this._interpolate){
 		defines += "#define use_interpolation\n";
 	}
-
+	
+	if(this._useLogarithmicDepthBuffer){
+		defines += "#define use_logarithmic_depth_buffer\n";
+	}
+	
+	if(this._useEDL){
+		defines += "#define use_edl\n";
+	}
+	
 	if(this._pointColorType === Potree.PointColorType.RGB){
 		defines += "#define color_type_rgb\n";
 	}else if(this._pointColorType === Potree.PointColorType.COLOR){
@@ -292,7 +303,7 @@ Potree.PointCloudMaterial.prototype.getDefines = function(){
 	}else if(this._pointColorType === Potree.PointColorType.PHONG){
 		defines += "#define color_type_phong\n";
 	}
-
+	
 	if(this.clipMode === Potree.ClipMode.DISABLED){
 		defines += "#define clip_disabled\n";
 	}else if(this.clipMode === Potree.ClipMode.CLIP_OUTSIDE){
@@ -300,17 +311,17 @@ Potree.PointCloudMaterial.prototype.getDefines = function(){
 	}else if(this.clipMode === Potree.ClipMode.HIGHLIGHT_INSIDE){
 		defines += "#define clip_highlight_inside\n";
 	}
-
+	
 	if(this._treeType === Potree.TreeType.OCTREE){
 		defines += "#define tree_type_octree\n";
 	}else if(this._treeType === Potree.TreeType.KDTREE){
 		defines += "#define tree_type_kdtree\n";
 	}
-
+	
 	if(this.weighted){
 		defines += "#define weighted_splats\n";
 	}
-
+	
 	if(this.numClipBoxes > 0){
 		defines += "#define use_clip_box\n";
 	}
@@ -328,16 +339,16 @@ Potree.PointCloudMaterial.prototype.setClipBoxes = function(clipBoxes){
 
 	this.numClipBoxes = clipBoxes.length;
 	this.uniforms.clipBoxCount.value = this.numClipBoxes;
-
+	
 	if(doUpdate){
 		this.updateShaderSource();
 	}
-
+	
 	this.uniforms.clipBoxes.value = new Float32Array(this.numClipBoxes * 16);
-
+	
 	for(var i = 0; i < this.numClipBoxes; i++){
 		var box = clipBoxes[i];
-
+		
 		this.uniforms.clipBoxes.value.set(box.elements, 16*i);
 	}
 };
@@ -537,6 +548,30 @@ Object.defineProperty(Potree.PointCloudMaterial.prototype, "interpolate", {
 	}
 });
 
+Object.defineProperty(Potree.PointCloudMaterial.prototype, "useEDL", {
+	get: function(){
+		return this._useEDL;
+	},
+	set: function(value){
+		if(this._useEDL !== value){
+			this._useEDL = value;
+			this.updateShaderSource();
+		}
+	}
+});
+
+Object.defineProperty(Potree.PointCloudMaterial.prototype, "useLogarithmicDepthBuffer", {
+	get: function(){
+		return this._useLogarithmicDepthBuffer;
+	},
+	set: function(value){
+		if(this._useLogarithmicDepthBuffer !== value){
+			this._useLogarithmicDepthBuffer = value;
+			this.updateShaderSource();
+		}
+	}
+});
+
 Object.defineProperty(Potree.PointCloudMaterial.prototype, "color", {
 	get: function(){
 		return this.uniforms.uColor.value;
@@ -672,16 +707,16 @@ Potree.PointCloudMaterial.generateGradientTexture = function(gradient) {
 	// draw gradient
 	context.rect( 0, 0, size, size );
 	var ctxGradient = context.createLinearGradient( 0, 0, size, size );
-
+	
 	for(var i = 0;i < gradient.length; i++){
 		var step = gradient[i];
-
+		
 		ctxGradient.addColorStop(step[0], "#" + step[1].getHexString());
-	}
-
+	} 
+    
 	context.fillStyle = ctxGradient;
 	context.fill();
-
+	
 	var texture = new THREE.Texture( canvas );
 	texture.needsUpdate = true;
 	textureImage = texture.image;
@@ -699,28 +734,28 @@ Potree.PointCloudMaterial.generateClassificationTexture  = function(classificati
 	var map = THREE.ImageUtils.generateDataTexture( width, height, new THREE.Color() );
 	map.magFilter = THREE.NearestFilter;
 	var data = map.image.data;
-
+	
 	for(var x = 0; x < width; x++){
 		for(var y = 0; y < height; y++){
 			var u = 2 * (x / width) - 1;
 			var v = 2 * (y / height) - 1;
-
+			
 			var i = x + width*y;
-
+			
 			var color;
 			if(classification[x]){
 				color = classification[x];
 			}else{
 				color = classification.DEFAULT;
 			}
-
-
+			
+			
 			data[3*i+0] = 255 * color.r;
 			data[3*i+1] = 255 * color.g;
 			data[3*i+2] = 255 * color.b;
 		}
 	}
-
+	
 	return map;
-
+	
 };
