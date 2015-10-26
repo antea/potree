@@ -26,18 +26,18 @@ Potree.Gradients = {
 
 Potree.Classification = {
 	"DEFAULT": {
-		0: 			new THREE.Color(0.5, 0.5,0.5),
-		1: 			new THREE.Color(0.5, 0.5,0.5),
-		2: 			new THREE.Color(0.63, 0.32, 0.18),
-		3: 			new THREE.Color(0.0, 1.0, 0.0),
-		4: 			new THREE.Color(0.0, 0.8, 0.0),
-		5: 			new THREE.Color(0.0, 0.6, 0.0 ),
-		6: 			new THREE.Color(1.0, 0.66, 0.0),
-		7:			new THREE.Color(1.0, 0, 1.0   ),
-		8: 			new THREE.Color(1.0, 0, 0.0   ),
-		9: 			new THREE.Color(0.0, 0.0, 1.0 ),
-		12:			new THREE.Color(1.0, 1.0, 0.0 ),
-		"DEFAULT": 	new THREE.Color(0.3, 0.6, 0.6 )
+		0: 			new THREE.Vector4(0.5, 0.5,0.5, 1.0),
+		1: 			new THREE.Vector4(0.5, 0.5,0.5, 1.0),
+		2: 			new THREE.Vector4(0.63, 0.32, 0.18, 1.0),
+		3: 			new THREE.Vector4(0.0, 1.0, 0.0, 1.0),
+		4: 			new THREE.Vector4(0.0, 0.8, 0.0, 1.0),
+		5: 			new THREE.Vector4(0.0, 0.6, 0.0, 1.0),
+		6: 			new THREE.Vector4(1.0, 0.66, 0.0, 1.0),
+		7:			new THREE.Vector4(1.0, 0, 1.0, 1.0),
+		8: 			new THREE.Vector4(1.0, 0, 0.0, 1.0),
+		9: 			new THREE.Vector4(0.0, 0.0, 1.0, 1.0),
+		12:			new THREE.Vector4(1.0, 1.0, 0.0, 1.0),
+		"DEFAULT": 	new THREE.Vector4(0.3, 0.6, 0.6, 1.0)
 	}
 };
 
@@ -67,8 +67,7 @@ Potree.PointColorType = {
 	RETURN_NUMBER: 		9,
 	SOURCE: 			10,
 	NORMAL: 			11,
-	PHONG: 				12,
-	TREE_DEPTH: 		13
+	PHONG: 				12
 };
 
 Potree.ClipMode = {
@@ -106,7 +105,7 @@ Potree.PointCloudMaterial = function(parameters){
 	this.numClipBoxes = 0;
 	this._clipMode = Potree.ClipMode.DISABLED;
 	this._weighted = false;
-	this._depthMap;
+	this._depthMap = null;
 	this._gradient = Potree.Gradients.RAINBOW;
 	this._classification = Potree.Classification.DEFAULT;
 	this.gradientTexture = Potree.PointCloudMaterial.generateGradientTexture(this._gradient);
@@ -115,9 +114,6 @@ Potree.PointCloudMaterial = function(parameters){
 	this._treeType = treeType;
 	this._useLogarithmicDepthBuffer = false;
 	this._useEDL = false;
-	
-	
-	
 	
 	var attributes = {};
 	var uniforms = {
@@ -153,9 +149,11 @@ Potree.PointCloudMaterial = function(parameters){
 		pointLightColor: 			{ type: "fv", value: null },
 		pointLightPosition: 		{ type: "fv", value: null },
 		pointLightDistance: 		{ type: "fv1", value: null },
+		pointLightDecay: 			{ type: "fv1", value: null },
 		spotLightColor: 			{ type: "fv", value: null },
 		spotLightPosition: 			{ type: "fv", value: null },
 		spotLightDistance: 			{ type: "fv1", value: null },
+		spotLightDecay: 			{ type: "fv1", value: null },
 		spotLightDirection: 		{ type: "fv", value: null },
 		spotLightAngleCos: 			{ type: "fv1", value: null },
 		spotLightExponent: 			{ type: "fv1", value: null },
@@ -165,6 +163,7 @@ Potree.PointCloudMaterial = function(parameters){
 	};
 	
 	this.defaultAttributeValues.normal = [0,0,0];
+	this.defaultAttributeValues.classification = [0,0,0];
 	
 	this.setValues({
 		uniforms: uniforms,
@@ -190,14 +189,16 @@ Potree.PointCloudMaterial.prototype.updateShaderSource = function(){
 		|| this.pointColorType === Potree.PointColorType.INTENSITY_GRADIENT){
 		attributes.intensity = { type: "f", value: [] };
 	}else if(this.pointColorType === Potree.PointColorType.CLASSIFICATION){
-		attributes.classification = { type: "f", value: [] };
+		//attributes.classification = { type: "f", value: [] };
 	}else if(this.pointColorType === Potree.PointColorType.RETURN_NUMBER){
 		attributes.returnNumber = { type: "f", value: [] };
+		attributes.numberOfReturns = { type: "f", value: [] };
 	}else if(this.pointColorType === Potree.PointColorType.SOURCE){
 		attributes.pointSourceID = { type: "f", value: [] };
 	}else if(this.pointColorType === Potree.PointColorType.NORMAL || this.pointColorType === Potree.PointColorType.PHONG){
 		attributes.normal = { type: "f", value: [] };
 	}
+	attributes.classification = { type: "f", value: 0 };
 	
 	var vs = this.getDefines() + Potree.Shaders["pointcloud.vs"];
 	var fs = this.getDefines() + Potree.Shaders["pointcloud.fs"];
@@ -372,11 +373,11 @@ Object.defineProperty(Potree.PointCloudMaterial.prototype, "classification", {
 		return this._classification;
 	},
 	set: function(value){
-		if(this._classification !== value){
+		//if(this._classification !== value){
 			this._classification = value;
 			this.classificationTexture = Potree.PointCloudMaterial.generateClassificationTexture(this._classification);
 			this.uniforms.classificationLUT.value = this.classificationTexture;
-		}
+		//}
 	}
 });
 
@@ -731,9 +732,9 @@ Potree.PointCloudMaterial.generateGradientTexture = function(gradient) {
 Potree.PointCloudMaterial.generateClassificationTexture  = function(classification){
 	var width = 256;
 	var height = 256;
-	var map = THREE.ImageUtils.generateDataTexture( width, height, new THREE.Color() );
-	map.magFilter = THREE.NearestFilter;
-	var data = map.image.data;
+	var size = width*height;
+	
+	var data = new Uint8Array(4*size);
 	
 	for(var x = 0; x < width; x++){
 		for(var y = 0; y < height; y++){
@@ -750,12 +751,16 @@ Potree.PointCloudMaterial.generateClassificationTexture  = function(classificati
 			}
 			
 			
-			data[3*i+0] = 255 * color.r;
-			data[3*i+1] = 255 * color.g;
-			data[3*i+2] = 255 * color.b;
+			data[4*i+0] = 255 * color.x;
+			data[4*i+1] = 255 * color.y;
+			data[4*i+2] = 255 * color.z;
+			data[4*i+3] = 255 * color.w;
 		}
 	}
 	
-	return map;
+	var texture = new THREE.DataTexture(data, width, height, THREE.RGBAFormat);
+	texture.magFilter = THREE.NearestFilter;
+	texture.needsUpdate = true;
 	
+	return texture;
 };

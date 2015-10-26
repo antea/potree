@@ -8,7 +8,7 @@
  */
 Potree.POCLoader = function(){
 	
-}
+};
  
 /**
  * @return a point cloud octree with the root node data loaded. 
@@ -57,6 +57,7 @@ Potree.POCLoader.load = function load(url, callback, login, password) {
 					tightBoundingBox.min.copy(new THREE.Vector3(fMno.tightBoundingBox.lx, fMno.tightBoundingBox.ly, fMno.tightBoundingBox.lz));
 					tightBoundingBox.max.copy(new THREE.Vector3(fMno.tightBoundingBox.ux, fMno.tightBoundingBox.uy, fMno.tightBoundingBox.uz));
 				}
+
 				var offset = new THREE.Vector3(0,0,0);
 				
 				offset.set(-min.x, -min.y, -min.z);
@@ -127,7 +128,7 @@ Potree.POCLoader.load = function load(url, callback, login, password) {
 				
 				callback(pco);
 			}
-		}
+		};
 		
 		xhr.send(null);
 	}catch(e){

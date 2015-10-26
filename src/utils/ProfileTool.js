@@ -130,7 +130,7 @@ Potree.HeightProfile = function(){
 		
 		this.remove(this.spheres[index]);
 		
-		var edgeIndex = (index == 0) ? 0 : (index - 1);
+		var edgeIndex = (index === 0) ? 0 : (index - 1);
 		this.remove(this.edges[edgeIndex]);
 		this.edges.splice(edgeIndex, 1);
 		this.remove(this.boxes[edgeIndex]);
@@ -181,6 +181,13 @@ Potree.HeightProfile = function(){
 	
 	this.setWidth = function(width){
 		this.width = width;
+		
+		var event = {
+			type: 		'width_changed',
+			profile:	this,
+			width:		width
+		};
+		this.dispatchEvent(event);
 		
 		this.update();
 	};
@@ -288,10 +295,10 @@ Potree.HeightProfile = function(){
 			I.distance = raycaster.ray.origin.distanceTo(I.point);
 		}
 		intersects.sort( function ( a, b ) { return a.distance - b.distance;} );
-	}
+	};
 	
 	
-}
+};
 
 Potree.HeightProfile.prototype = Object.create( THREE.Object3D.prototype );
 
@@ -336,7 +343,7 @@ Potree.ProfileTool = function(scene, camera, renderer){
 	
 	var sphereGeometry = new THREE.SphereGeometry(0.4, 10, 10);
 	
-	this.activeProfile;
+	this.activeProfile = null;
 	this.profiles = [];
 	this.sceneProfile = new THREE.Scene();
 	this.sceneRoot = new THREE.Object3D();
@@ -550,7 +557,7 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		}
 		
 		return closestPoint ? closestPoint.position : null;
-	}	
+	};
 	
 	this.startInsertion = function(args){
 		state = STATE.INSERT;
@@ -606,14 +613,14 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		}
 		
 		this.dispatchEvent({"type": "profile_removed", profile: profile});
-	}
+	};
 	
 	this.reset = function(){
 		for(var i = this.profiles.length - 1; i >= 0; i--){
 			var profile = this.profiles[i];
 			this.removeProfile(profile);
 		}
-	}
+	};
 	
 	this.update = function(){
 		

@@ -15,7 +15,9 @@ uniform float far;
 uniform vec2 neighbours[NEIGHBOUR_COUNT];
 uniform vec3 lightDir;
 uniform float expScale;
+uniform float edlScale;
 uniform float radius;
+uniform float opacity;
 
 //uniform sampler2D depthMap;
 uniform sampler2D colorMap;
@@ -74,12 +76,12 @@ void main(){
 	float linearDepth = logToLinear(texture2D(colorMap, vUv).a);
 	
 	float f = computeObscurance(linearDepth);
-	f = exp(-expScale * f);
+	f = exp(-expScale * edlScale * f);
 	
 	vec4 color = texture2D(colorMap, vUv);
 	if(color.a == 0.0 && f >= 1.0){
 		discard;
 	}
 	
-	gl_FragColor = vec4(color.rgb * f, 1.0);
+	gl_FragColor = vec4(color.rgb * f, opacity);
 }

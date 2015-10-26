@@ -10,11 +10,11 @@ function CustomView(buffer) {
 	
 	this.getUint32 = function (i) {
 		return (this.u8[i+3] << 24) | (this.u8[i+2] << 16) | (this.u8[i+1] << 8) | this.u8[i];
-	}
+	};
 	
 	this.getUint16 = function (i) {
 		return (this.u8[i+1] << 8) | this.u8[i];
-	}
+	};
 	
 	this.getFloat = function(i){
 		tmpu8[0] = this.u8[i+0];
@@ -23,11 +23,11 @@ function CustomView(buffer) {
 		tmpu8[3] = this.u8[i+3];
 		
 		return tmpf[0];
-	}
+	};
 	
 	this.getUint8 = function(i){
 		return this.u8[i];
-	}
+	};
 }
 
 Potree = {};
@@ -42,6 +42,8 @@ onmessage = function(event){
 	var min = event.data.min;
 	var nodeOffset = event.data.offset;
 	var scale = event.data.scale;
+	var tightBoxMin = [ Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY];
+	var tightBoxMax = [ Number.NEGATIVE_INFINITY , Number.NEGATIVE_INFINITY , Number.NEGATIVE_INFINITY ];
 	
 	var attributeBuffers = {};
 	
@@ -64,6 +66,14 @@ onmessage = function(event){
 					positions[3*j+1] = cv.getFloat(j*pointAttributes.byteSize+4) + nodeOffset[1];
 					positions[3*j+2] = cv.getFloat(j*pointAttributes.byteSize+8) + nodeOffset[2];
 				}
+				
+				tightBoxMin[0] = Math.min(tightBoxMin[0], positions[3*j+0]);
+				tightBoxMin[1] = Math.min(tightBoxMin[1], positions[3*j+1]);
+				tightBoxMin[2] = Math.min(tightBoxMin[2], positions[3*j+2]);
+				
+				tightBoxMax[0] = Math.max(tightBoxMax[0], positions[3*j+0]);
+				tightBoxMax[1] = Math.max(tightBoxMax[1], positions[3*j+1]);
+				tightBoxMax[2] = Math.max(tightBoxMax[2], positions[3*j+2]);
 			}
 			
 			attributeBuffers[pointAttribute.name] = { buffer: buff, attribute: pointAttribute};
@@ -150,12 +160,14 @@ onmessage = function(event){
 				
 				var z = 1 - Math.abs(u) - Math.abs(v);
 				
+				var x = 0;
+				var y = 0;
 				if(z >= 0){
-					var x = u;
-					var y = v;
+					x = u;
+					y = v;
 				}else{
-					var x = - (v/Math.sign(v) - 1) / Math.sign(u);
-					var y = - (u/Math.sign(u) - 1) / Math.sign(v);
+					x = - (v/Math.sign(v) - 1) / Math.sign(u);
+					y = - (u/Math.sign(u) - 1) / Math.sign(v);
 				}
 				
 				var length = Math.sqrt(x*x + y*y + z*z);
@@ -195,6 +207,7 @@ onmessage = function(event){
 	
 	var message = {
 		attributeBuffers: attributeBuffers,
+		tightBoundingBox: { min: tightBoxMin, max: tightBoxMax },
 		indices: indices
 	};
 		

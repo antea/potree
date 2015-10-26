@@ -9,8 +9,11 @@ Potree.TextSprite = function(text){
 	var texture = new THREE.Texture();
 	texture.minFilter = THREE.LinearFilter;
 	texture.magFilter = THREE.LinearFilter;
-	var spriteMaterial = new THREE.SpriteMaterial( 
-		{ map: texture, useScreenCoordinates: false} );
+	var spriteMaterial = new THREE.SpriteMaterial( { 
+		map: texture, 
+		useScreenCoordinates: false,
+		depthTest: false,
+		depthWrite: false} );
 	
 	this.material = spriteMaterial;
 	this.sprite = new THREE.Sprite(spriteMaterial);
@@ -35,25 +38,25 @@ Potree.TextSprite.prototype.setText = function(text){
 	this.text = text;
 	
 	this.update();
-}
+};
 
 Potree.TextSprite.prototype.setTextColor = function(color){
 	this.textColor = color;
 	
 	this.update();
-}
+};
 
 Potree.TextSprite.prototype.setBorderColor = function(color){
 	this.borderColor = color;
 	
 	this.update();
-}
+};
 
 Potree.TextSprite.prototype.setBackgroundColor = function(color){
 	this.backgroundColor = color;
 	
 	this.update();
-}
+};
 
 Potree.TextSprite.prototype.update = function(){
 
@@ -105,7 +108,7 @@ Potree.TextSprite.prototype.update = function(){
 	this.sprite.scale.set(spriteWidth*0.01,spriteHeight*0.01,1.0);
 		
 	//this.material = spriteMaterial;						  
-}
+};
 
 Potree.TextSprite.prototype.roundRect = function(ctx, x, y, w, h, r) {
 	ctx.beginPath();
@@ -121,6 +124,6 @@ Potree.TextSprite.prototype.roundRect = function(ctx, x, y, w, h, r) {
 	ctx.closePath();
 	ctx.fill();
 	ctx.stroke();   
-}
+};
 
 
