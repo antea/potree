@@ -325,13 +325,26 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 		event.preventDefault();
 
 		var direction = (event.detail<0 || event.wheelDelta>0) ? 1 : -1;
-		scope.moveSpeed += scope.moveSpeed * 0.1 * direction;
 
-		scope.moveSpeed = Math.max(0.1, scope.moveSpeed);
+		var moveSpeed = scope.moveSpeed + scope.moveSpeed * 0.1 * direction;
+		moveSpeed = Math.max(0.1, moveSpeed);
 
+		scope.setMoveSpeed(moveSpeed);
+		
+		
 		scope.dispatchEvent( startEvent );
 		scope.dispatchEvent( endEvent );
 	}
+	
+	this.setMoveSpeed = function(value){
+		if(scope.moveSpeed !== value){
+			scope.moveSpeed = value;
+			scope.dispatchEvent( {
+				type: "move_speed_changed",
+				controls: scope
+			});
+		}
+	};
 
 	function onKeyDown( event ) {
 		if ( scope.enabled === false) return;
@@ -346,6 +359,10 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 			case scope.keys.A: scope.moveLeft = true; break;
 			case scope.keys.D: scope.moveRight = true; break;			
 		}
+		
+		//if(scope.moveForward || scope.moveBackward || scope.moveLeft || scope.moveRight){
+//			scope.dispatchEvent( startEvent );
+	//	}
 	}
 	
 	function onKeyUp( event ) {
@@ -366,8 +383,14 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 	this.domElement.addEventListener( 'mousewheel', onMouseWheel, false );
 	this.domElement.addEventListener( 'DOMMouseScroll', onMouseWheel, false ); // firefox
 
-	window.addEventListener( 'keydown', onKeyDown, false );
-	window.addEventListener( 'keyup', onKeyUp, false );
+	if(this.domElement.tabIndex === -1){
+		this.domElement.tabIndex = 2222;
+	}
+	this.domElement.addEventListener( 'keydown', onKeyDown, false );
+	this.domElement.addEventListener( 'keyup', onKeyUp, false );
+	
+	//document.body.addEventListener( 'keydown', onKeyDown, false );
+	//document.body.addEventListener( 'keyup', onKeyUp, false );
 
 };
 

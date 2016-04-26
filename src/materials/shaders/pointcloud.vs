@@ -38,6 +38,7 @@ uniform float far;
 
 #if defined use_clip_box
 	uniform mat4 clipBoxes[max_clip_boxes];
+	uniform vec3 clipBoxPositions[max_clip_boxes];
 #endif
 
 
@@ -74,7 +75,7 @@ varying vec3	vNormal;
 // OCTREE
 // ---------------------
 
-#if (defined(adaptive_point_size) || defined(color_type_tree_depth)) && defined(tree_type_octree)
+#if (defined(adaptive_point_size) || defined(color_type_lod)) && defined(tree_type_octree)
 /**
  * number of 1-bits up to inclusive index position
  * number is treated as if it were an integer in the range 0-255
@@ -104,9 +105,9 @@ bool isBitSet(float number, float index){
 
 
 /**
- * find the tree depth at the point position
+ * find the LOD at the point position
  */
-float getLocalTreeDepth(){
+float getLOD(){
 	vec3 offset = vec3(0.0, 0.0, 0.0);
 	float iOffset = 0.0;
 	float depth = 0.0;
@@ -133,7 +134,7 @@ float getLocalTreeDepth(){
 }
 
 float getPointSizeAttenuation(){
-	return pow(1.9, getLocalTreeDepth());
+	return pow(1.9, getLOD());
 }
 
 
@@ -144,9 +145,9 @@ float getPointSizeAttenuation(){
 // KD-TREE
 // ---------------------
 
-#if (defined(adaptive_point_size) || defined(color_type_tree_depth)) && defined(tree_type_kdtree)
+#if (defined(adaptive_point_size) || defined(color_type_lod)) && defined(tree_type_kdtree)
 
-float getLocalTreeDepth(){
+float getLOD(){
 	vec3 offset = vec3(0.0, 0.0, 0.0);
 	float iOffset = 0.0;
 	float depth = 0.0;
@@ -204,7 +205,7 @@ float getLocalTreeDepth(){
 }
 
 float getPointSizeAttenuation(){
-	return pow(1.3, getLocalTreeDepth());
+	return pow(1.3, getLOD());
 }
 
 #endif
@@ -250,8 +251,8 @@ void main() {
 		vColor = texture2D(gradient, vec2(w,1.0-w)).rgb;
 	#elif defined color_type_color
 		vColor = uColor;
-	#elif defined color_type_tree_depth
-		float depth = getLocalTreeDepth();
+	#elif defined color_type_lod
+		float depth = getLOD();
 		float w = depth / 30.0;
 		vColor = texture2D(gradient, vec2(w,1.0-w)).rgb;
 	#elif defined color_type_point_index
@@ -351,6 +352,19 @@ void main() {
 			#if defined clip_highlight_inside
 			vColor.r += 0.5;
 			#endif
+			
+			//vec3 cp = clipBoxPositions[0];
+			//vec3 diff = vWorldPosition - cp;
+			//vec3 dir = normalize(diff);
+			//dir.z = 0.0;
+			//dir = normalize(dir);
+			//
+			//vec4 worldPosition = modelMatrix * vec4( position + dir * 20.0, 1.0 );
+			//vec4 mvPosition = modelViewMatrix * vec4( position + dir * 20.0, 1.0 );
+			//vViewPosition = -mvPosition.xyz;
+			//vWorldPosition = worldPosition.xyz;
+			//gl_Position = projectionMatrix * mvPosition;
+			
 		}
 	
 	#endif

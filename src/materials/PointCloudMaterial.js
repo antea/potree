@@ -59,9 +59,11 @@ Potree.PointColorType = {
 	COLOR: 				1,
 	DEPTH: 				2,
 	HEIGHT: 			3,
+	ELEVATION: 			3,
 	INTENSITY: 			4,
 	INTENSITY_GRADIENT:	5,
-	TREE_DEPTH: 		6,
+	LOD: 				6,
+	LEVEL_OF_DETAIL: 	6,
 	POINT_INDEX: 		7,
 	CLASSIFICATION: 	8,
 	RETURN_NUMBER: 		9,
@@ -118,6 +120,8 @@ Potree.PointCloudMaterial = function(parameters){
 	var attributes = {};
 	var uniforms = {
 		spacing:			{ type: "f", value: 1.0 },
+		blendHardness:		{ type: "f", value: 2.0 },
+		blendDepthSupplement:	{ type: "f", value: 0.0 },
 		fov:				{ type: "f", value: 1.0 },
 		screenWidth:		{ type: "f", value: 1.0 },
 		screenHeight:		{ type: "f", value: 1.0 },
@@ -140,6 +144,7 @@ Potree.PointCloudMaterial = function(parameters){
 		gradient: 			{ type: "t", value: this.gradientTexture },
 		classificationLUT: 	{ type: "t", value: this.classificationTexture },
 		clipBoxes:			{ type: "Matrix4fv", value: [] },
+		clipBoxPositions:	{ type: "fv", value: null },
 		depthMap: 			{ type: "t", value: null },
 		diffuse:			{ type: "fv", value: [1,1,1]},
 		ambient:			{ type: "fv", value: [0.1, 0.1, 0.1]},
@@ -289,8 +294,8 @@ Potree.PointCloudMaterial.prototype.getDefines = function(){
 		defines += "#define color_type_intensity\n";
 	}else if(this._pointColorType === Potree.PointColorType.INTENSITY_GRADIENT){
 		defines += "#define color_type_intensity_gradient\n";
-	}else if(this._pointColorType === Potree.PointColorType.TREE_DEPTH){
-		defines += "#define color_type_tree_depth\n";
+	}else if(this._pointColorType === Potree.PointColorType.LOD){
+		defines += "#define color_type_lod\n";
 	}else if(this._pointColorType === Potree.PointColorType.POINT_INDEX){
 		defines += "#define color_type_point_index\n";
 	}else if(this._pointColorType === Potree.PointColorType.CLASSIFICATION){
@@ -346,11 +351,16 @@ Potree.PointCloudMaterial.prototype.setClipBoxes = function(clipBoxes){
 	}
 	
 	this.uniforms.clipBoxes.value = new Float32Array(this.numClipBoxes * 16);
+	this.uniforms.clipBoxPositions.value = new Float32Array(this.numClipBoxes * 3);
 	
 	for(var i = 0; i < this.numClipBoxes; i++){
 		var box = clipBoxes[i];
 		
-		this.uniforms.clipBoxes.value.set(box.elements, 16*i);
+		this.uniforms.clipBoxes.value.set(box.inverse.elements, 16*i);
+
+		this.uniforms.clipBoxPositions.value[3*i+0] = box.position.x;
+		this.uniforms.clipBoxPositions.value[3*i+1] = box.position.y;
+		this.uniforms.clipBoxPositions.value[3*i+2] = box.position.z;
 	}
 };
 

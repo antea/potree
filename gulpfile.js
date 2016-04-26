@@ -15,6 +15,7 @@ var File = gutil.File;
 var paths = {
 	potree : [
 		"src/Potree.js",
+		"src/PointCloudTree.js",
 		"src/WorkerManager.js",
 		"build/workers/BinaryDecoderWorker.js",
 		"build/shaders/shaders.js",
@@ -28,6 +29,7 @@ var paths = {
 		"src/materials/EyeDomeLightingMaterial.js",
 		"src/materials/BlurMaterial.js",
 		"src/FirstPersonControls.js",
+		"src/GeoControls.js",
 		"src/OrbitControls.js",
 		"src/EarthControls.js",
 		"src/LRU.js",
@@ -43,11 +45,20 @@ var paths = {
 		"src/utils/TransformationTool.js",
 		"src/utils/VolumeTool.js",
 		"src/arena4d/PointCloudArena4D.js",
-		"src/arena4d/PointCloudArena4DGeometry.js"
+		"src/arena4d/PointCloudArena4DGeometry.js",
+		"src/viewer/ProgressBar.js",
+		"src/viewer/viewer.js",
+		"src/viewer/profile.js",
+		"src/viewer/map.js"
 	],
 	laslaz: [
 		"build/workers/laslaz-worker.js",
 		"build/workers/lasdecoder-worker.js",
+	],
+	html: [
+		"src/viewer/potree.css",
+		"src/viewer/sidebar.html",
+		"src/viewer/profile.html"
 	]
 };
 
@@ -106,20 +117,19 @@ gulp.task("scripts", ['workers','shaders'], function(){
 	gulp.src(paths.potree)
 		.pipe(concat('potree.js'))
 		.pipe(size({showFiles: true}))
-		.pipe(gulp.dest('build/js'))
+		.pipe(gulp.dest('build/potree'))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify({preserveComments: 'some'}))
 		.pipe(size({showFiles: true}))
-		.pipe(gulp.dest('build/js'));
+		.pipe(gulp.dest('build/potree'));
 		
 	gulp.src(paths.laslaz)
 		.pipe(concat('laslaz.js'))
 		.pipe(size({showFiles: true}))
-		.pipe(gulp.dest('build/js'))
-		.pipe(rename({suffix: '.min'}))
-		.pipe(uglify({preserveComments: 'some'}))
-		.pipe(size({showFiles: true}))
-		.pipe(gulp.dest('build/js'));
+		.pipe(gulp.dest('build/potree'));
+		
+	gulp.src(paths.html)
+		.pipe(gulp.dest('build/potree'));
 
 	return;
 });

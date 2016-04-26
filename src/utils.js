@@ -3,6 +3,12 @@ Potree.utils = function(){
 	
 };
 
+Potree.utils.normalizeURL = function(url){
+	var u = new URL(url);
+	
+	return u.protocol + "//" + u.hostname + u.pathname.replace(/\/+/g, "/");
+};
+
 Potree.utils.pathExists = function(url){
 	var req = new XMLHttpRequest();
 	req.open('GET', url, false);
@@ -303,5 +309,10 @@ Potree.utils.screenPass = new function(){
 	};
 }();
 	
-	
+// from http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+Potree.utils.getParameterByName = function(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 	

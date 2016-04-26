@@ -359,21 +359,21 @@ Potree.OrbitControls = function ( object, domElement ) {
 		if ( scope.enabled === false ) return;
 		event.preventDefault();
 
-		if ( event.button === 0 ) {
+		if ( event.button === THREE.MOUSE.LEFT ) {
 			if ( scope.noRotate === true ) return;
 
 			state = STATE.ROTATE;
 
 			rotateStart.set( event.clientX, event.clientY );
 
-		} else if ( event.button === 1 ) {
+		} else if ( event.button === THREE.MOUSE.MIDDLE ) {
 			if ( scope.noZoom === true ) return;
 
 			state = STATE.DOLLY;
 
 			dollyStart.set( event.clientX, event.clientY );
 
-		} else if ( event.button === 2 ) {
+		} else if ( event.button === THREE.MOUSE.RIGHT ) {
 			if ( scope.noPan === true ) return;
 
 			state = STATE.PAN;
@@ -500,22 +500,18 @@ Potree.OrbitControls = function ( object, domElement ) {
 
 			case scope.keys.UP:
 				scope.pan( 0, scope.keyPanSpeed );
-				//scope.update();
 				break;
 
 			case scope.keys.BOTTOM:
 				scope.pan( 0, - scope.keyPanSpeed );
-				//scope.update();
 				break;
 
 			case scope.keys.LEFT:
 				scope.pan( scope.keyPanSpeed, 0 );
-				//scope.update();
 				break;
 
 			case scope.keys.RIGHT:
 				scope.pan( - scope.keyPanSpeed, 0 );
-				//scope.update();
 				break;
 
 		}
@@ -670,7 +666,10 @@ Potree.OrbitControls = function ( object, domElement ) {
 	this.domElement.addEventListener( 'touchend', touchend, false );
 	this.domElement.addEventListener( 'touchmove', touchmove, false );
 
-	window.addEventListener( 'keydown', onKeyDown, false );
+	if(this.domElement.tabIndex === -1){
+		this.domElement.tabIndex = 2222;
+	}
+	this.domElement.addEventListener( 'keydown', onKeyDown, false );
 
 };
 

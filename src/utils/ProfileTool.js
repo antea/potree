@@ -192,6 +192,10 @@ Potree.HeightProfile = function(){
 		this.update();
 	};
 	
+	this.getWidth = function(){
+		return this.width;
+	};
+	
 	this.update = function(){
 	
 		if(this.points.length === 0){
@@ -376,6 +380,10 @@ Potree.ProfileTool = function(scene, camera, renderer){
 			if(I){
 				var pos = I.clone();
 				
+				if(scope.activeProfile.points.length === 1 && scope.activeProfile.width === null){
+					scope.activeProfile.setWidth((camera.position.distanceTo(pos) / 50));
+				}
+				
 				scope.activeProfile.addMarker(pos);
 				
 				var event = {
@@ -494,6 +502,7 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		if(scope.activeProfile && state === STATE.INSERT){
 			scope.activeProfile.removeMarker(scope.activeProfile.points.length-1);
 			scope.finishInsertion();
+			event.stopImmediatePropagation();
 		}
 	}
 	
@@ -542,7 +551,9 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		
 		for(var i = 0; i < pointClouds.length; i++){
 			var pointcloud = pointClouds[i];
-			var point = pointcloud.pick(scope.renderer, scope.camera, ray);
+			var point = pointcloud.pick(scope.renderer, scope.camera, ray, {
+				pickOutsideClipRegion: true
+			});
 			
 			if(!point){
 				continue;
@@ -564,7 +575,7 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		
 		var args = args || {};
 		var clip = args.clip || false;
-		var width = args.width || 1.0;
+		var width = args.width || null;
 		
 		this.activeProfile = new Potree.HeightProfile();
 		this.activeProfile.clip = clip;
@@ -603,6 +614,9 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		profile.addEventListener("marker_moved", function(event){
 			scope.dispatchEvent(event);
 		});
+		profile.addEventListener("width_changed", function(event){
+			scope.dispatchEvent(event);
+		});
 	};
 	
 	this.removeProfile = function(profile){
@@ -610,9 +624,10 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		var index = this.profiles.indexOf(profile);
 		if(index >= 0){
 			this.profiles.splice(index, 1);
+			
+			this.dispatchEvent({"type": "profile_removed", profile: profile});
 		}
 		
-		this.dispatchEvent({"type": "profile_removed", profile: profile});
 	};
 	
 	this.reset = function(){
@@ -645,6 +660,7 @@ Potree.ProfileTool = function(scene, camera, renderer){
 		this.update();
 		renderer.render(this.sceneProfile, this.camera);
 	};
+	
 	
 	this.domElement.addEventListener( 'click', onClick, false);
 	this.domElement.addEventListener( 'dblclick', onDoubleClick, false);

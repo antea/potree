@@ -65,12 +65,16 @@ Potree.POCLoader.load = function load(url, callback, login, password) {
 					pco.additionalOffset = fMno.additionalOffset;
 				}
 
+				// for precision problem presentation purposes
+				//offset.set(50000*1000,0,0);
+				
 				boundingBox.min.add(offset);
 				boundingBox.max.add(offset);
 				
 				tightBoundingBox.min.add(offset);
 				tightBoundingBox.max.add(offset);
 				
+				pco.projection = fMno.projection;
 				pco.boundingBox = boundingBox;
 				pco.tightBoundingBox = tightBoundingBox;
 				pco.boundingSphere = boundingBox.getBoundingSphere();
@@ -134,6 +138,8 @@ Potree.POCLoader.load = function load(url, callback, login, password) {
 	}catch(e){
 		console.log("loading failed: '" + url + "'");
 		console.log(e);
+		
+		callback();
 	}
 };
 
