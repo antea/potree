@@ -743,9 +743,10 @@ Potree.PointCloudOctree.prototype.pick = function(renderer, camera, ray, params)
 
 	var params = params || {};
 	var pickWindowSize = params.pickWindowSize || 17;
-	
+	var pickOutsideClipRegion = params.pickOutsideClipRegion || false;
+
 	var nodes = this.nodesOnRay(this.visibleNodes, ray);
-	
+
 	if(nodes.length === 0){
 		return null;
 	}
@@ -782,14 +783,25 @@ Potree.PointCloudOctree.prototype.pick = function(renderer, camera, ray, params)
 		this.pickMaterial = new Potree.PointCloudMaterial();
 		this.pickMaterial.pointColorType = Potree.PointColorType.POINT_INDEX;
 	}
-	
-	this.pickMaterial.pointSizeType = this.material.pointSizeType;
-	this.pickMaterial.size = this.material.size;
+
+	this.pickMaterial.pointSizeType = 0; // this.material.pointSizeType;
+	this.pickMaterial.size = 3; // this.material.size;
 	this.pickMaterial.pointShape = this.material.pointShape;
 	this.pickMaterial.interpolate = this.material.interpolate;
 	this.pickMaterial.minSize = this.material.minSize;
 	this.pickMaterial.maxSize = this.material.maxSize;
-	
+
+	if(pickOutsideClipRegion){
+			this.pickMaterial.clipMode = Potree.ClipMode.DISABLED;
+	}else{
+			this.pickMaterial.clipMode = this.material.clipMode;
+			if(this.material.clipMode === Potree.ClipMode.CLIP_OUTSIDE){
+					this.pickMaterial.setClipBoxes(this.material.clipBoxes);
+			}else{
+					this.pickMaterial.setClipBoxes([]);
+			}
+	}
+
 	this.updateMaterial(this.pickMaterial, nodes, camera, renderer);
 
 	var _gl = renderer.context;
@@ -854,10 +866,23 @@ Potree.PointCloudOctree.prototype.pick = function(renderer, camera, ray, params)
 	var pixels = new Uint8Array(buffer);
 	var ibuffer = new Uint32Array(buffer);
 	renderer.context.readPixels(
-		pixelPos.x - (pickWindowSize-1) / 2, pixelPos.y - (pickWindowSize-1) / 2, 
-		pickWindowSize, pickWindowSize, 
+		pixelPos.x - (pickWindowSize-1) / 2, pixelPos.y - (pickWindowSize-1) / 2,
+		pickWindowSize, pickWindowSize,
 		renderer.context.RGBA, renderer.context.UNSIGNED_BYTE, pixels);
 		
+	// { // open window with image
+  // 	var br = new ArrayBuffer(width*height*4);
+  // 	var bp = new Uint8Array(br);
+  // 	renderer.context.readPixels( 0, 0, width, height,
+  // 		renderer.context.RGBA, renderer.context.UNSIGNED_BYTE, bp);
+  //
+  // 	var img = pixelsArrayToImage(bp, width, height);
+  // 	var screenshot = img.src;
+  //
+  // 	var w = window.open();
+  // 	w.document.write('<img src="'+screenshot+'" style="transform: scaley(-1)"/>');
+  // }
+
 	// find closest hit inside pixelWindow boundaries
 	var min = Number.MAX_VALUE;
 	var hit = null;
