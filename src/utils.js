@@ -1,10 +1,6 @@
 
 import * as THREE from "../libs/three.js/build/three.module.js";
 import {XHRFactory} from "./XHRFactory.js";
-import {Volume} from "./utils/Volume.js";
-import {Profile} from "./utils/Profile.js";
-import {Measure} from "./utils/Measure.js";
-import {PolygonClipVolume} from "./utils/PolygonClipVolume.js";
 
 export class Utils {
 	static async loadShapefileFeatures (file, callback) {
@@ -645,7 +641,7 @@ export class Utils {
 
 			let geometry = node.geometryNode.geometry;
 			let gpsTime = geometry.attributes["gps-time"];
-			let range = gpsTime.potree.range;
+			let range = gpsTime.Globals.range;
 
 			for(let i = 0; i < gpsTime.array.length; i++){
 				let value = gpsTime.array[i];
@@ -828,30 +824,6 @@ export class Utils {
 
 	}
 
-	static getMeasurementIcon(measurement){
-		if (measurement instanceof Measure) {
-			if (measurement.showDistances && !measurement.showArea && !measurement.showAngles) {
-				return `${Potree.resourcePath}/icons/distance.svg`;
-			} else if (measurement.showDistances && measurement.showArea && !measurement.showAngles) {
-				return `${Potree.resourcePath}/icons/area.svg`;
-			} else if (measurement.maxMarkers === 1) {
-				return `${Potree.resourcePath}/icons/point.svg`;
-			} else if (!measurement.showDistances && !measurement.showArea && measurement.showAngles) {
-				return `${Potree.resourcePath}/icons/angle.png`;
-			} else if (measurement.showHeight) {
-				return `${Potree.resourcePath}/icons/height.svg`;
-			} else {
-				return `${Potree.resourcePath}/icons/distance.svg`;
-			}
-		} else if (measurement instanceof Profile) {
-			return `${Potree.resourcePath}/icons/profile.svg`;
-		} else if (measurement instanceof Volume) {
-			return `${Potree.resourcePath}/icons/volume.svg`;
-		} else if (measurement instanceof PolygonClipVolume) {
-			return `${Potree.resourcePath}/icons/clip-polygon.svg`;
-		}
-	}
-
 	static lineToLineIntersection(P0, P1, P2, P3){
 
 		const P = [P0, P1, P2, P3];
@@ -909,13 +881,13 @@ export class Utils {
 
 		return center;
 
-		// Potree.Utils.debugLine(viewer.scene.scene, P0, P1, 0x00ff00);
-		// Potree.Utils.debugLine(viewer.scene.scene, P2, P3, 0x0000ff);
+		// Globals.Utils.debugLine(viewer.scene.scene, P0, P1, 0x00ff00);
+		// Globals.Utils.debugLine(viewer.scene.scene, P2, P3, 0x0000ff);
 
-		// Potree.Utils.debugSphere(viewer.scene.scene, center, 0.03, 0xff00ff);
+		// Globals.Utils.debugSphere(viewer.scene.scene, center, 0.03, 0xff00ff);
 
 		// const radius = center.distanceTo(A);
-		// Potree.Utils.debugCircle(viewer.scene.scene, center, radius, new THREE.Vector3(0, 0, 1), 0xff00ff);
+		// Globals.Utils.debugCircle(viewer.scene.scene, center, radius, new THREE.Vector3(0, 0, 1), 0xff00ff);
 	}
 
 	static getNorthVec(p1, distance, projection){

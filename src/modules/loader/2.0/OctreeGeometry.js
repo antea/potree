@@ -1,5 +1,6 @@
 
 import * as THREE from "../../../../libs/three.js/build/three.module.js";
+import {Globals} from "../../../globals";
 
 export class OctreeGeometry{
 
@@ -71,7 +72,7 @@ export class OctreeGeometryNode{
 
 	load(){
 
-		if (Potree.numNodesLoading >= Potree.maxNodesLoading) {
+		if (Globals.numNodesLoading >= Globals.maxNodesLoading) {
 			return;
 		}
 

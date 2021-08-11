@@ -2,6 +2,7 @@
 import * as THREE from "../libs/three.js/build/three.module.js";
 import {ClipTask, ClipMethod} from "./defines.js";
 import {Box3Helper} from "./utils/Box3Helper.js";
+import {Globals} from "./globals";
 
 export function updatePointClouds(pointclouds, camera, renderer){
 
@@ -27,7 +28,7 @@ export function updatePointClouds(pointclouds, camera, renderer){
 		pointcloud.updateVisibleBounds();
 	}
 
-	exports.lru.freeMemory();
+	Globals.lru.freeMemory();
 
 	return result;
 };
@@ -307,7 +308,7 @@ export function updateVisibility(pointclouds, camera, renderer){
 		}
 
 		if (node.isTreeNode()) {
-			exports.lru.touch(node.geometryNode);
+			Globals.lru.touch(node.geometryNode);
 			node.sceneNode.visible = true;
 			node.sceneNode.material = pointcloud.material;
 
@@ -337,8 +338,8 @@ export function updateVisibility(pointclouds, camera, renderer){
 				node.boundingBoxNode.visible = false;
 			}
 
-			// if(node.boundingBoxNode !== undefined && exports.debug.allowedNodes !== undefined){
-			// 	if(!exports.debug.allowedNodes.includes(node.name)){
+			// if(node.boundingBoxNode !== undefined && Globals.debug.allowedNodes !== undefined){
+			// 	if(!Globals.debug.allowedNodes.includes(node.name)){
 			// 		node.boundingBoxNode.visible = false;
 			// 	}
 			// }

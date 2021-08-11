@@ -1,4 +1,5 @@
 import {EptBinaryLoader} from "./BinaryLoader.js";
+import {Globals} from "../../globals";
 
 export class EptZstandardLoader extends EptBinaryLoader {
     extension() {
@@ -6,7 +7,7 @@ export class EptZstandardLoader extends EptBinaryLoader {
     }
 
     workerPath() {
-        return Potree.scriptPath + '/workers/EptZstandardDecoderWorker.js';
+        return Globals.scriptPath + '/workers/EptZstandardDecoderWorker.js';
     }
 };
 

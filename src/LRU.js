@@ -135,12 +135,12 @@ class LRU{
 		return string;
 	}
 
-	freeMemory(){
+	freeMemory(pointLoadLimit){
 		if (this.elements <= 1) {
 			return;
 		}
 
-		while (this.numPoints > Potree.pointLoadLimit) {
+		while (this.numPoints > pointLoadLimit) {
 			let element = this.first;
 			let node = element.node;
 			this.disposeDescendants(node);

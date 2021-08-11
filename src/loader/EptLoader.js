@@ -2,6 +2,8 @@
  * @author Connor Manning
  */
 
+import {PointCloudEptGeometry, PointCloudEptGeometryNode} from "../PointCloudEptGeometry";
+
 export class EptLoader {
 	static async load(file, callback) {
 
@@ -9,8 +11,8 @@ export class EptLoader {
 		let json = await response.json();
 
 		let url = file.substr(0, file.lastIndexOf('ept.json'));
-		let geometry = new Potree.PointCloudEptGeometry(url, json);
-		let root = new Potree.PointCloudEptGeometryNode(geometry);
+		let geometry = new PointCloudEptGeometry(url, json);
+		let root = new PointCloudEptGeometryNode(geometry);
 
 		geometry.root = root;
 		geometry.root.load();

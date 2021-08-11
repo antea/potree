@@ -782,7 +782,7 @@ export class Measure extends THREE.Object3D {
 				const AC = C.clone().sub(A);
 				const N = AC.clone().cross(AB).normalize();
 
-				const center = Potree.Utils.computeCircleCenter(A, B, C);
+				const center = Utils.computeCircleCenter(A, B, C);
 				const radius = center.distanceTo(A);
 
 

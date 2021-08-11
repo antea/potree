@@ -1,5 +1,6 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
+import {SphereVolume} from "../utils/Volume";
 
 
 export class PotreeRenderer {
@@ -76,7 +77,7 @@ export class PotreeRenderer {
 		}
 		
 		viewer.pRenderer.render(viewer.scene.scenePointCloud, camera, null, {
-			clipSpheres: viewer.scene.volumes.filter(v => (v instanceof Potree.SphereVolume)),
+			clipSpheres: viewer.scene.volumes.filter(v => (v instanceof SphereVolume)),
 		});
 		
 		// render scene

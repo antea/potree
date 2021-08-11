@@ -2,6 +2,7 @@
 import * as THREE from "../../../libs/three.js/build/three.module.js";
 import { EventDispatcher } from "../../EventDispatcher.js";
 import {TextSprite} from "../../TextSprite.js";
+import {Utils} from "../../utils";
 
 let sg = new THREE.SphereGeometry(1, 8, 8);
 let sgHigh = new THREE.SphereGeometry(1, 128, 128);
@@ -216,7 +217,7 @@ export class Images360 extends EventDispatcher{
 		let camera = viewer.scene.getActiveCamera();
 		let domElement = viewer.renderer.domElement;
 
-		let ray = Potree.Utils.mouseToRay(mouse, camera, domElement.clientWidth, domElement.clientHeight);
+		let ray = Utils.mouseToRay(mouse, camera, domElement.clientWidth, domElement.clientHeight);
 
 		// let tStart = performance.now();
 		raycaster.ray.copy(ray);

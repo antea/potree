@@ -1,7 +1,6 @@
 {
-  "name": "potree",
-  "private": true,
-  "version": "1.7.0",
+  "name": "@antea/potree",
+  "version": "0.0.2",
   "description": "WebGL point cloud viewer",
   "keywords": [
     "point",
@@ -15,11 +14,10 @@
     "browser",
     "tool"
   ],
-  "main": "./build/potree/potree.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "gulp watch",
-    "build": "gulp build pack",
-    "postinstall": "npm run build"
+    "build": "gulp build pack"
   },
   "dependencies": {
     "gulp": "^4.0.2",
@@ -30,5 +28,8 @@
     "through": "~2.3.4"
   },
   "author": "Markus Schütz",
-  "license": "BSD-2-CLAUSE"
+  "license": "BSD-2-CLAUSE",
+  "files": [
+    "src"
+  ]
 }

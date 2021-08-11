@@ -2,6 +2,7 @@
 import * as THREE from "../../libs/three.js/build/three.module.js";
 
 import {Utils} from "../utils.js";
+import {Globals} from "../globals";
 
 export class Compass{
 
@@ -50,7 +51,7 @@ export class Compass{
 
 	createElement(){
 		const style = `style="position: absolute; top: 10px; right: 10px; z-index: 10000; width: 64px;"`;
-		const img = $(`<img src="${Potree.resourcePath}/images/compas.svg" ${style} />`);
+		const img = $(`<img src="${Globals.resourcePath}/images/compas.svg" ${style} />`);
 
 		return img;
 	}

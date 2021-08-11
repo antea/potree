@@ -1,6 +1,7 @@
 
 import * as THREE from "../libs/three.js/build/three.module.js";
 import {Points} from "./Points.js";
+import {Globals} from "./globals";
 
 export class ProfileData {
 	constructor (profile) {
@@ -128,7 +129,7 @@ export class ProfileRequest {
 			if (node.loaded) {
 				// add points to result
 				intersectedNodes.push(node);
-				exports.lru.touch(node);
+				Globals.lru.touch(node);
 				this.highestLevelServed = Math.max(node.getLevel(), this.highestLevelServed);
 
 				var geom = node.pcoGeometry;
