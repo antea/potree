@@ -30,6 +30,7 @@
   "author": "Markus Schütz",
   "license": "BSD-2-CLAUSE",
   "files": [
-    "src"
+    "src",
+    "build/shaders/shaders.js"
   ]
 }
