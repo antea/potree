@@ -16,6 +16,7 @@
   ],
   "main": "src/main.js",
   "scripts": {
+    "prepack": "npm run build",
     "start": "gulp watch",
     "build": "gulp build pack"
   },
