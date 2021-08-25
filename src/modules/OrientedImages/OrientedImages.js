@@ -1,5 +1,6 @@
 
 import * as THREE from "../../../libs/three.js/build/three.module.js";
+import {Geometry} from "../../../libs/three.js/examples/jsm/deprecated/Geometry";
 import {OrientedImageControls} from "./OrientedImageControls.js";
 import { EventDispatcher } from "../../EventDispatcher.js";
 import {PolygonClipVolume} from "../../utils/PolygonClipVolume";
@@ -55,7 +56,7 @@ function createMaterial(){
 }
 
 const planeGeometry = new THREE.PlaneGeometry(1, 1);
-const lineGeometry = new THREE.Geometry();
+const lineGeometry = new Geometry();
 
 lineGeometry.vertices.push(
 	new THREE.Vector3(-0.5, -0.5, 0),

@@ -1,5 +1,6 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
+import {Geometry} from "../../libs/three.js/examples/jsm/deprecated/Geometry";
 import {Utils} from "../utils.js";
 
 export class Profile extends THREE.Object3D{
@@ -84,7 +85,7 @@ export class Profile extends THREE.Object3D{
 
 		// edges & boxes
 		if (this.points.length > 1) {
-			let lineGeometry = new THREE.Geometry();
+			let lineGeometry = new Geometry();
 			lineGeometry.vertices.push(new THREE.Vector3(), new THREE.Vector3());
 			lineGeometry.colors.push(this.lineColor, this.lineColor, this.lineColor);
 			let lineMaterial = new THREE.LineBasicMaterial({

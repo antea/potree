@@ -384,16 +384,16 @@ export class MeasuringTool extends EventDispatcher{
 			}
 
 			{ // edges
-				const materials = [
-					measure.circleRadiusLine.material,
-					...measure.edges.map( (e) => e.material),
-					measure.heightEdge.material,
-					measure.circleLine.material,
-				];
+				// const materials = [
+				// 	measure.circleRadiusLine.material,
+				// 	...measure.edges.map( (e) => e.material),
+				// 	measure.heightEdge.material,
+				// 	measure.circleLine.material,
+				// ];
 
-				for(const material of materials){
-					material.resolution.set(clientWidth, clientHeight);
-				}
+				// for(const material of materials){
+				// 	material.resolution.set(clientWidth, clientHeight);
+				// }
 			}
 
 			if(!this.showLabels){

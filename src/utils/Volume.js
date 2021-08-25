@@ -65,7 +65,7 @@ export class Volume extends THREE.Object3D {
 	}
 
 	update () {
-		
+
 	};
 
 	raycast (raycaster, intersects) {
@@ -88,7 +88,7 @@ export class Volume extends THREE.Object3D {
 				object: this
 			});
 		}
-		
+
 	}
 
 	get modifieable () {
@@ -114,41 +114,41 @@ export class BoxVolume extends Volume{
 		let boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 		boxGeometry.computeBoundingBox();
 
-		let boxFrameGeometry = new THREE.Geometry();
+		let boxFrameGeometry = new THREE.BufferGeometry();
 		{
-			let Vector3 = THREE.Vector3;
-
-			boxFrameGeometry.vertices.push(
+			let vertices = [];
+			vertices.push(
 
 				// bottom
-				new Vector3(-0.5, -0.5, 0.5),
-				new Vector3(0.5, -0.5, 0.5),
-				new Vector3(0.5, -0.5, 0.5),
-				new Vector3(0.5, -0.5, -0.5),
-				new Vector3(0.5, -0.5, -0.5),
-				new Vector3(-0.5, -0.5, -0.5),
-				new Vector3(-0.5, -0.5, -0.5),
-				new Vector3(-0.5, -0.5, 0.5),
+				-0.5, -0.5, 0.5,
+				0.5, -0.5, 0.5,
+				0.5, -0.5, 0.5,
+				0.5, -0.5, -0.5,
+				0.5, -0.5, -0.5,
+				-0.5, -0.5, -0.5,
+				-0.5, -0.5, -0.5,
+				-0.5, -0.5, 0.5,
 				// top
-				new Vector3(-0.5, 0.5, 0.5),
-				new Vector3(0.5, 0.5, 0.5),
-				new Vector3(0.5, 0.5, 0.5),
-				new Vector3(0.5, 0.5, -0.5),
-				new Vector3(0.5, 0.5, -0.5),
-				new Vector3(-0.5, 0.5, -0.5),
-				new Vector3(-0.5, 0.5, -0.5),
-				new Vector3(-0.5, 0.5, 0.5),
+				-0.5, 0.5, 0.5,
+				0.5, 0.5, 0.5,
+				0.5, 0.5, 0.5,
+				0.5, 0.5, -0.5,
+				0.5, 0.5, -0.5,
+				-0.5, 0.5, -0.5,
+				-0.5, 0.5, -0.5,
+				-0.5, 0.5, 0.5,
 				// sides
-				new Vector3(-0.5, -0.5, 0.5),
-				new Vector3(-0.5, 0.5, 0.5),
-				new Vector3(0.5, -0.5, 0.5),
-				new Vector3(0.5, 0.5, 0.5),
-				new Vector3(0.5, -0.5, -0.5),
-				new Vector3(0.5, 0.5, -0.5),
-				new Vector3(-0.5, -0.5, -0.5),
-				new Vector3(-0.5, 0.5, -0.5),
+				-0.5, -0.5, 0.5,
+				-0.5, 0.5, 0.5,
+				0.5, -0.5, 0.5,
+				0.5, 0.5, 0.5,
+				0.5, -0.5, -0.5,
+				0.5, 0.5, -0.5,
+				-0.5, -0.5, -0.5,
+				-0.5, 0.5, -0.5,
 
 			);
+			boxFrameGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
 
 		}
 
@@ -229,7 +229,8 @@ export class SphereVolume extends Volume{
 		this.label.visible = false;
 
 
-		let frameGeometry = new THREE.Geometry();
+		let frameGeometry = new THREE.BufferGeometry();
+		let vertices = [];
 		{
 			let steps = 64;
 			let uSegments = 8;
@@ -252,11 +253,9 @@ export class SphereVolume extends Volume{
 					let heightNext = Math.sin(vNext);
 					let xyAmountNext = Math.cos(vNext);
 
-					let vertex = new THREE.Vector3(dirx * xyAmount, diry * xyAmount, height);
-					frameGeometry.vertices.push(vertex);
+					vertices.push(dirx * xyAmount, diry * xyAmount, height);
 
-					let vertexNext = new THREE.Vector3(dirx * xyAmountNext, diry * xyAmountNext, heightNext);
-					frameGeometry.vertices.push(vertexNext);
+					vertices.push(dirx * xyAmountNext, diry * xyAmountNext, heightNext);
 				}
 			}
 
@@ -282,15 +281,14 @@ export class SphereVolume extends Volume{
 
 					let xyAmount = Math.sqrt(1 - height * height);
 
-					let vertex = new THREE.Vector3(dirx * xyAmount, diry * xyAmount, height);
-					frameGeometry.vertices.push(vertex);
+					vertices.push(dirx * xyAmount, diry * xyAmount, height);
 
-					let vertexNext = new THREE.Vector3(dirxNext * xyAmount, diryNext * xyAmount, height);
-					frameGeometry.vertices.push(vertexNext);
+					vertices.push(dirxNext * xyAmount, diryNext * xyAmount, height);
 				}
 			}
 		}
 
+		frameGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
 		this.frame = new THREE.LineSegments(frameGeometry, new THREE.LineBasicMaterial({color: 0x000000}));
 		this.add(this.frame);
 
@@ -331,7 +329,7 @@ export class SphereVolume extends Volume{
 			});
 		}
 	}
-	
+
 	// see https://en.wikipedia.org/wiki/Ellipsoid#Volume
 	getVolume(){
 		return (4 / 3) * Math.PI * this.scale.x * this.scale.y * this.scale.z;

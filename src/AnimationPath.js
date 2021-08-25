@@ -1,5 +1,6 @@
 
 import * as THREE from "../libs/three.js/build/three.module.js";
+import {Geometry} from "../libs/three.js/examples/jsm/deprecated/Geometry";
 
 export class PathAnimation{
 	
@@ -111,7 +112,7 @@ export class AnimationPath{
 	}
 
 	getGeometry () {
-		let geometry = new THREE.Geometry();
+		let geometry = new Geometry();
 
 		let samples = 500;
 		let i = 0;

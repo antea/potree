@@ -1,5 +1,6 @@
 
 import * as THREE from "../libs/three.js/build/three.module.js";
+import {Geometry} from "../libs/three.js/examples/jsm/deprecated/Geometry";
 import {XHRFactory} from "./XHRFactory.js";
 
 export class Utils {
@@ -71,7 +72,7 @@ export class Utils {
 	static debugLine(parent, start, end, color){
 
 		let material = new THREE.LineBasicMaterial({ color: color }); 
-		let geometry = new THREE.Geometry();
+		let geometry = new Geometry();
 
 		const p1 = new THREE.Vector3(0, 0, 0);
 		const p2 = end.clone().sub(start);
@@ -98,7 +99,7 @@ export class Utils {
 	static debugCircle(parent, center, radius, normal, color){
 		let material = new THREE.LineBasicMaterial({ color: color });
 
-		let geometry = new THREE.Geometry();
+		let geometry = new Geometry();
 
 		let n = 32;
 		for(let i = 0; i <= n; i++){
@@ -339,7 +340,7 @@ export class Utils {
 			color: color || 0x888888
 		});
 
-		let geometry = new THREE.Geometry();
+		let geometry = new Geometry();
 		for (let i = 0; i <= length; i++) {
 			geometry.vertices.push(new THREE.Vector3(-(spacing * width) / 2, i * spacing - (spacing * length) / 2, 0));
 			geometry.vertices.push(new THREE.Vector3(+(spacing * width) / 2, i * spacing - (spacing * length) / 2, 0));
