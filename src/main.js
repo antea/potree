@@ -3,6 +3,7 @@
 
 export * from "./utils/Volume";
 export * from "./utils/MeasuringTool";
+export * from "./utils/Measure";
 export * from "./utils/TransformationTool";
 export * from "./utils/VolumeTool";
 export * from "./defines";
@@ -24,3 +25,4 @@ export * from "./viewer/Scene";
 export * from "./materials/Gradients";
 export * from "./PointCloudOctree";
 export * from "./XHRFactory";
+export * from "./TextSprite";

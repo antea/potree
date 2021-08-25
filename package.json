@@ -31,6 +31,7 @@
   "license": "BSD-2-CLAUSE",
   "files": [
     "src",
-    "build/shaders/shaders.js"
+    "build/shaders/shaders.js",
+    "libs/three.js/lines"
   ]
 }
