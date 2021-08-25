@@ -32,6 +32,7 @@
   "files": [
     "src",
     "build/shaders/shaders.js",
-    "libs/three.js/lines"
+    "libs/three.js/lines",
+    "build/potree/workers/BinaryDecoderWorker.js"
   ]
 }
