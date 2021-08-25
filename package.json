@@ -1,6 +1,6 @@
 {
   "name": "@antea/potree",
-  "version": "0.0.2",
+  "version": "1.8.1",
   "description": "WebGL point cloud viewer",
   "keywords": [
     "point",
