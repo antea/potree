@@ -74,7 +74,7 @@ export class DeviceOrientationControls extends EventDispatcher{
 			let orient = this.screenOrientation ? THREE.Math.degToRad(this.screenOrientation) : 0;
 
 			let quaternion = computeQuaternion(alpha, beta, gamma, orient);
-			viewer.scene.cameraP.quaternion.set(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+			this.viewer.scene.cameraP.quaternion.set(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
 		}
 	}
 };
