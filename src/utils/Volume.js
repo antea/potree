@@ -148,7 +148,7 @@ export class BoxVolume extends Volume{
 				-0.5, 0.5, -0.5,
 
 			);
-			boxFrameGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
+			boxFrameGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
 
 		}
 
@@ -288,7 +288,7 @@ export class SphereVolume extends Volume{
 			}
 		}
 
-		frameGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
+		frameGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
 		this.frame = new THREE.LineSegments(frameGeometry, new THREE.LineBasicMaterial({color: 0x000000}));
 		this.add(this.frame);
 
