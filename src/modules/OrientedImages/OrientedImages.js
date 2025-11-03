@@ -1,6 +1,5 @@
 
 import * as THREE from "../../../libs/three.js/build/three.module.js";
-import {Geometry} from "../../../libs/three.js/examples/jsm/deprecated/Geometry";
 import {OrientedImageControls} from "./OrientedImageControls.js";
 import { EventDispatcher } from "../../EventDispatcher.js";
 import {PolygonClipVolume} from "../../utils/PolygonClipVolume";
@@ -56,15 +55,10 @@ function createMaterial(){
 }
 
 const planeGeometry = new THREE.PlaneGeometry(1, 1);
-const lineGeometry = new Geometry();
+const lineGeometry = new THREE.BufferGeometry();
 
-lineGeometry.vertices.push(
-	new THREE.Vector3(-0.5, -0.5, 0),
-	new THREE.Vector3( 0.5, -0.5, 0),
-	new THREE.Vector3( 0.5,  0.5, 0),
-	new THREE.Vector3(-0.5,  0.5, 0),
-	new THREE.Vector3(-0.5, -0.5, 0),
-);
+const vertices = [-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5,  0.5, 0,-0.5,  0.5, 0,-0.5, -0.5, 0];
+lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
 
 export class OrientedImage{
 
@@ -273,7 +267,7 @@ export class OrientedImageLoader{
 			const {x, y, z, omega, phi, kappa} = params;
 			// const [rx, ry, rz] = [omega, phi, kappa]
 			// 	.map(THREE.Math.degToRad);
-			
+
 			// mesh.position.set(x, y, z);
 			// mesh.scale.set(width / height, 1, 1);
 			// mesh.rotation.set(rx, ry, rz);
@@ -304,7 +298,7 @@ export class OrientedImageLoader{
 
 			sceneNode.add(orientedImage.mesh);
 			sceneNode.add(orientedImage.line);
-			
+
 			orientedImages.push(orientedImage);
 		}
 
@@ -321,15 +315,15 @@ export class OrientedImageLoader{
 			//var array = getMousePosition( container, evt.clientX, evt.clientY );
 			const rect = viewer.renderer.domElement.getBoundingClientRect();
 			const [x, y] = [evt.clientX, evt.clientY];
-			const array = [ 
-				( x - rect.left ) / rect.width, 
-				( y - rect.top ) / rect.height 
+			const array = [
+				( x - rect.left ) / rect.width,
+				( y - rect.top ) / rect.height
 			];
 			const onClickPosition = new THREE.Vector2(...array);
 			//const intersects = getIntersects(onClickPosition, scene.children);
 			const camera = viewer.scene.getActiveCamera();
 			const mouse = new THREE.Vector3(
-				+ ( onClickPosition.x * 2 ) - 1, 
+				+ ( onClickPosition.x * 2 ) - 1,
 				- ( onClickPosition.y * 2 ) + 1 );
 			const objects = orientedImages.map(i => i.mesh);
 			raycaster.setFromCamera( mouse, camera );
@@ -355,7 +349,7 @@ export class OrientedImageLoader{
 				viewer.scene.removePolygonClipVolume(clipVolume);
 				clipVolume = null;
 			}
-			
+
 			if(shouldAddClipVolume || selectionChanged){
 				const img = hoveredElement;
 				const fov = cameraParams.fov;
@@ -389,7 +383,7 @@ export class OrientedImageLoader{
 				m3.position.set(-1,  1, 0);
 				volume.markers.push(m0, m1, m2, m3);
 				volume.initialized = true;
-				
+
 				viewer.scene.addPolygonClipVolume(volume);
 				clipVolume = volume;
 			}
@@ -431,7 +425,7 @@ export class OrientedImageLoader{
 						mesh.material.needsUpdate = true;
 					}
 				);
-				
+
 
 			}
 		};

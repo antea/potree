@@ -1,6 +1,5 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {Geometry} from "../../libs/three.js/examples/jsm/deprecated/Geometry";
 import {Utils} from "../utils.js";
 
 export class Profile extends THREE.Object3D{
@@ -85,7 +84,7 @@ export class Profile extends THREE.Object3D{
 
 		// edges & boxes
 		if (this.points.length > 1) {
-			let lineGeometry = new Geometry();
+			let lineGeometry = new THREE.BufferGeometry();
 			lineGeometry.vertices.push(new THREE.Vector3(), new THREE.Vector3());
 			lineGeometry.colors.push(this.lineColor, this.lineColor, this.lineColor);
 			let lineMaterial = new THREE.LineBasicMaterial({
@@ -113,9 +112,9 @@ export class Profile extends THREE.Object3D{
 		{ // event listeners
 			let drag = (e) => {
 				let I = Utils.getMousePointCloudIntersection(
-					e.drag.end, 
-					e.viewer.scene.getActiveCamera(), 
-					e.viewer, 
+					e.drag.end,
+					e.viewer.scene.getActiveCamera(),
+					e.viewer,
 					e.viewer.scene.pointclouds);
 
 				if (I) {

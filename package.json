@@ -32,19 +32,18 @@
     "typings",
     "build/shaders/shaders.js",
     "libs/three.js/lines",
-    "libs/three.js/examples/jsm/deprecated/Geometry.js",
     "build/potree/workers/BinaryDecoderWorker.js",
     "resources/icons/close.svg",
     "resources/icons/eye_2.png",
     "resources/textures/matcap/matcap.jpg"
   ],
   "devDependencies": {
-    "@types/three": "^0.127.1",
+    "@types/three": "^0.181.0",
     "gulp": "^5.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.7.0",
     "rollup": "^4.52.5",
-    "three": "^0.127.0",
+    "three": "^0.181.0",
     "typescript": "^4.4.2"
   }
 }
