@@ -1,5 +1,5 @@
 
-import * as THREE from "../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {PointCloudTree} from "./PointCloudTree.js";
 import {PointCloudOctreeNode} from "./PointCloudOctree.js";
 import {PointCloudArena4DNode} from "./arena4d/PointCloudArena4D.js";
@@ -26,7 +26,6 @@ function paramThreeToGL(_gl, p) {
 	if (p === THREE.UnsignedByteType) return _gl.UNSIGNED_BYTE;
 	if (p === THREE.UnsignedShort4444Type) return _gl.UNSIGNED_SHORT_4_4_4_4;
 	if (p === THREE.UnsignedShort5551Type) return _gl.UNSIGNED_SHORT_5_5_5_1;
-	if (p === THREE.UnsignedShort565Type) return _gl.UNSIGNED_SHORT_5_6_5;
 
 	if (p === THREE.ByteType) return _gl.BYTE;
 	if (p === THREE.ShortType) return _gl.SHORT;
@@ -46,8 +45,8 @@ function paramThreeToGL(_gl, p) {
 	if (p === THREE.AlphaFormat) return _gl.ALPHA;
 	if (p === THREE.RGBFormat) return _gl.RGB;
 	if (p === THREE.RGBAFormat) return _gl.RGBA;
-	if (p === THREE.LuminanceFormat) return _gl.LUMINANCE;
-	if (p === THREE.LuminanceAlphaFormat) return _gl.LUMINANCE_ALPHA;
+	if (p === THREE.RGFormat) return _gl.LUMINANCE;
+	if (p === THREE.RedFormat) return _gl.LUMINANCE_ALPHA;
 	if (p === THREE.DepthFormat) return _gl.DEPTH_COMPONENT;
 	if (p === THREE.DepthStencilFormat) return _gl.DEPTH_STENCIL;
 

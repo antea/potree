@@ -14,7 +14,7 @@
  *
  */
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {EventDispatcher} from "../EventDispatcher.js";
 
 export class DeviceOrientationControls extends EventDispatcher{
@@ -68,10 +68,10 @@ export class DeviceOrientationControls extends EventDispatcher{
 		};
 
 		if (typeof this.deviceOrientation !== 'undefined') {
-			let alpha = this.deviceOrientation.alpha ? THREE.Math.degToRad(this.deviceOrientation.alpha) : 0;
-			let beta = this.deviceOrientation.beta ? THREE.Math.degToRad(this.deviceOrientation.beta) : 0;
-			let gamma = this.deviceOrientation.gamma ? THREE.Math.degToRad(this.deviceOrientation.gamma) : 0;
-			let orient = this.screenOrientation ? THREE.Math.degToRad(this.screenOrientation) : 0;
+			let alpha = this.deviceOrientation.alpha ? THREE.MathUtils.degToRad(this.deviceOrientation.alpha) : 0;
+			let beta = this.deviceOrientation.beta ? THREE.MathUtils.degToRad(this.deviceOrientation.beta) : 0;
+			let gamma = this.deviceOrientation.gamma ? THREE.MathUtils.degToRad(this.deviceOrientation.gamma) : 0;
+			let orient = this.screenOrientation ? THREE.MathUtils.degToRad(this.screenOrientation) : 0;
 
 			let quaternion = computeQuaternion(alpha, beta, gamma, orient);
 			this.viewer.scene.cameraP.quaternion.set(quaternion.x, quaternion.y, quaternion.z, quaternion.w);

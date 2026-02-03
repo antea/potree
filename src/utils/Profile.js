@@ -1,5 +1,5 @@
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {Utils} from "../utils.js";
 
 export class Profile extends THREE.Object3D{
@@ -88,7 +88,7 @@ export class Profile extends THREE.Object3D{
 			lineGeometry.vertices.push(new THREE.Vector3(), new THREE.Vector3());
 			lineGeometry.colors.push(this.lineColor, this.lineColor, this.lineColor);
 			let lineMaterial = new THREE.LineBasicMaterial({
-				vertexColors: THREE.VertexColors,
+				vertexColors: true,
 				linewidth: 2,
 				transparent: true,
 				opacity: 0.4

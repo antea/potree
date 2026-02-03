@@ -1,5 +1,5 @@
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {Measure} from "./Measure.js";
 import {Utils} from "../utils.js";
 import {CameraMode} from "../defines.js";
@@ -101,7 +101,7 @@ function updateAzimuth(viewer, measure){
 
 	// label
 	const radians = Utils.computeAzimuth(p0.position, p1.position, viewer.getProjection());
-	let degrees = THREE.Math.radToDeg(radians);
+	let degrees = THREE.MathUtils.radToDeg(radians);
 	if(degrees < 0){
 		degrees = 360 + degrees;
 	}

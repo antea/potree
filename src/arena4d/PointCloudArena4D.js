@@ -1,6 +1,6 @@
 
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {PointCloudTree, PointCloudTreeNode} from "../PointCloudTree.js";
 import {PointCloudMaterial} from "../materials/PointCloudMaterial.js";
 import {PointSizeType, ClipTask, TreeType} from "../defines.js";
@@ -61,7 +61,7 @@ export class PointCloudArena4DNode extends PointCloudTreeNode {
 		}
 
 		let node = new PointCloudArena4DNode();
-		let sceneNode = THREE.PointCloud(geometryNode.geometry, this.kdtree.material);
+		let sceneNode = new THREE.Points(geometryNode.geometry, this.kdtree.material);
 		sceneNode.visible = false;
 
 		node.kdtree = this.kdtree;
@@ -116,7 +116,7 @@ export class PointCloudArena4D extends PointCloudTree{
 		this.pcoGeometry = geometry;
 		this.boundingBox = this.pcoGeometry.boundingBox;
 		this.boundingSphere = this.pcoGeometry.boundingSphere;
-		this.material = new PointCloudMaterial({vertexColors: THREE.VertexColors, size: 0.05, treeType: TreeType.KDTREE});
+		this.material = new PointCloudMaterial({vertexColors: true, size: 0.05, treeType: TreeType.KDTREE});
 		this.material.sizeType = PointSizeType.ATTENUATED;
 		this.material.size = 0.05;
 		this.profileRequests = [];
@@ -362,14 +362,14 @@ export class PointCloudArena4D extends PointCloudTree{
 			}else{
 				pickMaterial.clipBoxes = [];
 			}
-			
+
 			this.updateMaterial(pickMaterial, nodes, camera, renderer);
 		}
 
 		pickState.renderTarget.setSize(width, height);
 
 		let pixelPos = new THREE.Vector2(params.x, params.y);
-		
+
 		let gl = renderer.getContext();
 		gl.enable(gl.SCISSOR_TEST);
 		gl.scissor(
@@ -388,12 +388,12 @@ export class PointCloudArena4D extends PointCloudTree{
 			renderer.setRenderTarget(pickState.renderTarget);
 			gl.clearColor(0, 0, 0, 0);
 			renderer.clearTarget( pickState.renderTarget, true, true, true );
-			
+
 			let tmp = this.material;
 			this.material = pickMaterial;
-			
+
 			pRenderer.renderOctree(this, nodes, camera, pickState.renderTarget);
-			
+
 			this.material = tmp;
 		}
 
@@ -406,14 +406,14 @@ export class PointCloudArena4D extends PointCloudTree{
 
 		let pixelCount = w * h;
 		let buffer = new Uint8Array(4 * pixelCount);
-		
-		gl.readPixels(x, y, pickWindowSize, pickWindowSize, gl.RGBA, gl.UNSIGNED_BYTE, buffer); 
-		
+
+		gl.readPixels(x, y, pickWindowSize, pickWindowSize, gl.RGBA, gl.UNSIGNED_BYTE, buffer);
+
 		renderer.setRenderTarget(null);
 		renderer.state.reset();
 		renderer.setScissorTest(false);
 		gl.disable(gl.SCISSOR_TEST);
-		
+
 		let pixels = buffer;
 		let ibuffer = new Uint32Array(buffer.buffer);
 
@@ -448,7 +448,7 @@ export class PointCloudArena4D extends PointCloudTree{
 						}
 					}
 
-					
+
 				}
 			}
 		}
@@ -457,29 +457,29 @@ export class PointCloudArena4D extends PointCloudTree{
 
 		for(let hit of hits){
 			let point = {};
-		
+
 			if (!nodes[hit.pcIndex]) {
 				return null;
 			}
-		
+
 			let node = nodes[hit.pcIndex];
 			let pc = node.sceneNode;
 			let geometry = node.geometryNode.geometry;
-			
+
 			for(let attributeName in geometry.attributes){
 				let attribute = geometry.attributes[attributeName];
-		
+
 				if (attributeName === 'position') {
 					let x = attribute.array[3 * hit.pIndex + 0];
 					let y = attribute.array[3 * hit.pIndex + 1];
 					let z = attribute.array[3 * hit.pIndex + 2];
-					
+
 					let position = new THREE.Vector3(x, y, z);
 					position.applyMatrix4(pc.matrixWorld);
-		
+
 					point[attributeName] = position;
 				} else if (attributeName === 'indices') {
-		
+
 				} else {
 					//if (values.itemSize === 1) {
 					//	point[attribute.name] = values.array[hit.pIndex];
@@ -491,7 +491,7 @@ export class PointCloudArena4D extends PointCloudTree{
 					//	point[attribute.name] = value;
 					//}
 				}
-				
+
 			}
 
 			hit.point = point;

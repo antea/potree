@@ -1,6 +1,6 @@
 import {WorkerPool} from "./WorkerPool";
 import {LRU} from "./LRU";
-import * as THREE from "../libs/three.js/build/three.module";
+import * as THREE from "three";
 import {ClipMethod, ClipTask} from "./defines";
 import {Box3Helper} from "./utils/Box3Helper";
 import {BinaryHeap} from "./BinaryHeap";

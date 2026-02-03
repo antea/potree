@@ -1,5 +1,5 @@
 
-import * as THREE from "../../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {OrientedImageControls} from "./OrientedImageControls.js";
 import { EventDispatcher } from "../../EventDispatcher.js";
 import {PolygonClipVolume} from "../../utils/PolygonClipVolume";
@@ -83,7 +83,7 @@ export class OrientedImage{
 
 	set(position, rotation, dimension, fov){
 
-		let radians = rotation.map(THREE.Math.degToRad);
+		let radians = rotation.map(THREE.MathUtils.degToRad);
 
 		this.position.set(...position);
 		this.mesh.position.set(...position);
@@ -104,7 +104,7 @@ export class OrientedImage{
 
 		mesh.updateMatrixWorld();
 		const dir = mesh.getWorldDirection();
-		const alpha = THREE.Math.degToRad(fov / 2);
+		const alpha = THREE.MathUtils.degToRad(fov / 2);
 		const d = -0.5 / Math.tan(alpha);
 		const move = dir.clone().multiplyScalar(d);
 		mesh.position.add(move);
@@ -166,7 +166,7 @@ export class OrientedImageLoader{
 		const f = parseFloat(doc.getElementsByTagName("f")[0].textContent);
 
 		let a = (height / 2)  / f;
-		let fov = 2 * THREE.Math.radToDeg(Math.atan(a));
+		let fov = 2 * THREE.MathUtils.radToDeg(Math.atan(a));
 
 		const params = {
 			path: path,
@@ -266,7 +266,7 @@ export class OrientedImageLoader{
 
 			const {x, y, z, omega, phi, kappa} = params;
 			// const [rx, ry, rz] = [omega, phi, kappa]
-			// 	.map(THREE.Math.degToRad);
+			// 	.map(THREE.MathUtils.degToRad);
 
 			// mesh.position.set(x, y, z);
 			// mesh.scale.set(width / height, 1, 1);
@@ -274,7 +274,7 @@ export class OrientedImageLoader{
 			// {
 			// 	mesh.updateMatrixWorld();
 			// 	const dir = mesh.getWorldDirection();
-			// 	const alpha = THREE.Math.degToRad(cameraParams.fov / 2);
+			// 	const alpha = THREE.MathUtils.degToRad(cameraParams.fov / 2);
 			// 	const d = -0.5 / Math.tan(alpha);
 			// 	const move = dir.clone().multiplyScalar(d);
 			// 	mesh.position.add(move);
@@ -363,7 +363,7 @@ export class OrientedImageLoader{
 					const mesh = img.mesh;
 					const dir = mesh.getWorldDirection();
 					const pos = mesh.position;
-					const alpha = THREE.Math.degToRad(fov / 2);
+					const alpha = THREE.MathUtils.degToRad(fov / 2);
 					const d = 0.5 / Math.tan(alpha);
 					const newCamPos = pos.clone().add(dir.clone().multiplyScalar(d));
 					const newCamDir = pos.clone().sub(newCamPos);
@@ -457,7 +457,7 @@ export class OrientedImageLoader{
 				const d = camPos.distanceTo(imgPos);
 
 				const minSize = 1; // in degrees of fov
-				const a = THREE.Math.degToRad(minSize);
+				const a = THREE.MathUtils.degToRad(minSize);
 				let r = d * Math.tan(a);
 				r = Math.max(r, 1);
 

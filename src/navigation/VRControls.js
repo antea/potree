@@ -1,10 +1,10 @@
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {EventDispatcher} from "../EventDispatcher.js";
-import { XRControllerModelFactory } from '../../libs/three.js/webxr/XRControllerModelFactory.js';
-import {Line2} from "../../libs/three.js/lines/Line2.js";
-import {LineGeometry} from "../../libs/three.js/lines/LineGeometry.js";
-import {LineMaterial} from "../../libs/three.js/lines/LineMaterial.js";
+import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
+import {Line2} from "three/examples/jsm/lines/Line2.js";
+import {LineGeometry} from "three/examples/jsm/lines/LineGeometry.js";
+import {LineMaterial} from "three/examples/jsm/lines/LineMaterial.js";
 import {TextSprite} from "../TextSprite";
 import {Utils} from "../utils";
 import {Globals} from "../globals";
@@ -63,7 +63,7 @@ function computeMove(vrControls, controller){
 	let p2 = vrControls.toScene(controller.position.clone().add(move));
 
 	move = p2.clone().sub(p1);
-	
+
 	return move;
 };
 
@@ -83,7 +83,7 @@ class FlyMode{
 			this.dbgLabel.visible = false;
 		}
 	}
-	
+
 	end(){
 
 	}
@@ -109,12 +109,12 @@ class FlyMode{
 
 		move.multiplyScalar(-delta * this.moveFactor);
 		vrControls.node.position.add(move);
-		
+
 
 		let scale = vrControls.node.scale.x;
 
 		let camVR = vrControls.viewer.renderer.xr.getCamera(fakeCam);
-		
+
 		let vrPos = camVR.getWorldPosition(new THREE.Vector3());
 		let vrDir = camVR.getWorldDirection(new THREE.Vector3());
 		let vrTarget = vrPos.clone().add(vrDir.multiplyScalar(scale));
@@ -147,7 +147,7 @@ class TranslationMode{
 		this.controller = vrControls.triggered.values().next().value;
 		this.startPos = vrControls.node.position.clone();
 	}
-	
+
 	end(vrControls){
 
 	}
@@ -180,7 +180,7 @@ class RotScaleMode{
 	start(vrControls){
 		if(!this.line){
 			this.line = Utils.debugLine(
-				vrControls.viewer.sceneVR, 
+				vrControls.viewer.sceneVR,
 				new THREE.Vector3(0, 0, 0),
 				new THREE.Vector3(0, 0, 0),
 				0xffff00,
@@ -218,7 +218,7 @@ class RotScaleMode{
 		let angleStart = new THREE.Vector2(start_c1_c2.x, start_c1_c2.z).angle();
 		let angleEnd = new THREE.Vector2(end_c1_c2.x, end_c1_c2.z).angle();
 		let angleDiff = angleEnd - angleStart;
-		
+
 		let scale = d2 / d1;
 
 		let node = this.startState.clone();
@@ -251,7 +251,7 @@ class RotScaleMode{
 		{
 			let scale = vrControls.node.scale.x;
 			let camVR = vrControls.viewer.renderer.xr.getCamera(fakeCam);
-			
+
 			let vrPos = camVR.getWorldPosition(new THREE.Vector3());
 			let vrDir = camVR.getWorldDirection(new THREE.Vector3());
 			let vrTarget = vrPos.clone().add(vrDir.multiplyScalar(scale));
@@ -297,7 +297,7 @@ export class VRControls extends EventDispatcher{
 		let xr = viewer.renderer.xr;
 
 		{ // lights
-			
+
 			const light = new THREE.PointLight( 0xffffff, 5, 0, 1 );
 			light.position.set(0, 2, 0);
 			this.viewer.sceneVR.add(light)
@@ -329,7 +329,7 @@ export class VRControls extends EventDispatcher{
 			this.viewer.sceneVR.add(controller);
 
 			{ // ADD LINE
-				
+
 				let lineGeometry = new LineGeometry();
 
 				lineGeometry.setPositions([
@@ -337,14 +337,14 @@ export class VRControls extends EventDispatcher{
 					0, 0, 0.05,
 				]);
 
-				let lineMaterial = new LineMaterial({ 
-					color: 0xff0000, 
-					linewidth: 2, 
+				let lineMaterial = new LineMaterial({
+					color: 0xff0000,
+					linewidth: 2,
 					resolution:  new THREE.Vector2(1000, 1000),
 				});
 
 				const line = new Line2(lineGeometry, lineMaterial);
-				
+
 				controller.add(line);
 			}
 
@@ -380,7 +380,7 @@ export class VRControls extends EventDispatcher{
 			this.viewer.sceneVR.add(controller);
 
 			{ // ADD LINE
-				
+
 				let lineGeometry = new LineGeometry();
 
 				lineGeometry.setPositions([
@@ -388,14 +388,14 @@ export class VRControls extends EventDispatcher{
 					0, 0, 0.05,
 				]);
 
-				let lineMaterial = new LineMaterial({ 
-					color: 0xff0000, 
-					linewidth: 2, 
+				let lineMaterial = new LineMaterial({
+					color: 0xff0000,
+					linewidth: 2,
 					resolution:  new THREE.Vector2(1000, 1000),
 				});
 
 				const line = new Line2(lineGeometry, lineMaterial);
-				
+
 				controller.add(line);
 			}
 
@@ -455,10 +455,10 @@ export class VRControls extends EventDispatcher{
 		return node;
 	}
 
-	createInfo(){ 
+	createInfo(){
 
 		let texture = new THREE.TextureLoader().load(`${Globals.resourcePath}/images/vr_controller_help.jpg`);
-		let plane = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+		let plane = new THREE.PlaneGeometry(1, 1, 1, 1);
 		let infoMaterial = new THREE.MeshBasicMaterial({map: texture});
 		let infoNode = new THREE.Mesh(plane, infoMaterial);
 
@@ -542,7 +542,7 @@ export class VRControls extends EventDispatcher{
 
 			controller.start = start;
 		}
-		
+
 		this.mode = mode;
 		this.mode.start(this);
 	}
@@ -590,7 +590,7 @@ export class VRControls extends EventDispatcher{
 	}
 
 	onEnd(){
-		
+
 	}
 
 
@@ -627,11 +627,11 @@ export class VRControls extends EventDispatcher{
 
 	update(delta){
 
-		
+
 
 		// if(this.mode === this.mode_fly){
 		// 	let ray = new THREE.Ray(origin, direction);
-			
+
 		// 	for(let object of this.selectables){
 
 		// 		if(object.intersectsRay(ray)){
@@ -644,7 +644,7 @@ export class VRControls extends EventDispatcher{
 
 		this.mode.update(this, delta);
 
-		
+
 
 	}
 };

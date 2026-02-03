@@ -1,6 +1,6 @@
 
 
-import * as THREE from "../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {Action} from "./Actions.js";
 import {Utils} from "./utils.js";
 import {EventDispatcher} from "./EventDispatcher.js";
@@ -14,7 +14,7 @@ export class Annotation extends EventDispatcher {
 		this._title = args.title || 'No Title';
 		this._description = args.description || '';
 		this.offset = new THREE.Vector3();
-		this.uuid = THREE.Math.generateUUID();
+		this.uuid = THREE.MathUtils.generateUUID();
 
 		if (!args.position) {
 			this.position = null;
@@ -131,7 +131,7 @@ export class Annotation extends EventDispatcher {
 				</svg>
 			</div>
 		`);
-		
+
 		let svg = domElement.find("svg")[0];
 		let elLine = domElement.find("line")[0];
 		let elStart = domElement.find("circle")[0];
@@ -191,7 +191,7 @@ export class Annotation extends EventDispatcher {
 				//let renderAreaHeight = viewer.renderer.getSize().height;
 
 				let diff = {
-					x: ui.originalPosition.left - ui.position.left, 
+					x: ui.originalPosition.left - ui.position.left,
 					y: ui.originalPosition.top - ui.position.top
 				};
 
@@ -244,7 +244,7 @@ export class Annotation extends EventDispatcher {
 
 				return screenPos;
 			};
-			
+
 			start = toScreen(start);
 			end = toScreen(end);
 

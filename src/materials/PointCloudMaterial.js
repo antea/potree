@@ -1,5 +1,5 @@
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {Utils} from "../utils.js";
 import {Gradients} from "./Gradients.js";
 import {Shaders} from "../../build/shaders/shaders.js";
@@ -161,8 +161,8 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 
 		this.vertexShader = Shaders['pointcloud.vs'];
 		this.fragmentShader = Shaders['pointcloud.fs'];
-		
-		this.vertexColors = THREE.VertexColors;
+
+		this.vertexColors = true;
 
 		this.updateShaderSource();
 	}
@@ -258,7 +258,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 
 			defines.push(`#define color_type_${attributeName}`);
 		}
-		
+
 		if(this._treeType === TreeType.OCTREE){
 			defines.push('#define tree_type_octree');
 		}else if(this._treeType === TreeType.KDTREE){
@@ -318,7 +318,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			this.updateShaderSource();
 		}
 	}
-	
+
 	get gradient(){
 		return this._gradient;
 	}
@@ -534,7 +534,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			this.uniforms.far.value = value;
 		}
 	}
-	
+
 	get opacity(){
 		return this.uniforms.uOpacity.value;
 	}
@@ -614,7 +614,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 	set color (value) {
 		if (!this.uniforms.uColor.value.equals(value)) {
 			this.uniforms.uColor.value.copy(value);
-			
+
 			this.dispatchEvent({
 				type: 'color_changed',
 				target: this
@@ -851,7 +851,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		}
 	}
 
-	
+
 	get extraGamma () {
 		return this.uniforms.uExtraGammaBrightContr.value[0];
 	}
@@ -1051,11 +1051,11 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 
 		context.fillStyle = ctxGradient;
 		context.fill();
-		
+
 		//let texture = new THREE.Texture(canvas);
 		let texture = new THREE.CanvasTexture(canvas);
 		texture.needsUpdate = true;
-		
+
 		texture.minFilter = THREE.LinearFilter;
 		texture.wrap = THREE.RepeatWrapping;
 		texture.repeat = 2;
@@ -1063,27 +1063,27 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 
 		return texture;
 	}
-	
+
 	static generateMatcapTexture (matcap) {
 	var url = new URL(Globals.resourcePath + "/textures/matcap/" + matcap).href;
 	let texture = new THREE.TextureLoader().load( url );
-		texture.magFilter = texture.minFilter = THREE.LinearFilter; 
+		texture.magFilter = texture.minFilter = THREE.LinearFilter;
 		texture.needsUpdate = true;
 		// PotreeConverter_1.6_2018_07_29_windows_x64\PotreeConverter.exe autzen_xyzrgbXYZ_ascii.xyz -f xyzrgbXYZ -a RGB NORMAL -o autzen_xyzrgbXYZ_ascii_a -p index --overwrite
-		// Switch matcap texture on the fly : viewer.scene.pointclouds[0].material.matcap = 'matcap1.jpg'; 
+		// Switch matcap texture on the fly : viewer.scene.pointclouds[0].material.matcap = 'matcap1.jpg';
 		// For non power of 2, use LinearFilter and dont generate mipmaps, For power of 2, use NearestFilter and generate mipmaps : matcap2.jpg 1 2 8 11 12 13
-		return texture; 
+		return texture;
 	}
 
 	static generateMatcapTexture (matcap) {
 	var url = new URL(Globals.resourcePath + "/textures/matcap/" + matcap).href;
 	let texture = new THREE.TextureLoader().load( url );
-		texture.magFilter = texture.minFilter = THREE.LinearFilter; 
+		texture.magFilter = texture.minFilter = THREE.LinearFilter;
 		texture.needsUpdate = true;
 		// PotreeConverter_1.6_2018_07_29_windows_x64\PotreeConverter.exe autzen_xyzrgbXYZ_ascii.xyz -f xyzrgbXYZ -a RGB NORMAL -o autzen_xyzrgbXYZ_ascii_a -p index --overwrite
-		// Switch matcap texture on the fly : viewer.scene.pointclouds[0].material.matcap = 'matcap1.jpg'; 
+		// Switch matcap texture on the fly : viewer.scene.pointclouds[0].material.matcap = 'matcap1.jpg';
 		// For non power of 2, use LinearFilter and dont generate mipmaps, For power of 2, use NearestFilter and generate mipmaps : matcap2.jpg 1 2 8 11 12 13
-		return texture; 
+		return texture;
 	}
 
 	disableEvents(){

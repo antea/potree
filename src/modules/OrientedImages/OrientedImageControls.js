@@ -1,5 +1,5 @@
 
-import * as THREE from "../../../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {EventDispatcher} from "../../EventDispatcher.js";
 
  
@@ -42,25 +42,25 @@ export class OrientedImageControls extends EventDispatcher{
 
 		this.elUp.click(() => {
 			const fovY = viewer.getFOV();
-			const top = Math.tan(THREE.Math.degToRad(fovY / 2));
+			const top = Math.tan(THREE.MathUtils.degToRad(fovY / 2));
 			this.shear[1] += 0.1 * top;
 		});
 
 		this.elRight.click(() => {
 			const fovY = viewer.getFOV();
-			const top = Math.tan(THREE.Math.degToRad(fovY / 2));
+			const top = Math.tan(THREE.MathUtils.degToRad(fovY / 2));
 			this.shear[0] += 0.1 * top;
 		});
 
 		this.elDown.click(() => {
 			const fovY = viewer.getFOV();
-			const top = Math.tan(THREE.Math.degToRad(fovY / 2));
+			const top = Math.tan(THREE.MathUtils.degToRad(fovY / 2));
 			this.shear[1] -= 0.1 * top;
 		});
 
 		this.elLeft.click(() => {
 			const fovY = viewer.getFOV();
-			const top = Math.tan(THREE.Math.degToRad(fovY / 2));
+			const top = Math.tan(THREE.MathUtils.degToRad(fovY / 2));
 			this.shear[0] -= 0.1 * top;
 		});
 
@@ -152,7 +152,7 @@ export class OrientedImageControls extends EventDispatcher{
 
 		const fovY = newFov;
 		const aspect = canvasSize.x / canvasSize.y;
-		const top = Math.tan(THREE.Math.degToRad(fovY / 2));
+		const top = Math.tan(THREE.MathUtils.degToRad(fovY / 2));
 		const height = 2 * top;
 		const width = aspect * height;
 

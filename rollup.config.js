@@ -1,7 +1,12 @@
+import nodeResolve from "@rollup/plugin-node-resolve";
+
 export default [
 	{
 		input: 'src/Potree.js',
 		treeshake: false,
+        plugins: [
+            nodeResolve()
+        ],
 		output: {
 			file: 'build/potree/potree.js',
 			format: 'umd',

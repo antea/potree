@@ -1,5 +1,5 @@
 
-import * as THREE from "../libs/three.js/build/three.module.js";
+import * as THREE from "three";
 import {XHRFactory} from "./XHRFactory.js";
 
 export class Utils {
@@ -350,7 +350,7 @@ export class Utils {
 			geometry.vertices.push(new THREE.Vector3(i * spacing - (spacing * width) / 2, +(spacing * length) / 2, 0));
 		}
 
-		let line = new THREE.LineSegments(geometry, material, THREE.LinePieces);
+		let line = new THREE.LineSegments(geometry, material);
 		line.receiveShadow = true;
 		return line;
 	}
@@ -1055,7 +1055,7 @@ export class Utils {
 
 Utils.screenPass = new function () {
 	this.screenScene = new THREE.Scene();
-	this.screenQuad = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2, 1));
+	this.screenQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2, 1));
 	this.screenQuad.material.depthTest = true;
 	this.screenQuad.material.depthWrite = true;
 	this.screenQuad.material.transparent = true;
