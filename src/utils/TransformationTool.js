@@ -99,7 +99,7 @@ export class TransformationTool {
 			vertices.push(-0.5, -0.5, -0.5);
 			vertices.push(-0.5, 0.5, -0.5);
 		}
-		boxFrameGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
+		boxFrameGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices),3));
 		this.frame = new THREE.LineSegments(boxFrameGeometry, new THREE.LineBasicMaterial({color: 0xffff00}));
 		this.scene.add(this.frame);
 
