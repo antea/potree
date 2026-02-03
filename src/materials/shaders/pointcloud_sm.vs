@@ -1,9 +1,11 @@
 
+#version 300 es
+
 precision mediump float;
 precision mediump int;
 
-attribute vec3 position;
-attribute vec3 color;
+in vec3 position;
+in vec3 color;
 
 uniform mat4 modelMatrix;
 uniform mat4 modelViewMatrix;
@@ -22,8 +24,8 @@ uniform float uVNStart;
 
 uniform sampler2D visibleNodes;
 
-varying float vLinearDepth;
-varying vec3 vColor;
+out float vLinearDepth;
+out vec3 vColor;
 
 #define PI 3.141592653589793
 
@@ -66,18 +68,18 @@ bool isBitSet(float number, float index){
  * find the LOD at the point position
  */
 float getLOD(){
-	
+
 	vec3 offset = vec3(0.0, 0.0, 0.0);
 	float iOffset = uVNStart;
 	float depth = uLevel;
 	for(float i = 0.0; i <= 30.0; i++){
 		float nodeSizeAtLevel = uOctreeSize  / pow(2.0, i + uLevel + 0.0);
-		
+
 		vec3 index3d = (position-offset) / nodeSizeAtLevel;
 		index3d = floor(index3d + 0.5);
 		float index = 4.0 * index3d.x + 2.0 * index3d.y + index3d.z;
-		
-		vec4 value = texture2D(visibleNodes, vec2(iOffset / 2048.0, 0.0));
+
+		vec4 value = texture(visibleNodes, vec2(iOffset / 2048.0, 0.0));
 		float mask = value.r * 255.0;
 		if(isBitSet(mask, index)){
 			// there are more visible child nodes at this position
@@ -87,10 +89,10 @@ float getLOD(){
 			// no more visible child nodes at this position
 			return depth;
 		}
-		
+
 		offset = offset + (vec3(1.0, 1.0, 1.0) * nodeSizeAtLevel * 0.5) * index3d;
 	}
-		
+
 	return depth;
 }
 
@@ -98,17 +100,17 @@ float getLOD(){
 
 float getPointSize(){
 	float pointSize = 1.0;
-	
+
 	float slope = tan(fov / 2.0);
 	float projFactor =  -0.5 * uScreenHeight / (slope * vViewPosition.z);
-	
+
 	float r = uOctreeSpacing * 1.5;
 	vRadius = r;
 	#if defined fixed_point_size
 		pointSize = size;
 	#elif defined attenuated_point_size
 		if(uUseOrthographicCamera){
-			pointSize = size;			
+			pointSize = size;
 		}else{
 			pointSize = pointSize * projFactor;
 		}
@@ -124,7 +126,7 @@ float getPointSize(){
 
 	pointSize = max(minSize, pointSize);
 	pointSize = min(maxSize, pointSize);
-	
+
 	vRadius = pointSize / projFactor;
 
 	return pointSize;

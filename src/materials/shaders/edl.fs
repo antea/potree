@@ -1,13 +1,17 @@
 
-#extension GL_EXT_frag_depth : enable
+#version 300 es
 
-// 
+// #extension GL_EXT_frag_depth : enable
+
+//
 // adapted from the EDL shader code from Christian Boucheny in cloud compare:
 // https://github.com/cloudcompare/trunk/tree/master/plugins/qEDL/shaders/EDL
 //
 
 precision mediump float;
 precision mediump int;
+
+out vec4 pc_fragColor;
 
 uniform float screenWidth;
 uniform float screenHeight;
@@ -24,17 +28,17 @@ uniform mat4 uProj;
 uniform sampler2D uEDLColor;
 uniform sampler2D uEDLDepth;
 
-varying vec2 vUv;
+in vec2 vUv;
 
 float response(float depth){
 	vec2 uvRadius = radius / vec2(screenWidth, screenHeight);
-	
+
 	float sum = 0.0;
-	
+
 	for(int i = 0; i < NEIGHBOUR_COUNT; i++){
 		vec2 uvNeighbor = vUv + uvRadius * neighbours[i];
-		
-		float neighbourDepth = texture2D(uEDLColor, uvNeighbor).a;
+
+		float neighbourDepth = texture(uEDLColor, uvNeighbor).a;
 		neighbourDepth = (neighbourDepth == 1.0) ? 0.0 : neighbourDepth;
 
 		if(neighbourDepth != 0.0){
@@ -45,19 +49,19 @@ float response(float depth){
 			}
 		}
 	}
-	
+
 	return sum / float(NEIGHBOUR_COUNT);
 }
 
 void main(){
-	vec4 cEDL = texture2D(uEDLColor, vUv);
-	
+	vec4 cEDL = texture(uEDLColor, vUv);
+
 	float depth = cEDL.a;
 	depth = (depth == 1.0) ? 0.0 : depth;
 	float res = response(depth);
 	float shade = exp(-res * 300.0 * edlStrength);
 
-	gl_FragColor = vec4(cEDL.rgb * shade, opacity);
+	pc_fragColor = vec4(cEDL.rgb * shade, opacity);
 
 	{ // write regular hyperbolic depth values to depth buffer
 		float dl = pow(2.0, depth);
@@ -66,7 +70,7 @@ void main(){
 		float pz = dp.z / dp.w;
 		float fragDepth = (pz + 1.0) / 2.0;
 
-		gl_FragDepthEXT = fragDepth;
+		gl_FragDepth = fragDepth;
 	}
 
 	if(depth == 0.0){

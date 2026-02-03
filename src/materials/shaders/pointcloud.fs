@@ -1,10 +1,14 @@
 
+#version 300 es
+
 #if defined paraboloid_point_shape
-	#extension GL_EXT_frag_depth : enable
+	// #extension GL_EXT_frag_depth : enable
 #endif
 
 precision highp float;
 precision highp int;
+
+out vec4 pc_fragColor;
 
 uniform mat4 viewMatrix;
 uniform mat4 uViewInv;
@@ -25,39 +29,39 @@ uniform float uPCIndex;
 uniform float uScreenWidth;
 uniform float uScreenHeight;
 
-varying vec3	vColor;
-varying float	vLogDepth;
-varying vec3	vViewPosition;
-varying float	vRadius;
-varying float 	vPointSize;
-varying vec3 	vPosition;
+in vec3	vColor;
+in float	vLogDepth;
+in vec3	vViewPosition;
+in float	vRadius;
+in float 	vPointSize;
+in vec3 	vPosition;
 
 
 float specularStrength = 1.0;
 
 void main() {
 
-	// gl_FragColor = vec4(vColor, 1.0);
+	// pc_fragColor = vec4(vColor, 1.0);
 
 	vec3 color = vColor;
 	float depth = gl_FragCoord.z;
 
-	#if defined(circle_point_shape) || defined(paraboloid_point_shape) 
+	#if defined(circle_point_shape) || defined(paraboloid_point_shape)
 		float u = 2.0 * gl_PointCoord.x - 1.0;
 		float v = 2.0 * gl_PointCoord.y - 1.0;
 	#endif
-	
-	#if defined(circle_point_shape) 
+
+	#if defined(circle_point_shape)
 		float cc = u*u + v*v;
 		if(cc > 1.0){
 			discard;
 		}
 	#endif
-		
+
 	#if defined color_type_indices
-		gl_FragColor = vec4(color, uPCIndex / 255.0);
+		pc_fragColor = vec4(color, uPCIndex / 255.0);
 	#else
-		gl_FragColor = vec4(color, uOpacity);
+		pc_fragColor = vec4(color, uOpacity);
 	#endif
 
 	#if defined paraboloid_point_shape
@@ -69,20 +73,20 @@ void main() {
 		pos = pos / pos.w;
 		float expDepth = pos.z;
 		depth = (pos.z + 1.0) / 2.0;
-		gl_FragDepthEXT = depth;
-		
+		gl_FragDepth = depth;
+
 		#if defined(color_type_depth)
 			color.r = linearDepth;
 			color.g = expDepth;
 		#endif
-		
+
 		#if defined(use_edl)
-			gl_FragColor.a = log2(linearDepth);
+			pc_fragColor.a = log2(linearDepth);
 		#endif
-		
+
 	#else
 		#if defined(use_edl)
-			gl_FragColor.a = vLogDepth;
+			pc_fragColor.a = vLogDepth;
 		#endif
 	#endif
 
@@ -91,12 +95,12 @@ void main() {
 		float weight = max(0.0, 1.0 - distance);
 		weight = pow(weight, 1.5);
 
-		gl_FragColor.a = weight;
-		gl_FragColor.xyz = gl_FragColor.xyz * weight;
+		pc_fragColor.a = weight;
+		pc_fragColor.xyz = pc_fragColor.xyz * weight;
 	#endif
 
-	//gl_FragColor = vec4(0.0, 0.7, 0.0, 1.0);
-	
+	//pc_fragColor = vec4(0.0, 0.7, 0.0, 1.0);
+
 }
 
 
