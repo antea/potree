@@ -13,8 +13,8 @@ import {Utils} from "../utils";
 
 export class EyeDomeLightingMaterial extends THREE.RawShaderMaterial{
 
-	constructor(parameters = {}){
-		super();
+    constructor(parameters = {}) {
+        super({glslVersion: THREE.GLSL3});
 
 		let uniforms = {
 			screenWidth:    { type: 'f', 	value: 0 },

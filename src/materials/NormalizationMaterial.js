@@ -6,7 +6,7 @@ import {Utils} from "../utils";
 export class NormalizationMaterial extends THREE.RawShaderMaterial{
 
 	constructor(parameters = {}){
-		super();
+		super({glslVersion: THREE.GLSL3});
 
 		let uniforms = {
 			uDepthMap:		{ type: 't', value: null },

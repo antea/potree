@@ -7,7 +7,7 @@ import {Shaders} from "../../build/shaders/shaders";
 export class BlurMaterial extends THREE.ShaderMaterial{
 
 	constructor(parameters = {}){
-		super();
+		super({glslVersion: THREE.GLSL3});
 
 		let uniforms = {
 			near: { type: 'f', value: 0 },

@@ -46,8 +46,9 @@ function createMaterial(){
 		},
 		vertexShader: vertexShader,
 		fragmentShader: fragmentShader,
-		side: THREE.DoubleSide,
-	} );
+        side: THREE.DoubleSide,
+        glslVersion: THREE.GLSL3
+    });
 
 	material.side = THREE.DoubleSide;
 

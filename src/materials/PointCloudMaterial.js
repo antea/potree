@@ -14,8 +14,8 @@ import {Globals} from "../globals";
 
 
 export class PointCloudMaterial extends THREE.RawShaderMaterial {
-	constructor (parameters = {}) {
-		super();
+    constructor(parameters = {}) {
+        super({glslVersion: THREE.GLSL3});
 
 		this.visibleNodesTexture = Utils.generateDataTexture(2048, 1, new THREE.Color(0xffffff));
 		this.visibleNodesTexture.minFilter = THREE.NearestFilter;
