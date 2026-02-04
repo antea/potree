@@ -1,5 +1,5 @@
 
-
+#version 300 es
 
 #if defined paraboloid_point_shape
 	// #extension GL_EXT_frag_depth : enable
