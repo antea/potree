@@ -1,6 +1,7 @@
 
 import * as THREE from "three";
 import {Shaders} from "../../build/shaders/shaders.js";
+import {Utils} from "../utils";
 
 
 export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
@@ -19,10 +20,15 @@ export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
 			uWeightMap:     { type: 't',   value: null },
 		};
 
+        const {fs, vs} = Utils.addDefinesToFsAndVs(
+            Shaders['normalize_and_edl.fs'],
+            Shaders['normalize.vs'],
+            this.getDefines());
+
 		this.setValues({
 			uniforms: uniforms,
-			vertexShader: this.getDefines() + Shaders['normalize.vs'],
-			fragmentShader: this.getDefines() + Shaders['normalize_and_edl.fs'],
+			vertexShader: vs,
+			fragmentShader: fs,
 		});
 
 		this.neighbourCount = 8;
@@ -37,9 +43,10 @@ export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
 	}
 
 	updateShaderSource() {
-
-		let vs = this.getDefines() + Shaders['normalize.vs'];
-		let fs = this.getDefines() + Shaders['normalize_and_edl.fs'];
+        let {fs, vs} = Utils.addDefinesToFsAndVs(
+            Shaders['normalize_and_edl.fs'],
+            Shaders['normalize.vs'],
+            this.getDefines())
 
 		this.setValues({
 			vertexShader: vs,
@@ -67,6 +74,6 @@ export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
 			this.updateShaderSource();
 		}
 	}
-	
+
 }
 

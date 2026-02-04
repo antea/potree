@@ -1,10 +1,9 @@
-
 import * as THREE from "three";
 import {Utils} from "../utils.js";
 import {Gradients} from "./Gradients.js";
 import {Shaders} from "../../build/shaders/shaders.js";
 import {ClassificationScheme} from "./ClassificationScheme.js";
-import {PointSizeType, PointShape, TreeType, ElevationGradientRepeat} from "../defines.js";
+import {ElevationGradientRepeat, PointShape, PointSizeType, TreeType} from "../defines.js";
 import {Globals} from "../globals";
 
 //
@@ -184,24 +183,10 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 
 	updateShaderSource () {
 
-		let vs = Shaders['pointcloud.vs'];
-		let fs = Shaders['pointcloud.fs'];
-		let definesString = this.getDefines();
-
-		let vsVersionIndex = vs.indexOf("#version ");
-		let fsVersionIndex = fs.indexOf("#version ");
-
-		if(vsVersionIndex >= 0){
-			vs = vs.replace(/(#version .*)/, `$1\n${definesString}`)
-		}else{
-			vs = `${definesString}\n${vs}`;
-		}
-
-		if(fsVersionIndex >= 0){
-			fs = fs.replace(/(#version .*)/, `$1\n${definesString}`)
-		}else{
-			fs = `${definesString}\n${fs}`;
-		}
+        const {fs, vs} = Utils.addDefinesToFsAndVs(
+            Shaders['pointcloud.fs'],
+            Shaders['pointcloud.vs'],
+            this.getDefines());
 
 		this.vertexShader = vs;
 		this.fragmentShader = fs;

@@ -1,6 +1,6 @@
-
 import * as THREE from "three";
 import {Shaders} from "../../build/shaders/shaders.js";
+import {Utils} from "../utils";
 
 //
 // Algorithm by Christian Boucheny
@@ -31,12 +31,17 @@ export class EyeDomeLightingMaterial extends THREE.RawShaderMaterial{
 			uProj:          { type: "Matrix4fv", value: [] },
 		};
 
-		this.setValues({
-			uniforms: uniforms,
-			vertexShader: this.getDefines() + Shaders['edl.vs'],
-			fragmentShader: this.getDefines() + Shaders['edl.fs'],
-			lights: false
-		});
+        const {fs, vs} = Utils.addDefinesToFsAndVs(
+            Shaders['edl.fs'],
+            Shaders['edl.vs'],
+            this.getDefines());
+
+        this.setValues({
+            uniforms: uniforms,
+            vertexShader: vs,
+            fragmentShader: fs,
+            lights: false
+        });
 
 		this.neighbourCount = 8;
 	}
@@ -51,8 +56,10 @@ export class EyeDomeLightingMaterial extends THREE.RawShaderMaterial{
 
 	updateShaderSource() {
 
-		let vs = this.getDefines() + Shaders['edl.vs'];
-		let fs = this.getDefines() + Shaders['edl.fs'];
+        const {fs, vs} = Utils.addDefinesToFsAndVs(
+            Shaders['edl.fs'],
+            Shaders['edl.vs'],
+            this.getDefines())
 
 		this.setValues({
 			vertexShader: vs,
@@ -81,6 +88,6 @@ export class EyeDomeLightingMaterial extends THREE.RawShaderMaterial{
 		}
 	}
 
-	
+
 }
 

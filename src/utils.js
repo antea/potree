@@ -1051,6 +1051,23 @@ export class Utils {
 
 	}
 
+    static addDefinesToFsAndVs(fragmentShader, vertexShader, definesString) {
+        let vsVersionIndex = vertexShader.indexOf("#version ");
+        let fsVersionIndex = fragmentShader.indexOf("#version ");
+
+        if (vsVersionIndex >= 0) {
+            vertexShader = vertexShader.replace(/(#version .*)/, `$1\n${definesString}`)
+        } else {
+            vertexShader = `${definesString}\n${vertexShader}`;
+        }
+
+        if (fsVersionIndex >= 0) {
+            fragmentShader = fragmentShader.replace(/(#version .*)/, `$1\n${definesString}`)
+        } else {
+            fragmentShader = `${definesString}\n${fragmentShader}`;
+        }
+        return {fs: fragmentShader, vs: vertexShader};
+    }
 }
 
 Utils.screenPass = new function () {
